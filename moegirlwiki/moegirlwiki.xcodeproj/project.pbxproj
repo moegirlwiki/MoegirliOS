@@ -1,0 +1,481 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		789CAC9B1975B46D003A3D2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9A1975B46D003A3D2F /* Foundation.framework */; };
+		789CAC9D1975B46D003A3D2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */; };
+		789CAC9F1975B46D003A3D2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9E1975B46D003A3D2F /* UIKit.framework */; };
+		789CACA51975B46D003A3D2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 789CACA31975B46D003A3D2F /* InfoPlist.strings */; };
+		789CACA71975B46D003A3D2F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 789CACA61975B46D003A3D2F /* main.m */; };
+		789CACAB1975B46D003A3D2F /* mcAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 789CACAA1975B46D003A3D2F /* mcAppDelegate.m */; };
+		789CACAE1975B46D003A3D2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 789CACAC1975B46D003A3D2F /* Main.storyboard */; };
+		789CACB11975B46D003A3D2F /* mcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789CACB01975B46D003A3D2F /* mcViewController.m */; };
+		789CACB31975B46D003A3D2F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 789CACB21975B46D003A3D2F /* Images.xcassets */; };
+		789CACBA1975B46D003A3D2F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CACB91975B46D003A3D2F /* XCTest.framework */; };
+		789CACBB1975B46D003A3D2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9A1975B46D003A3D2F /* Foundation.framework */; };
+		789CACBC1975B46D003A3D2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9E1975B46D003A3D2F /* UIKit.framework */; };
+		789CACC41975B46D003A3D2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 789CACC21975B46D003A3D2F /* InfoPlist.strings */; };
+		789CACC61975B46D003A3D2F /* moegirlwikiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 789CACC51975B46D003A3D2F /* moegirlwikiTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		789CACBD1975B46D003A3D2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 789CAC8F1975B46D003A3D2F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 789CAC961975B46D003A3D2F;
+			remoteInfo = moegirlwiki;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		789CAC971975B46D003A3D2F /* moegirlwiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moegirlwiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		789CAC9A1975B46D003A3D2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		789CAC9E1975B46D003A3D2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		789CACA21975B46D003A3D2F /* moegirlwiki-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwiki-Info.plist"; sourceTree = "<group>"; };
+		789CACA41975B46D003A3D2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		789CACA61975B46D003A3D2F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		789CACA81975B46D003A3D2F /* moegirlwiki-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "moegirlwiki-Prefix.pch"; sourceTree = "<group>"; };
+		789CACA91975B46D003A3D2F /* mcAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mcAppDelegate.h; sourceTree = "<group>"; };
+		789CACAA1975B46D003A3D2F /* mcAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mcAppDelegate.m; sourceTree = "<group>"; };
+		789CACAD1975B46D003A3D2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		789CACAF1975B46D003A3D2F /* mcViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mcViewController.h; sourceTree = "<group>"; };
+		789CACB01975B46D003A3D2F /* mcViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mcViewController.m; sourceTree = "<group>"; };
+		789CACB21975B46D003A3D2F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		789CACB81975B46D003A3D2F /* moegirlwikiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = moegirlwikiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		789CACB91975B46D003A3D2F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		789CACC11975B46D003A3D2F /* moegirlwikiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwikiTests-Info.plist"; sourceTree = "<group>"; };
+		789CACC31975B46D003A3D2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		789CACC51975B46D003A3D2F /* moegirlwikiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = moegirlwikiTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		789CAC941975B46D003A3D2F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				789CAC9D1975B46D003A3D2F /* CoreGraphics.framework in Frameworks */,
+				789CAC9F1975B46D003A3D2F /* UIKit.framework in Frameworks */,
+				789CAC9B1975B46D003A3D2F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		789CACB51975B46D003A3D2F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				789CACBA1975B46D003A3D2F /* XCTest.framework in Frameworks */,
+				789CACBC1975B46D003A3D2F /* UIKit.framework in Frameworks */,
+				789CACBB1975B46D003A3D2F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		789CAC8E1975B46D003A3D2F = {
+			isa = PBXGroup;
+			children = (
+				789CACA01975B46D003A3D2F /* moegirlwiki */,
+				789CACBF1975B46D003A3D2F /* moegirlwikiTests */,
+				789CAC991975B46D003A3D2F /* Frameworks */,
+				789CAC981975B46D003A3D2F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		789CAC981975B46D003A3D2F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				789CAC971975B46D003A3D2F /* moegirlwiki.app */,
+				789CACB81975B46D003A3D2F /* moegirlwikiTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		789CAC991975B46D003A3D2F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				789CAC9A1975B46D003A3D2F /* Foundation.framework */,
+				789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */,
+				789CAC9E1975B46D003A3D2F /* UIKit.framework */,
+				789CACB91975B46D003A3D2F /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		789CACA01975B46D003A3D2F /* moegirlwiki */ = {
+			isa = PBXGroup;
+			children = (
+				789CACA91975B46D003A3D2F /* mcAppDelegate.h */,
+				789CACAA1975B46D003A3D2F /* mcAppDelegate.m */,
+				789CACAC1975B46D003A3D2F /* Main.storyboard */,
+				789CACB01975B46D003A3D2F /* mcViewController.m */,
+				789CACAF1975B46D003A3D2F /* mcViewController.h */,
+				789CACB21975B46D003A3D2F /* Images.xcassets */,
+				789CACA11975B46D003A3D2F /* Supporting Files */,
+			);
+			path = moegirlwiki;
+			sourceTree = "<group>";
+		};
+		789CACA11975B46D003A3D2F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				789CACA21975B46D003A3D2F /* moegirlwiki-Info.plist */,
+				789CACA31975B46D003A3D2F /* InfoPlist.strings */,
+				789CACA61975B46D003A3D2F /* main.m */,
+				789CACA81975B46D003A3D2F /* moegirlwiki-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		789CACBF1975B46D003A3D2F /* moegirlwikiTests */ = {
+			isa = PBXGroup;
+			children = (
+				789CACC51975B46D003A3D2F /* moegirlwikiTests.m */,
+				789CACC01975B46D003A3D2F /* Supporting Files */,
+			);
+			path = moegirlwikiTests;
+			sourceTree = "<group>";
+		};
+		789CACC01975B46D003A3D2F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				789CACC11975B46D003A3D2F /* moegirlwikiTests-Info.plist */,
+				789CACC21975B46D003A3D2F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		789CAC961975B46D003A3D2F /* moegirlwiki */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 789CACC91975B46D003A3D2F /* Build configuration list for PBXNativeTarget "moegirlwiki" */;
+			buildPhases = (
+				789CAC931975B46D003A3D2F /* Sources */,
+				789CAC941975B46D003A3D2F /* Frameworks */,
+				789CAC951975B46D003A3D2F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = moegirlwiki;
+			productName = moegirlwiki;
+			productReference = 789CAC971975B46D003A3D2F /* moegirlwiki.app */;
+			productType = "com.apple.product-type.application";
+		};
+		789CACB71975B46D003A3D2F /* moegirlwikiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 789CACCC1975B46D003A3D2F /* Build configuration list for PBXNativeTarget "moegirlwikiTests" */;
+			buildPhases = (
+				789CACB41975B46D003A3D2F /* Sources */,
+				789CACB51975B46D003A3D2F /* Frameworks */,
+				789CACB61975B46D003A3D2F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				789CACBE1975B46D003A3D2F /* PBXTargetDependency */,
+			);
+			name = moegirlwikiTests;
+			productName = moegirlwikiTests;
+			productReference = 789CACB81975B46D003A3D2F /* moegirlwikiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		789CAC8F1975B46D003A3D2F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = mc;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = me.masterchan;
+				TargetAttributes = {
+					789CAC961975B46D003A3D2F = {
+						DevelopmentTeam = AM4V7T2443;
+					};
+					789CACB71975B46D003A3D2F = {
+						TestTargetID = 789CAC961975B46D003A3D2F;
+					};
+				};
+			};
+			buildConfigurationList = 789CAC921975B46D003A3D2F /* Build configuration list for PBXProject "moegirlwiki" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 789CAC8E1975B46D003A3D2F;
+			productRefGroup = 789CAC981975B46D003A3D2F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				789CAC961975B46D003A3D2F /* moegirlwiki */,
+				789CACB71975B46D003A3D2F /* moegirlwikiTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		789CAC951975B46D003A3D2F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				789CACB31975B46D003A3D2F /* Images.xcassets in Resources */,
+				789CACA51975B46D003A3D2F /* InfoPlist.strings in Resources */,
+				789CACAE1975B46D003A3D2F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		789CACB61975B46D003A3D2F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				789CACC41975B46D003A3D2F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		789CAC931975B46D003A3D2F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				789CACB11975B46D003A3D2F /* mcViewController.m in Sources */,
+				789CACAB1975B46D003A3D2F /* mcAppDelegate.m in Sources */,
+				789CACA71975B46D003A3D2F /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		789CACB41975B46D003A3D2F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				789CACC61975B46D003A3D2F /* moegirlwikiTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		789CACBE1975B46D003A3D2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 789CAC961975B46D003A3D2F /* moegirlwiki */;
+			targetProxy = 789CACBD1975B46D003A3D2F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		789CACA31975B46D003A3D2F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				789CACA41975B46D003A3D2F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		789CACAC1975B46D003A3D2F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				789CACAD1975B46D003A3D2F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		789CACC21975B46D003A3D2F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				789CACC31975B46D003A3D2F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		789CACC71975B46D003A3D2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		789CACC81975B46D003A3D2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		789CACCA1975B46D003A3D2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "moegirlwiki/moegirlwiki-Prefix.pch";
+				INFOPLIST_FILE = "moegirlwiki/moegirlwiki-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		789CACCB1975B46D003A3D2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "moegirlwiki/moegirlwiki-Prefix.pch";
+				INFOPLIST_FILE = "moegirlwiki/moegirlwiki-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		789CACCD1975B46D003A3D2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/moegirlwiki.app/moegirlwiki";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "moegirlwiki/moegirlwiki-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "moegirlwikiTests/moegirlwikiTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		789CACCE1975B46D003A3D2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/moegirlwiki.app/moegirlwiki";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "moegirlwiki/moegirlwiki-Prefix.pch";
+				INFOPLIST_FILE = "moegirlwikiTests/moegirlwikiTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		789CAC921975B46D003A3D2F /* Build configuration list for PBXProject "moegirlwiki" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				789CACC71975B46D003A3D2F /* Debug */,
+				789CACC81975B46D003A3D2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		789CACC91975B46D003A3D2F /* Build configuration list for PBXNativeTarget "moegirlwiki" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				789CACCA1975B46D003A3D2F /* Debug */,
+				789CACCB1975B46D003A3D2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		789CACCC1975B46D003A3D2F /* Build configuration list for PBXNativeTarget "moegirlwikiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				789CACCD1975B46D003A3D2F /* Debug */,
+				789CACCE1975B46D003A3D2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 789CAC8F1975B46D003A3D2F /* Project object */;
+}
