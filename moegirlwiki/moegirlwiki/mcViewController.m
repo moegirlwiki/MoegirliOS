@@ -47,15 +47,18 @@
 
 @implementation mcViewController
 
-NSString * API = @"http://zh.moegirl.org/%@";
+NSString * baseID = @"moegirl-app-1.2";//用于GoogleAnalytics等统计工具识别   (15个字符)
+NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.2.php";//主页所在的位置
+
+NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
+
 NSString * DefaultPage =@"<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"stylesheet\" type=\"text/css\" href=\"https://masterchan.me/moegirlwiki/style.css\"></head><body><div id=\"content\"><h3>请接入互联网</h3></div></body></html>";
 
 NSString * tempError = @"";
 NSURL * tempURL;
 
-NSTimeInterval RequestTimeOutSec = 10;
+NSTimeInterval RequestTimeOutSec = 20;
 
-NSInteger InstanceLock = 2;
 NSInteger pointer_max = 0;
 NSInteger pointer_current =0;
 
@@ -167,53 +170,40 @@ NSURLConnection * RequestConnection;
 {
     if ( navigationType == UIWebViewNavigationTypeLinkClicked ) {
         NSString *link = [[request URL] absoluteString];
-        if ([link hasPrefix:@"http://localhost/"]) {
-            link = [link substringFromIndex:17];
-            if ([link hasPrefix:@"#"]) {
-                return YES;
+        if ([link hasPrefix:[NSString stringWithFormat:@"https://masterchan.me/%@/",baseID]]) {
+            link = [link substringFromIndex:38];
+            [_SearchBox setText:[link stringByRemovingPercentEncoding]];
+            [self MainMission];
+            return NO;
+        } else if ([link hasPrefix:@"http://zh.moegirl.org/"]){
+            link = [link substringFromIndex:22];
+            if ([link hasPrefix:baseID]) {//如果带有统计标签的，需要将其移除
+                link = [link substringFromIndex:16];
             }
             if ([link hasPrefix:@"index.php"]) {
                 //提示用户该页面无法渲染，是否打开浏览器
-                
                 NSString *Title = @"本程序无法渲染该页面，是否在Safari中打开 ？";
                 UIAlertView *PageWarning=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消",nil];
                 PageWarning.alertViewStyle=UIAlertViewStyleDefault;
                 [PageWarning show];
                 tempURL = [request URL];
                 return NO;
-            }
-            [_SearchBox setText:[link stringByRemovingPercentEncoding]];
-            [self MainMission];
-        }else{
-            if ([link hasPrefix:@"http://zh.moegirl.org/"]) {
-                link = [link substringFromIndex:22];
-                if ([link hasPrefix:@"#"]) {
-                    return YES;
-                }
-                if ([link hasPrefix:@"index.php"]) {
-                    //提示用户该页面无法渲染，是否打开浏览器
-                    
-                    NSString *Title = @"本程序无法渲染该页面，是否在Safari中打开 ？";
-                    UIAlertView *PageWarning=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消",nil];
-                    PageWarning.alertViewStyle=UIAlertViewStyleDefault;
-                    [PageWarning show];
-                    tempURL = [request URL];
-                    return NO;
-                }
+            }else if([link hasPrefix:[NSString stringWithFormat:@"%@#",[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){//如果是目录的页面内部链接 则直接交给WebView
+                return YES;
+            }else{
                 [_SearchBox setText:[link stringByRemovingPercentEncoding]];
                 [self MainMission];
-            }else{
-                //提示用户该连接是外链，是否打开浏览器
-                
-                NSString *Title = @"这是一个外链，您确定要打开这个链接吗？";
-                UIAlertView *OutlinkWarning=[[UIAlertView alloc] initWithTitle:Title message:[[request URL] absoluteString] delegate:self cancelButtonTitle:@"打开链接" otherButtonTitles:@"取消",nil];
-                OutlinkWarning.alertViewStyle=UIAlertViewStyleDefault;
-                tempURL = [request URL];
-                [OutlinkWarning show];
-                
+                return NO;
             }
+        }else{
+            //提示用户该连接是外链，是否打开浏览器
+            NSString *Title = @"这是一个外链，您确定要打开这个链接吗？";
+            UIAlertView *OutlinkWarning=[[UIAlertView alloc] initWithTitle:Title message:[[request URL] absoluteString] delegate:self cancelButtonTitle:@"打开链接" otherButtonTitles:@"取消",nil];
+            OutlinkWarning.alertViewStyle=UIAlertViewStyleDefault;
+            tempURL = [request URL];
+            [OutlinkWarning show];
+            return NO;
         }
-        return NO;
     }
     return YES;
 }
@@ -263,8 +253,18 @@ NSURLConnection * RequestConnection;
     if (pointer_current > 1) {
         [self ProgressGo:0.8];
         pointer_current --;
-        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:@"http://localhost/"]];
+        
         [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
+        
+        NSString *baselink;
+        if (![_SearchBox.text isEqualToString:@"首页"]) {
+            baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        } else {
+            baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
+        }
+        
+        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+        
         if (pointer_current == 1) {
             [_BackwardButton setEnabled:NO];
         }
@@ -282,8 +282,17 @@ NSURLConnection * RequestConnection;
     if (pointer_current < pointer_max) {
         [self ProgressGo:0.8];
         pointer_current ++;
-        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:@"http://localhost/"]];
+        
         [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
+        
+        NSString *baselink;
+        if (![_SearchBox.text isEqualToString:@"首页"]) {
+            baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        } else {
+            baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
+        }
+        
+        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
         if (pointer_current == pointer_max) {
             [_ForwardButton setEnabled:NO];
         }
@@ -373,9 +382,9 @@ NSURLConnection * RequestConnection;
             
             [self ProgressGo:0.8];
             
-            NSString *RequestURL = [NSString stringWithFormat:@"https://masterchan.me/moegirlwiki/index1.1.php"];
+            NSString *RequestURL = homepagelink;
             
-            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
+            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:RequestTimeOutSec];
             [TheRequest setHTTPMethod:@"GET"];
             RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
         } else {
@@ -386,7 +395,7 @@ NSURLConnection * RequestConnection;
             
             NSString *RequestURL = [NSString stringWithFormat:API,[ItemName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             
-            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
+            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:RequestTimeOutSec];
             [TheRequest setHTTPMethod:@"GET"];
             RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
         }
@@ -397,9 +406,13 @@ NSURLConnection * RequestConnection;
 - (void)SendToInterface:(NSString *)content
 {
     [self ProgressGo:0.25];
+    NSString *baselink;
     if (![_SearchBox.text isEqualToString:@"首页"]) {
         NSLog(@"开始处理页面");
         content = [self PrepareContent:content];
+        baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    } else {
+        baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
     }
     if (pointer_current< 10) {
         pointer_current ++;
@@ -421,7 +434,7 @@ NSURLConnection * RequestConnection;
         [_BackwardButton setEnabled:YES];
     }
     pointer_max = pointer_current;
-    [_MasterWebView loadHTMLString:content baseURL:[NSURL URLWithString:@"http://localhost/"]];
+    [_MasterWebView loadHTMLString:content baseURL:[NSURL URLWithString:baselink]];
     NSLog(@"发送页面到界面");
 }
 
