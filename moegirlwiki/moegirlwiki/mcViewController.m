@@ -14,6 +14,7 @@
 @property (strong,nonatomic) NSMutableData *RecievePool;
 @property (strong,nonatomic) NSMutableDictionary *HistoryPool;
 @property (strong,nonatomic) NSMutableDictionary *NamePool;
+@property (strong,nonatomic) NSMutableDictionary *PositionPool;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UIButton *BackwardButton;
@@ -42,6 +43,7 @@
 - (void)SendToInterface:(NSString *)content;
 - (NSString *)PrepareContent:(NSString *)content;
 
+
 @end
 
 
@@ -57,12 +59,17 @@ NSString * DefaultPage =@"<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charse
 NSString * tempError = @"";
 NSURL * tempURL;
 
+CGPoint PagePosition;
+
 NSTimeInterval RequestTimeOutSec = 20;
 
+NSInteger jumptotarget = 0;
 NSInteger pointer_max = 0;
 NSInteger pointer_current =0;
 
 NSURLConnection * RequestConnection;
+
+
 
 
 - (void)viewDidLoad
@@ -100,6 +107,7 @@ NSURLConnection * RequestConnection;
     //初始化历史记录
     _NamePool = [[NSMutableDictionary alloc] init];
     _HistoryPool = [[NSMutableDictionary alloc] init];
+    _PositionPool = [[NSMutableDictionary alloc] init];
     pointer_current = 0;
     pointer_max = 0;
     
@@ -114,6 +122,7 @@ NSURLConnection * RequestConnection;
     // Dispose of any resources that can be recreated.
     [_NamePool removeAllObjects];
     [_HistoryPool removeAllObjects];
+    [_PositionPool removeAllObjects];
     pointer_current = 0;
     pointer_max = 0;
 }
@@ -157,6 +166,11 @@ NSURLConnection * RequestConnection;
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     NSLog(@"页面完成绘制！");
     [self ProgressReset];
+    if (jumptotarget != 0) {
+        jumptotarget = 0;
+        UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
+        [scrollView setContentOffset:PagePosition animated:YES];
+    }
 }
 
 //页面绘制错误
@@ -252,19 +266,19 @@ NSURLConnection * RequestConnection;
     NSLog(@"往后");
     if (pointer_current > 1) {
         [self ProgressGo:0.8];
+        UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
+        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
         pointer_current --;
-        
         [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
-        
         NSString *baselink;
         if (![_SearchBox.text isEqualToString:@"首页"]) {
             baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else {
             baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
         }
-        
         [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-        
+        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]);
+        jumptotarget = 1;
         if (pointer_current == 1) {
             [_BackwardButton setEnabled:NO];
         }
@@ -281,18 +295,19 @@ NSURLConnection * RequestConnection;
     NSLog(@"往前");
     if (pointer_current < pointer_max) {
         [self ProgressGo:0.8];
+        UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
+        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
         pointer_current ++;
-        
         [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
-        
         NSString *baselink;
         if (![_SearchBox.text isEqualToString:@"首页"]) {
             baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else {
             baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
         }
-        
         [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]);
+        jumptotarget = 1;
         if (pointer_current == pointer_max) {
             [_ForwardButton setEnabled:NO];
         }
@@ -380,7 +395,7 @@ NSURLConnection * RequestConnection;
             //开始加载首页
             NSLog(@"检索 首页");
             
-            [self ProgressGo:0.8];
+            [self ProgressGo:0.35];
             
             NSString *RequestURL = homepagelink;
             
@@ -405,7 +420,7 @@ NSURLConnection * RequestConnection;
 
 - (void)SendToInterface:(NSString *)content
 {
-    [self ProgressGo:0.25];
+    [self ProgressGo:0.15];
     NSString *baselink;
     if (![_SearchBox.text isEqualToString:@"首页"]) {
         NSLog(@"开始处理页面");
@@ -414,10 +429,18 @@ NSURLConnection * RequestConnection;
     } else {
         baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
     }
+    
+    //取得页面阅读到的位置
+    UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
+    [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+    
+    //NSLog(@"%@",[NSValue valueWithCGPoint:scrollView.contentOffset]);
+    
     if (pointer_current< 10) {
         pointer_current ++;
         [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%d",pointer_current]];
         [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+        
         [_ForwardButton setEnabled:NO];
         if (pointer_current != 1) {
             [_BackwardButton setEnabled:YES];
@@ -427,9 +450,11 @@ NSURLConnection * RequestConnection;
         for (i=2; i<=10; i++) {
             [_HistoryPool setObject:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
             [_NamePool setObject:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
+            [_PositionPool setObject:[_PositionPool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
         }
         [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%d",10]];
         [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%d",10]];
+        
         [_ForwardButton setEnabled:NO];
         [_BackwardButton setEnabled:YES];
     }

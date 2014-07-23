@@ -3,12 +3,23 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "-[mcViewController GoBackward:]:mcViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[_PositionPool objectForKey:[NSString stringWithFormat:@&quot;%d&quot;,pointer_current]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[mcViewController GoRefresh:]:mcViewController.m">
          <PersistentStrings>
             <PersistentString
                value = "_SearchBox.text">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[mcViewController SendToInterface:]:mcViewController.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>
