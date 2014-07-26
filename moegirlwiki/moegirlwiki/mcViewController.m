@@ -62,7 +62,7 @@ NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
 NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&rnlimit=10&format=xml&rnnamespace=0";//获取随机页面的API
 //如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
 
-NSString * ReportAPI = @"https://masterchan.me/moegirlwiki/debug/send1.1.php";
+NSString * ReportAPI = @"https://masterchan.me/moegirlwiki/debug/send1.2.php";
 //发送错误报告的链接
 
 NSString * DefaultPage =@"<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"stylesheet\" type=\"text/css\" href=\"https://masterchan.me/moegirlwiki/style.css\"></head><body><div id=\"content\"><h3>请接入互联网</h3></div></body></html>";
