@@ -11,10 +11,12 @@
 @interface mcViewController ()
 
 
-@property (strong,nonatomic) NSMutableData *RecievePool;
+@property (strong,nonatomic) NSMutableData *RecievePool;//提供给 页面加载 专用
+@property (strong,nonatomic) NSMutableData *RecievePool2;//提供给 摇一摇  专用
 @property (strong,nonatomic) NSMutableDictionary *HistoryPool;
 @property (strong,nonatomic) NSMutableDictionary *NamePool;
 @property (strong,nonatomic) NSMutableDictionary *PositionPool;
+@property (strong,nonatomic) NSMutableDictionary *RandomPool;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UIButton *BackwardButton;
@@ -25,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *HideMenuButton;
 @property (weak, nonatomic) IBOutlet UIButton *RefreshButton;
 @property (weak, nonatomic) IBOutlet UIView *aboutView;
+@property (weak, nonatomic) IBOutlet UIButton *RandomButton;
 
 
 - (IBAction)MenuButton:(id)sender;
@@ -34,6 +37,7 @@
 - (IBAction)GoForward:(id)sender;
 - (IBAction)GoHomePage:(id)sender;
 - (IBAction)SendReport:(id)sender;
+- (IBAction)GoRandom:(id)sender;
 - (IBAction)AboutApp:(id)sender;
 - (IBAction)GoRefresh:(id)sender;
 
@@ -42,7 +46,8 @@
 - (void)MainMission;
 - (void)SendToInterface:(NSString *)content;
 - (NSString *)PrepareContent:(NSString *)content;
-
+- (void)PrepareRandomPopout:(NSString *)content;
+- (void)SendRandomRequest;
 
 @end
 
@@ -54,10 +59,17 @@ NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.2.php";//�
 
 NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
 
+NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&rnlimit=10&rnredirect&format=xml";//获取随机页面的API
+//如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
+
+NSString * ReportAPI = @"https://masterchan.me/moegirlwiki/debug/send1.1.php";
+//发送错误报告的链接
+
 NSString * DefaultPage =@"<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"stylesheet\" type=\"text/css\" href=\"https://masterchan.me/moegirlwiki/style.css\"></head><body><div id=\"content\"><h3>请接入互联网</h3></div></body></html>";
 
 NSString * tempError = @"";
 NSURL * tempURL;
+NSString * tempTitle;
 
 CGPoint PagePosition;
 
@@ -68,6 +80,7 @@ NSInteger pointer_max = 0;
 NSInteger pointer_current =0;
 
 NSURLConnection * RequestConnection;
+NSURLConnection * RequestConnectionForRandom;
 
 
 
@@ -94,6 +107,7 @@ NSURLConnection * RequestConnection;
     _HomepageButton.layer.cornerRadius = 3;
     _ReportButton.layer.cornerRadius = 3;
     _RefreshButton.layer.cornerRadius = 3;
+    _RandomButton.layer.cornerRadius = 3;
     _popoutView.layer.cornerRadius = 5;
     _aboutView.layer.cornerRadius = 5;
     _BackwardButton.layer.masksToBounds = YES;
@@ -101,6 +115,7 @@ NSURLConnection * RequestConnection;
     _HomepageButton.layer.masksToBounds = YES;
     _ReportButton.layer.masksToBounds = YES;
     _RefreshButton.layer.masksToBounds = YES;
+    _RandomButton.layer.masksToBounds = YES;
     _popoutView.layer.masksToBounds = YES;
     _aboutView.layer.masksToBounds = YES;
     
@@ -108,11 +123,13 @@ NSURLConnection * RequestConnection;
     _NamePool = [[NSMutableDictionary alloc] init];
     _HistoryPool = [[NSMutableDictionary alloc] init];
     _PositionPool = [[NSMutableDictionary alloc] init];
+    _RandomPool = [[NSMutableDictionary alloc] init];
     pointer_current = 0;
     pointer_max = 0;
     
     //初始化页面
     [self MainMission];
+    [self SendRandomRequest];
     
 }
 
@@ -132,6 +149,9 @@ NSURLConnection * RequestConnection;
     if (connection==RequestConnection) {
         _RecievePool = [NSMutableData data];
         NSLog(@"[Request] 得到服务器的响应");
+    }else if (connection==RequestConnectionForRandom){
+        _RecievePool2 = [NSMutableData data];
+        NSLog(@"[Random] 得到服务器的响应");
     }
 }
 
@@ -141,6 +161,9 @@ NSURLConnection * RequestConnection;
         [_RecievePool appendData:data];
         NSLog(@"[Request] 接收到了服务器传回的数据");
         [self ProgressGo:0.1];
+    }else if (connection==RequestConnectionForRandom){
+        [_RecievePool2 appendData:data];
+        NSLog(@"[Random] 接收到了服务器传回的数据");
     }
 }
 
@@ -159,6 +182,10 @@ NSURLConnection * RequestConnection;
     if (connection==RequestConnection) {
         NSLog(@"[Request] 数据接收完成！");
         [self SendToInterface:[[NSString alloc] initWithData:_RecievePool encoding:NSUTF8StringEncoding]];
+    }else if (connection==RequestConnectionForRandom) {
+        NSLog(@"[Random] 数据接收完成！");
+        [self PrepareRandomPopout:[[NSString alloc] initWithData:_RecievePool2 encoding:NSUTF8StringEncoding]];
+        
     }
 }
 
@@ -229,6 +256,9 @@ NSURLConnection * RequestConnection;
         [[UIApplication sharedApplication] openURL:tempURL];
     }else if ([tmpstring isEqualToString:@"打开链接"]){
         [[UIApplication sharedApplication] openURL:tempURL];
+    }else if ([tmpstring isEqualToString:@"查看"]){
+        [_SearchBox setText:tempTitle];
+        [self MainMission];
     }
 }
 
@@ -333,7 +363,7 @@ NSURLConnection * RequestConnection;
     [_popoutView setHidden:YES];
     [_HideMenuButton setHidden:YES];
     //发送错误报告
-    NSString *RequestURL = [NSString stringWithFormat:@"https://masterchan.me/moegirlwiki/debug/send1.1.php"];
+    NSString *RequestURL = ReportAPI;
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
     [TheRequest setHTTPMethod:@"POST"];
     NSData * data = [[NSString stringWithFormat:@"page=%@&error=%@",_SearchBox.text,tempError] dataUsingEncoding:NSUTF8StringEncoding];
@@ -344,6 +374,16 @@ NSURLConnection * RequestConnection;
     UIAlertView *ReportWarning=[[UIAlertView alloc] initWithTitle:Title message:@"报告已经发送，我们将会尽快处理！" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
     ReportWarning.alertViewStyle=UIAlertViewStyleDefault;
     [ReportWarning show];
+}
+
+- (IBAction)GoRandom:(id)sender {
+    NSInteger k = (int)(arc4random()%10);
+    NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",k]];
+    [_SearchBox setText:theTitle];
+    [self MainMission];
+    [_popoutView setHidden:YES];
+    [_HideMenuButton setHidden:YES];
+    [self SendRandomRequest];
 }
 
 - (IBAction)AboutApp:(id)sender {
@@ -434,7 +474,6 @@ NSURLConnection * RequestConnection;
     UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
     [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
     
-    //NSLog(@"%@",[NSValue valueWithCGPoint:scrollView.contentOffset]);
     
     if (pointer_current< 10) {
         pointer_current ++;
@@ -555,8 +594,35 @@ NSURLConnection * RequestConnection;
     if (motion == UIEventSubtypeMotionShake)
     {
         NSLog(@"检测到摇晃！");
-        
+        [self SendRandomRequest];
+        NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",(int)(arc4random()%10)]];
+        NSString *Title = [NSString stringWithFormat:@"你摇到了「 %@ 」",theTitle];
+        UIAlertView *RanPage=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"查看" otherButtonTitles:@"取消",nil];
+        RanPage.alertViewStyle=UIAlertViewStyleDefault;
+        [RanPage show];
+        tempTitle = theTitle;
     }
+    
+}
+
+- (void)PrepareRandomPopout:(NSString *)content{
+    NSInteger i;
+    NSString * thetext;
+    NSRange therange;
+    for (i=0; i<10; i++) {
+        therange = [content rangeOfString:@"title=\"" options:NSLiteralSearch];
+        content = [content substringFromIndex:therange.location+7];
+        therange = [content rangeOfString:@"\" />" options:NSLiteralSearch];
+        thetext = [content substringToIndex:therange.location];
+        content = [content substringFromIndex:therange.location+4];
+        [_RandomPool setObject:thetext forKey:[NSString stringWithFormat:@"%d",i]];
+    }
+}
+
+- (void)SendRandomRequest{
+    NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:APIrandom] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:RequestTimeOutSec];
+    [TheRequest setHTTPMethod:@"POST"];
+    RequestConnectionForRandom = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
     
 }
 
