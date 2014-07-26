@@ -549,4 +549,15 @@ NSURLConnection * RequestConnection;
     return content;
 }
 
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        NSLog(@"检测到摇晃！");
+        
+    }
+    
+}
+
 @end
