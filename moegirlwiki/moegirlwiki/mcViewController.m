@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *RefreshButton;
 @property (weak, nonatomic) IBOutlet UIView *aboutView;
 @property (weak, nonatomic) IBOutlet UIButton *RandomButton;
+@property (weak, nonatomic) IBOutlet UIButton *BackToTopButton;
+@property (weak, nonatomic) IBOutlet UIButton *versionbutton;
 
 
 - (IBAction)MenuButton:(id)sender;
@@ -97,6 +99,8 @@ NSURLConnection * RequestConnectionForRandom;
     //监听UISearchBar 的事件
     [_SearchBox setDelegate:self];
     
+    if ([[[UIDevice currentDevice] systemVersion] floatValue]>= 7.0) {
+    
     //调整进度条的大小
     CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 20.0f);
     [_progressBar setTransform:transform];
@@ -118,6 +122,15 @@ NSURLConnection * RequestConnectionForRandom;
     _RandomButton.layer.masksToBounds = YES;
     _popoutView.layer.masksToBounds = YES;
     _aboutView.layer.masksToBounds = YES;
+    
+    }else{
+        //[_progressBar setHidden:YES];
+        CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 8.0f);
+        [_progressBar setTransform:transform];
+        [_BackToTopButton setHidden:YES];
+        [_versionbutton setHidden:YES];
+        
+    }
     
     //初始化历史记录
     _NamePool = [[NSMutableDictionary alloc] init];
@@ -213,7 +226,7 @@ NSURLConnection * RequestConnectionForRandom;
         NSString *link = [[request URL] absoluteString];
         if ([link hasPrefix:[NSString stringWithFormat:@"https://masterchan.me/%@/",baseID]]) {
             link = [link substringFromIndex:38];
-            [_SearchBox setText:[link stringByRemovingPercentEncoding]];
+            [_SearchBox setText:[link stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             [self MainMission];
             return NO;
         } else if ([link hasPrefix:@"http://zh.moegirl.org/"]){
@@ -232,7 +245,7 @@ NSURLConnection * RequestConnectionForRandom;
             }else if([link hasPrefix:[NSString stringWithFormat:@"%@#",[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){//如果是目录的页面内部链接 则直接交给WebView
                 return YES;
             }else{
-                [_SearchBox setText:[link stringByRemovingPercentEncoding]];
+                [_SearchBox setText:[link stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
                 [self MainMission];
                 return NO;
             }
@@ -267,7 +280,9 @@ NSURLConnection * RequestConnectionForRandom;
     if ([_popoutView isHidden]) {
         [_popoutView setHidden:NO];
         [_aboutView setHidden:YES];
-        [_HideMenuButton setHidden:NO];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue]>= 7.0) {
+            [_HideMenuButton setHidden:NO];
+        }
     } else {
         [_popoutView setHidden:YES];
         [_HideMenuButton setHidden:YES];
