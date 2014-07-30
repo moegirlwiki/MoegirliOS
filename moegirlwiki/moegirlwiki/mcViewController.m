@@ -377,6 +377,9 @@ NSURLConnection * RequestConnectionForRandom;
     
     [_popoutView setHidden:YES];
     [_HideMenuButton setHidden:YES];
+    [self performSegueWithIdentifier:@"sendReport" sender:nil];
+    
+    /*
     //发送错误报告
     NSString *RequestURL = ReportAPI;
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
@@ -389,6 +392,7 @@ NSURLConnection * RequestConnectionForRandom;
     UIAlertView *ReportWarning=[[UIAlertView alloc] initWithTitle:Title message:@"报告已经发送，我们将会尽快处理！" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
     ReportWarning.alertViewStyle=UIAlertViewStyleDefault;
     [ReportWarning show];
+     */
 }
 
 - (IBAction)GoRandom:(id)sender {

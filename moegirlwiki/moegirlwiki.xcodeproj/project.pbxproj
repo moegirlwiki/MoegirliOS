@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78210DC319892CD80063AC44 /* mcReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78210DC219892CD80063AC44 /* mcReportController.m */; };
 		789CAC9B1975B46D003A3D2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9A1975B46D003A3D2F /* Foundation.framework */; };
 		789CAC9D1975B46D003A3D2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */; };
 		789CAC9F1975B46D003A3D2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9E1975B46D003A3D2F /* UIKit.framework */; };
@@ -40,6 +41,8 @@
 		7813B17219841A4B00D0D1DF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		7813B17319841A4C00D0D1DF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		7813B17419841A4C00D0D1DF /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		78210DC119892CD00063AC44 /* mcReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcReportController.h; sourceTree = "<group>"; };
+		78210DC219892CD80063AC44 /* mcReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcReportController.m; sourceTree = "<group>"; };
 		789CAC971975B46D003A3D2F /* moegirlwiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moegirlwiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		789CAC9A1975B46D003A3D2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -118,6 +121,8 @@
 		789CACA01975B46D003A3D2F /* moegirlwiki */ = {
 			isa = PBXGroup;
 			children = (
+				78210DC219892CD80063AC44 /* mcReportController.m */,
+				78210DC119892CD00063AC44 /* mcReportController.h */,
 				789CACA91975B46D003A3D2F /* mcAppDelegate.h */,
 				789CACAA1975B46D003A3D2F /* mcAppDelegate.m */,
 				789CACAC1975B46D003A3D2F /* Main.storyboard */,
@@ -264,6 +269,7 @@
 				789CACB11975B46D003A3D2F /* mcViewController.m in Sources */,
 				789CACAB1975B46D003A3D2F /* mcAppDelegate.m in Sources */,
 				789CACA71975B46D003A3D2F /* main.m in Sources */,
+				78210DC319892CD80063AC44 /* mcReportController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
