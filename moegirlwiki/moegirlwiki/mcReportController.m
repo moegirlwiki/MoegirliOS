@@ -9,13 +9,26 @@
 #import "mcReportController.h"
 
 @interface mcReportController ()
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *DoneBarButton;
 @property (weak, nonatomic) IBOutlet UITextField *issueText;
+@property (weak, nonatomic) IBOutlet UITextField *contactEmail;
+- (IBAction)issueSelectButton:(id)sender;
+- (IBAction)SendReport:(id)sender;
+- (IBAction)CancelReport:(id)sender;
+- (IBAction)readyToSend:(id)sender;
 
+-(void)SendFunction;
 @end
 
 @implementation mcReportController
 
 NSArray * issueList;
+
+NSString * ReportAPI = @"https://masterchan.me/moegirlwiki/debug/send1.3.php";
+//发送错误报告的链接
+
+NSTimeInterval ReportRequestTimeOutSec = 20;
+NSURLConnection * ReportRequestConnection;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,10 +47,14 @@ NSArray * issueList;
                  @"页面无法完成加载",
                  @"页面排版错误",
                  @"词条不完善",
+                 @"词条描述有误，请求修正",
                  @"词条违反有关规定",
                  @"其它",nil];
-    //_thePicker.dataSource = self;
     _thePicker.delegate = self;
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [_issueText becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,6 +81,7 @@ NSArray * issueList;
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     [_issueText setText:[issueList objectAtIndex:row]];
+    [_DoneBarButton setEnabled:YES];
 }
 
 /*
@@ -77,4 +95,40 @@ NSArray * issueList;
 }
 */
 
+- (IBAction)issueSelectButton:(id)sender {
+    [_issueText resignFirstResponder];
+    [_thePicker setHidden:NO];
+}
+
+- (IBAction)SendReport:(id)sender {
+    [self SendFunction];
+}
+
+- (IBAction)CancelReport:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)readyToSend:(id)sender {
+    if ((![[_issueText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""])&&([_issueText text].length > 2)) {
+        [_DoneBarButton setEnabled:YES];
+    }else{
+        [_DoneBarButton setEnabled:NO];
+    }
+}
+
+
+-(void)SendFunction{    //发送错误报告
+    NSString *RequestURL = ReportAPI;
+    NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:ReportRequestTimeOutSec];
+    [TheRequest setHTTPMethod:@"POST"];
+    NSData * data = [[NSString stringWithFormat:@"i=%@&e=%@",_issueText.text,_contactEmail.text] dataUsingEncoding:NSUTF8StringEncoding];
+    [TheRequest setHTTPBody:data];
+    ReportRequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:nil];
+    //提示信息
+    NSString *Title = @" 谢谢！";
+    UIAlertView *ReportWarning=[[UIAlertView alloc] initWithTitle:Title message:@"感谢您对萌娘百科的支持！" delegate:nil cancelButtonTitle:@"关闭" otherButtonTitles:nil];
+    ReportWarning.alertViewStyle=UIAlertViewStyleDefault;
+    [ReportWarning show];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end
