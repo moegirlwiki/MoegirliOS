@@ -265,13 +265,37 @@ NSURLConnection * RequestConnectionForRandom;
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     NSString * tmpstring=[alertView buttonTitleAtIndex:buttonIndex];
-    if ([tmpstring isEqualToString:@"确定"]) {
+    if ([tmpstring isEqualToString:@"确定"]) {//你是否在Safari里面看网页
         [[UIApplication sharedApplication] openURL:tempURL];
-    }else if ([tmpstring isEqualToString:@"打开链接"]){
+    }else if ([tmpstring isEqualToString:@"打开链接"]){//你是否打开外链
         [[UIApplication sharedApplication] openURL:tempURL];
-    }else if ([tmpstring isEqualToString:@"查看"]){
+    }else if ([tmpstring isEqualToString:@"查看"]){//你摇到了 xxx
         [_SearchBox setText:tempTitle];
         [self MainMission];
+    }else if ([tmpstring isEqualToString:@"否"]){//你是否已经年满18周岁
+
+            [self ProgressGo:0.8];
+            UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
+            [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+            pointer_current --;
+            [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
+            NSString *baselink;
+            if (![_SearchBox.text isEqualToString:@"首页"]) {
+                baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            } else {
+                baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
+            }
+            [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+            PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]);
+            jumptotarget = 1;
+            if (pointer_current == 1) {
+                [_BackwardButton setEnabled:NO];
+            }
+            pointer_max --;
+            if (pointer_current < pointer_max) {
+                [_ForwardButton setEnabled:YES];
+            }
+
     }
 }
 
@@ -594,6 +618,21 @@ NSURLConnection * RequestConnectionForRandom;
     
     
     [self ProgressGo:0.05];
+    //R18修正
+    regexstr = @"<script language=\"javascript\"[\\s\\S]*?<div id=x18[\\s\\S]*?</div>[\\s\\S]*?</script>[\\s\\S]*<span style=\"position:fixed;top: 0px;[\\s\\S]*width=\"227\" height=\"83\" /></a></span>[\\s\\S]*?</p>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    if (range.location != NSNotFound) {
+        //NSLog(@"%@",[content substringWithRange:range]);
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        NSLog(@"此词条为 R18 限制");
+        NSString *Title = @"R-18 限制";
+        UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
+        R18Warning.alertViewStyle=UIAlertViewStyleDefault;
+        [R18Warning show];
+    }
+    
+    
+    [self ProgressGo:0.05];
     //添加定制样式
     regexstr = @"</body>";
     range = [content rangeOfString:regexstr];
@@ -602,6 +641,7 @@ NSURLConnection * RequestConnectionForRandom;
         NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} </style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
         content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],style,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
     }
+    
     
 
     return content;
