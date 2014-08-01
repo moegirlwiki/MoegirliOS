@@ -77,7 +77,8 @@ NSTimeInterval RequestTimeOutSec = 20;
 
 NSInteger jumptotarget = 0;
 NSInteger pointer_max = 0;
-NSInteger pointer_current =0;
+NSInteger pointer_current = 0;
+NSInteger isRefresh = 0;
 
 NSURLConnection * RequestConnection;
 NSURLConnection * RequestConnectionForRandom;
@@ -459,6 +460,7 @@ NSURLConnection * RequestConnectionForRandom;
 }
 
 - (IBAction)GoRefresh:(id)sender {
+    isRefresh = 1;
     [self MainMission];
     
     [_popoutView setHidden:YES];
@@ -500,12 +502,14 @@ NSURLConnection * RequestConnectionForRandom;
         //空白字符串不执行任务
         NSLog(@"空白字符串不进行工作");
     } else {
+        
+        
         if ([ItemName isEqualToString:@"首页"]) {
             //开始加载首页
             NSLog(@"检索 首页");
             
             NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-            if ([defaultdata objectForKey:@"homepage"] == nil) {
+            if (([defaultdata objectForKey:@"homepage"] == nil)||(isRefresh == 1)) {
                 //如果缓存中没有首页的数据，则向网络请求首页的数据
                 [self ProgressGo:0.35];
                 
@@ -514,6 +518,7 @@ NSURLConnection * RequestConnectionForRandom;
                 NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:RequestTimeOutSec];
                 [TheRequest setHTTPMethod:@"GET"];
                 RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
+                isRefresh = 0;
             } else {
                 //如果缓存中有首页的数据，这直接SendToInterface
                 [self SendToInterface:[defaultdata objectForKey:@"homepage"]];
@@ -527,9 +532,15 @@ NSURLConnection * RequestConnectionForRandom;
             
             [self ProgressGo:0.1];
             
+            NSURLRequestCachePolicy loadType = NSURLRequestReturnCacheDataElseLoad;
+            if (isRefresh == 1) {
+                loadType = NSURLRequestReloadIgnoringLocalCacheData;
+            }
+            
             NSString *RequestURL = [NSString stringWithFormat:API,[ItemName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             
-            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:RequestTimeOutSec];
+            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:loadType timeoutInterval:RequestTimeOutSec];
+            
             [TheRequest setHTTPMethod:@"GET"];
             RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
         }
