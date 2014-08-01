@@ -22,12 +22,17 @@
 
 @implementation mcReportController
 
+@synthesize rtitle;
+@synthesize rcontent;
+@synthesize rerror;
+
 NSArray * issueList;
 
 NSString * ReportAPI = @"https://masterchan.me/moegirlwiki/debug/send1.3.php";
 //发送错误报告的链接
 
 NSTimeInterval ReportRequestTimeOutSec = 20;
+
 NSURLConnection * ReportRequestConnection;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -41,15 +46,16 @@ NSURLConnection * ReportRequestConnection;
 
 - (void)viewDidLoad
 {
+    [[UIApplication sharedApplication] delegate];
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     issueList = [NSArray arrayWithObjects:
+                 @"请选择...",
                  @"页面无法完成加载",
                  @"页面排版错误",
                  @"词条不完善",
                  @"词条描述有误，请求修正",
-                 @"词条违反有关规定",
-                 @"其它",nil];
+                 @"词条违反有关规定",nil];
     _thePicker.delegate = self;
 }
 
@@ -80,8 +86,13 @@ NSURLConnection * ReportRequestConnection;
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    [_issueText setText:[issueList objectAtIndex:row]];
-    [_DoneBarButton setEnabled:YES];
+    if ([[issueList objectAtIndex:row]isEqualToString:@"请选择..."]) {
+        [_DoneBarButton setEnabled:NO];
+        [_issueText setText:@""];
+    } else {
+        [_issueText setText:[issueList objectAtIndex:row]];
+        [_DoneBarButton setEnabled:YES];
+    }
 }
 
 /*
@@ -97,6 +108,7 @@ NSURLConnection * ReportRequestConnection;
 
 - (IBAction)issueSelectButton:(id)sender {
     [_issueText resignFirstResponder];
+    [_contactEmail resignFirstResponder];
     [_thePicker setHidden:NO];
 }
 
@@ -121,7 +133,7 @@ NSURLConnection * ReportRequestConnection;
     NSString *RequestURL = ReportAPI;
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:ReportRequestTimeOutSec];
     [TheRequest setHTTPMethod:@"POST"];
-    NSData * data = [[NSString stringWithFormat:@"i=%@&e=%@",_issueText.text,_contactEmail.text] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData * data = [[NSString stringWithFormat:@"i=%@&e=%@&t=%@&c=%@&r=%@",[_issueText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[_contactEmail.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[rtitle stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[rcontent stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[rerror stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] dataUsingEncoding:NSUTF8StringEncoding];
     [TheRequest setHTTPBody:data];
     ReportRequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:nil];
     //提示信息

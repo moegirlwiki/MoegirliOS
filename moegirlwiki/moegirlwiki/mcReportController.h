@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface mcReportController : UIViewController<UIPickerViewDelegate>{}
+
+@property (strong, nonatomic) NSString *rtitle;
+@property (strong, nonatomic) NSString *rcontent;
+@property (strong, nonatomic) NSString *rerror;
+
 @property (weak, nonatomic) IBOutlet UIPickerView *thePicker;
 
 @end

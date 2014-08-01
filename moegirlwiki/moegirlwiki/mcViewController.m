@@ -171,7 +171,7 @@ NSURLConnection * RequestConnectionForRandom;
     if (connection==RequestConnection) {
         [_RecievePool appendData:data];
         NSLog(@"[Request] 接收到了服务器传回的数据");
-        [self ProgressGo:0.1];
+        [self ProgressGo:0.038];
     }else if (connection==RequestConnectionForRandom){
         [_RecievePool2 appendData:data];
         NSLog(@"[Random] 接收到了服务器传回的数据");
@@ -272,19 +272,19 @@ NSURLConnection * RequestConnectionForRandom;
         [self MainMission];
     }else if ([tmpstring isEqualToString:@"否"]){//你是否已经年满18周岁
 
-            [self ProgressGo:0.8];
+            [self ProgressGo:0.45];
             UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-            [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+            [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
             pointer_current --;
-            [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
+            [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
             NSString *baselink;
             if (![_SearchBox.text isEqualToString:@"首页"]) {
                 baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             } else {
                 baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
             }
-            [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-            PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]);
+            [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+            PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
             jumptotarget = 1;
             if (pointer_current == 1) {
                 [_BackwardButton setEnabled:NO];
@@ -332,19 +332,19 @@ NSURLConnection * RequestConnectionForRandom;
 - (IBAction)GoBackward:(id)sender {
     NSLog(@"往后");
     if (pointer_current > 1) {
-        [self ProgressGo:0.8];
+        [self ProgressGo:0.45];
         UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
         pointer_current --;
-        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
+        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
         NSString *baselink;
         if (![_SearchBox.text isEqualToString:@"首页"]) {
             baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else {
             baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
         }
-        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]);
+        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
         jumptotarget = 1;
         if (pointer_current == 1) {
             [_BackwardButton setEnabled:NO];
@@ -361,19 +361,19 @@ NSURLConnection * RequestConnectionForRandom;
 - (IBAction)GoForward:(id)sender {
     NSLog(@"往前");
     if (pointer_current < pointer_max) {
-        [self ProgressGo:0.8];
+        [self ProgressGo:0.45];
         UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
         pointer_current ++;
-        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
+        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
         NSString *baselink;
         if (![_SearchBox.text isEqualToString:@"首页"]) {
             baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else {
             baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
         }
-        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]);
+        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
         jumptotarget = 1;
         if (pointer_current == pointer_max) {
             [_ForwardButton setEnabled:NO];
@@ -395,17 +395,36 @@ NSURLConnection * RequestConnectionForRandom;
     [_HideMenuButton setHidden:YES];
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+
+    UIViewController * theview = segue.destinationViewController;
+    
+    NSString * reportTitle = _SearchBox.text;
+    NSString * reportContent = [_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
+    NSString * reportErrorInfo = tempError;
+    
+    if (reportContent.length > 200) {
+        reportContent = [reportContent substringToIndex:200];
+    }
+    
+    [theview setValue:reportTitle forKeyPath:@"rtitle"];
+    [theview setValue:reportContent forKeyPath:@"rcontent"];
+    [theview setValue:reportErrorInfo forKeyPath:@"rerror"];
+    //将第一个 view的参数准备给下一个view
+}
+
 - (IBAction)SendReport:(id)sender {
     
     [_popoutView setHidden:YES];
     [_HideMenuButton setHidden:YES];
+    
     [self performSegueWithIdentifier:@"sendReport" sender:nil];
     //将到mcReportController.m处理
 }
 
 - (IBAction)GoRandom:(id)sender {
     NSInteger k = (int)(arc4random()%10);
-    NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",k]];
+    NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%ld",(long)k]];
     [_SearchBox setText:theTitle];
     [self MainMission];
     [_popoutView setHidden:YES];
@@ -454,6 +473,8 @@ NSURLConnection * RequestConnectionForRandom;
     
     NSString *ItemName = [_SearchBox text];
     
+    [self ProgressReset];
+    
     if ([[ItemName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         //空白字符串不执行任务
         NSLog(@"空白字符串不进行工作");
@@ -499,13 +520,13 @@ NSURLConnection * RequestConnectionForRandom;
     
     //取得页面阅读到的位置
     UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-    [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+    [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
     
     
     if (pointer_current< 10) {
         pointer_current ++;
-        [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%d",pointer_current]];
-        [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+        [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
+        [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
         
         [_ForwardButton setEnabled:NO];
         if (pointer_current != 1) {
@@ -514,9 +535,9 @@ NSURLConnection * RequestConnectionForRandom;
     }else{
         NSInteger i;
         for (i=2; i<=10; i++) {
-            [_HistoryPool setObject:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
-            [_NamePool setObject:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
-            [_PositionPool setObject:[_PositionPool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
+            [_HistoryPool setObject:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
+            [_NamePool setObject:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
+            [_PositionPool setObject:[_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
         }
         [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%d",10]];
         [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%d",10]];
@@ -658,7 +679,7 @@ NSURLConnection * RequestConnectionForRandom;
         therange = [content rangeOfString:@"\" />" options:NSLiteralSearch];
         thetext = [content substringToIndex:therange.location];
         content = [content substringFromIndex:therange.location+4];
-        [_RandomPool setObject:thetext forKey:[NSString stringWithFormat:@"%d",i]];
+        [_RandomPool setObject:thetext forKey:[NSString stringWithFormat:@"%ld",(long)i]];
     }
 }
 
