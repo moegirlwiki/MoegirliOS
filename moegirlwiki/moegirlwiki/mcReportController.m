@@ -57,6 +57,10 @@ NSURLConnection * ReportRequestConnection;
                  @"词条描述有误，请求修正",
                  @"词条违反有关规定",nil];
     _thePicker.delegate = self;
+    NSUserDefaults *DefaultData = [NSUserDefaults standardUserDefaults];
+    if ([DefaultData objectForKey:@"email"] != nil) {
+        _contactEmail.text = [DefaultData objectForKey:@"email"];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -129,18 +133,25 @@ NSURLConnection * ReportRequestConnection;
 }
 
 
--(void)SendFunction{    //发送错误报告
+-(void)SendFunction{
+    //发送错误报告
     NSString *RequestURL = ReportAPI;
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:ReportRequestTimeOutSec];
     [TheRequest setHTTPMethod:@"POST"];
     NSData * data = [[NSString stringWithFormat:@"i=%@&e=%@&t=%@&c=%@&r=%@",[_issueText.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[_contactEmail.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[rtitle stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[rcontent stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[rerror stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] dataUsingEncoding:NSUTF8StringEncoding];
     [TheRequest setHTTPBody:data];
     ReportRequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:nil];
+    
     //提示信息
     NSString *Title = @" 谢谢！";
     UIAlertView *ReportWarning=[[UIAlertView alloc] initWithTitle:Title message:@"感谢您对萌娘百科的支持！" delegate:nil cancelButtonTitle:@"关闭" otherButtonTitles:nil];
     ReportWarning.alertViewStyle=UIAlertViewStyleDefault;
     [ReportWarning show];
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    //保存默认邮箱
+    NSUserDefaults *DefaultData = [NSUserDefaults standardUserDefaults];
+    [DefaultData setObject:_contactEmail.text forKey:@"email"];
+    [DefaultData synchronize];
 }
 @end

@@ -140,7 +140,23 @@ NSURLConnection * RequestConnectionForRandom;
     
     //初始化页面
     [self MainMission];
-    [self SendRandomRequest];
+    
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([defaultdata objectForKey:@"ran0"] == nil) {
+        [self SendRandomRequest];
+    }else{
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran0"] forKey:@"0"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran1"] forKey:@"1"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran2"] forKey:@"2"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran3"] forKey:@"3"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran4"] forKey:@"4"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran5"] forKey:@"5"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran6"] forKey:@"6"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran7"] forKey:@"7"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran8"] forKey:@"8"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
+    }
+    
     
 }
 
@@ -193,6 +209,11 @@ NSURLConnection * RequestConnectionForRandom;
     if (connection==RequestConnection) {
         NSLog(@"[Request] 数据接收完成！");
         [self SendToInterface:[[NSString alloc] initWithData:_RecievePool encoding:NSUTF8StringEncoding]];
+        if ([_SearchBox.text isEqualToString:@"首页"]) {
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            [defaultdata setObject:[[NSString alloc] initWithData:_RecievePool encoding:NSUTF8StringEncoding] forKey:@"homepage"];
+            [defaultdata synchronize];
+        }
     }else if (connection==RequestConnectionForRandom) {
         NSLog(@"[Random] 数据接收完成！");
         [self PrepareRandomPopout:[[NSString alloc] initWithData:_RecievePool2 encoding:NSUTF8StringEncoding]];
@@ -483,13 +504,23 @@ NSURLConnection * RequestConnectionForRandom;
             //开始加载首页
             NSLog(@"检索 首页");
             
-            [self ProgressGo:0.35];
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            if ([defaultdata objectForKey:@"homepage"] == nil) {
+                //如果缓存中没有首页的数据，则向网络请求首页的数据
+                [self ProgressGo:0.35];
+                
+                NSString *RequestURL = homepagelink;
+                
+                NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:RequestTimeOutSec];
+                [TheRequest setHTTPMethod:@"GET"];
+                RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
+            } else {
+                //如果缓存中有首页的数据，这直接SendToInterface
+                [self SendToInterface:[defaultdata objectForKey:@"homepage"]];
+                //----------------------------------------
+            }
             
-            NSString *RequestURL = homepagelink;
             
-            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:RequestTimeOutSec];
-            [TheRequest setHTTPMethod:@"GET"];
-            RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
         } else {
             //开始加载词条
             NSLog(@"检索 %@",ItemName);
@@ -508,7 +539,6 @@ NSURLConnection * RequestConnectionForRandom;
 
 - (void)SendToInterface:(NSString *)content
 {
-    [self ProgressGo:0.15];
     NSString *baselink;
     if (![_SearchBox.text isEqualToString:@"首页"]) {
         NSLog(@"开始处理页面");
@@ -658,7 +688,9 @@ NSURLConnection * RequestConnectionForRandom;
     if (motion == UIEventSubtypeMotionShake)
     {
         NSLog(@"检测到摇晃！");
-        [self SendRandomRequest];
+        if ((arc4random()%10)>8) {//只有20％的概率会刷新概率池
+            [self SendRandomRequest];
+        }
         NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",(int)(arc4random()%10)]];
         NSString *Title = [NSString stringWithFormat:@"你摇到了「 %@ 」",theTitle];
         UIAlertView *RanPage=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"查看" otherButtonTitles:@"取消",nil];
@@ -681,13 +713,25 @@ NSURLConnection * RequestConnectionForRandom;
         content = [content substringFromIndex:therange.location+4];
         [_RandomPool setObject:thetext forKey:[NSString stringWithFormat:@"%ld",(long)i]];
     }
+    
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    [defaultdata setObject:[_RandomPool objectForKey:@"0"] forKey:@"ran0"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"1"] forKey:@"ran1"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"2"] forKey:@"ran2"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"3"] forKey:@"ran3"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"4"] forKey:@"ran4"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"5"] forKey:@"ran5"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"6"] forKey:@"ran6"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"7"] forKey:@"ran7"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"8"] forKey:@"ran8"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"9"] forKey:@"ran9"];
+    [defaultdata synchronize];
 }
 
 - (void)SendRandomRequest{
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:APIrandom] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:RequestTimeOutSec];
     [TheRequest setHTTPMethod:@"POST"];
     RequestConnectionForRandom = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
-    
 }
 
 @end
