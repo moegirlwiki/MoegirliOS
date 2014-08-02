@@ -461,6 +461,7 @@ NSURLConnection * RequestConnectionForRandom;
 
 - (IBAction)GoRefresh:(id)sender {
     isRefresh = 1;
+    pointer_current --;
     [self MainMission];
     
     [_popoutView setHidden:YES];
@@ -535,6 +536,7 @@ NSURLConnection * RequestConnectionForRandom;
             NSURLRequestCachePolicy loadType = NSURLRequestReturnCacheDataElseLoad;
             if (isRefresh == 1) {
                 loadType = NSURLRequestReloadIgnoringLocalCacheData;
+                isRefresh = 0;
             }
             
             NSString *RequestURL = [NSString stringWithFormat:API,[ItemName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -552,6 +554,20 @@ NSURLConnection * RequestConnectionForRandom;
 {
     NSString *baselink;
     if (![_SearchBox.text isEqualToString:@"首页"]) {
+        
+        //如果这个页面是没有结果的页面，将地址栏修改成查询模式然后重新加载
+        
+        NSString * regexstr = @"此页目前没有内容，您可以在其它页";
+        NSRange range = [content rangeOfString:regexstr];
+        if (range.location != NSNotFound) {
+            NSLog(@"==无结果！==");
+            _SearchBox.text = [NSString stringWithFormat:@"Special:搜索/%@",_SearchBox.text];
+            [self MainMission];
+            return;
+        }
+        //return;
+        
+        
         NSLog(@"开始处理页面");
         content = [self PrepareContent:content];
         baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -677,6 +693,15 @@ NSURLConnection * RequestConnectionForRandom;
         [R18Warning show];
     }
     
+    //搜索结果修正
+    if ([_SearchBox.text hasPrefix:@"Special:搜索"]) {
+        regexstr = @"<form id=\"search\" [\\s\\S]*?</form>";
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        if (range.location != NSNotFound) {
+            content = [content stringByReplacingCharactersInRange:range withString:@""];
+        }
+    }
+    
     
     [self ProgressGo:0.05];
     //添加定制样式
@@ -684,7 +709,7 @@ NSURLConnection * RequestConnectionForRandom;
     range = [content rangeOfString:regexstr];
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@""];
-        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} </style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
+        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
         content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],style,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
     }
     
