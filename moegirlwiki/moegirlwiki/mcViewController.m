@@ -13,6 +13,7 @@
 
 @property (strong,nonatomic) NSMutableData *RecievePool;//提供给 页面加载 专用
 @property (strong,nonatomic) NSMutableData *RecievePool2;//提供给 摇一摇  专用
+@property (strong,nonatomic) NSMutableData *RecievePool3;//提供给 Mainpage  专用
 @property (strong,nonatomic) NSMutableDictionary *HistoryPool;
 @property (strong,nonatomic) NSMutableDictionary *NamePool;
 @property (strong,nonatomic) NSMutableDictionary *PositionPool;
@@ -50,24 +51,23 @@
 - (NSString *)PrepareContent:(NSString *)content;
 - (void)PrepareRandomPopout:(NSString *)content;
 - (void)SendRandomRequest;
+- (void)PrepareHomepage;
 
 @end
 
 
 @implementation mcViewController
 
-NSString * baseID = @"moegirl-app-1.2";//用于GoogleAnalytics等统计工具识别   (15个字符)
-NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.2.php";//主页所在的位置
+NSString * baseID = @"moegirl-app-1.3";//用于GoogleAnalytics等统计工具识别   (15个字符)
+NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.3.php";//主页所在的位置
 
 NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
 
 NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&rnlimit=10&format=xml&rnnamespace=0";//获取随机页面的API
 //如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
 
-NSString * ReportAPI = @"https://masterchan.me/moegirlwiki/debug/send1.2.php";
-//发送错误报告的链接
 
-NSString * DefaultPage =@"<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"stylesheet\" type=\"text/css\" href=\"https://masterchan.me/moegirlwiki/style.css\"></head><body><div id=\"content\"><h3>请接入互联网</h3></div></body></html>";
+NSString * DefaultPage =@"<!DOCTYPE html><html lang='zh-CN'><head>	<!--%@-->	<meta charset='UTF-8'>	<meta name='viewport' content='width=device-width, initial-scale=1'></head><body>	<style type='text/css'>	ul{padding-left: 20px;} body{		font-size: 11px;	}	</style>	<div id='content'>		<h3>出现了点问题哎~~!</h3>		<p>错误信息: <strong>%@</strong></p>		<p>您可以做的事情有：</p>		<ul>			<li>提交此页面的错误报告，帮助我们改进程序</li>			<li>到网络环境更好的地方再试一试</li>			<li>使用黑科技保护您的手机与萌百服务器之间的连接</li>		</ul>	</div></body></html>";
 
 NSString * tempError = @"";
 NSURL * tempURL;
@@ -79,10 +79,14 @@ NSTimeInterval RequestTimeOutSec = 20;
 
 NSInteger jumptotarget = 0;
 NSInteger pointer_max = 0;
-NSInteger pointer_current =0;
+NSInteger pointer_current = 0;
+NSInteger isRefresh = 0;
+
+NSInteger InstanceLock = 0; //进程同步锁
 
 NSURLConnection * RequestConnection;
 NSURLConnection * RequestConnectionForRandom;
+NSURLConnection * RequestConnectionForMainpage;
 
 
 
@@ -142,7 +146,23 @@ NSURLConnection * RequestConnectionForRandom;
     
     //初始化页面
     [self MainMission];
-    [self SendRandomRequest];
+    
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([defaultdata objectForKey:@"ran0"] == nil) {
+        [self SendRandomRequest];
+    }else{
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran0"] forKey:@"0"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran1"] forKey:@"1"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran2"] forKey:@"2"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran3"] forKey:@"3"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran4"] forKey:@"4"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran5"] forKey:@"5"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran6"] forKey:@"6"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran7"] forKey:@"7"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran8"] forKey:@"8"];
+        [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
+    }
+    
     
 }
 
@@ -165,6 +185,9 @@ NSURLConnection * RequestConnectionForRandom;
     }else if (connection==RequestConnectionForRandom){
         _RecievePool2 = [NSMutableData data];
         NSLog(@"[Random] 得到服务器的响应");
+    }else if (connection==RequestConnectionForMainpage){
+        _RecievePool3 = [NSMutableData data];
+        NSLog(@"[Mainpage] 得到服务器的响应");
     }
 }
 
@@ -173,20 +196,27 @@ NSURLConnection * RequestConnectionForRandom;
     if (connection==RequestConnection) {
         [_RecievePool appendData:data];
         NSLog(@"[Request] 接收到了服务器传回的数据");
-        [self ProgressGo:0.1];
+        [self ProgressGo:0.038];
     }else if (connection==RequestConnectionForRandom){
         [_RecievePool2 appendData:data];
         NSLog(@"[Random] 接收到了服务器传回的数据");
+    }else if (connection==RequestConnectionForMainpage){
+        [_RecievePool3 appendData:data];
     }
 }
 
 //错误处理
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSString * errorinfo;
     if (connection==RequestConnection) {
         NSLog(@"[Request] 发生错误！");
-        [self SendToInterface:DefaultPage];
+        errorinfo = [NSString stringWithFormat:@"\n%@\n%@\n",
+                                [error localizedDescription],
+                                [[error userInfo] objectForKey:NSURLErrorFailingURLErrorKey]
+                                ];
+        [self SendToInterface:[NSString stringWithFormat:DefaultPage,errorinfo,[error localizedDescription]]];
     }
-    NSLog(@"%@",error);
+    //NSLog(@"%@",errorinfo);
     tempError = [error localizedDescription];
 }
 
@@ -194,11 +224,20 @@ NSURLConnection * RequestConnectionForRandom;
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
     if (connection==RequestConnection) {
         NSLog(@"[Request] 数据接收完成！");
-        [self SendToInterface:[[NSString alloc] initWithData:_RecievePool encoding:NSUTF8StringEncoding]];
+        if ([_SearchBox.text isEqualToString:@"首页"]) {
+            InstanceLock ++;
+            [self PrepareHomepage];
+        }else{
+            [self SendToInterface:[[NSString alloc] initWithData:_RecievePool encoding:NSUTF8StringEncoding]];
+        }
     }else if (connection==RequestConnectionForRandom) {
         NSLog(@"[Random] 数据接收完成！");
         [self PrepareRandomPopout:[[NSString alloc] initWithData:_RecievePool2 encoding:NSUTF8StringEncoding]];
         
+    }else if (connection==RequestConnectionForMainpage) {
+        NSLog(@"[Mainpage] 数据接收完成！");
+        InstanceLock ++;
+        [self PrepareHomepage];
     }
 }
 
@@ -265,13 +304,37 @@ NSURLConnection * RequestConnectionForRandom;
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     NSString * tmpstring=[alertView buttonTitleAtIndex:buttonIndex];
-    if ([tmpstring isEqualToString:@"确定"]) {
+    if ([tmpstring isEqualToString:@"确定"]) {//你是否在Safari里面看网页
         [[UIApplication sharedApplication] openURL:tempURL];
-    }else if ([tmpstring isEqualToString:@"打开链接"]){
+    }else if ([tmpstring isEqualToString:@"打开链接"]){//你是否打开外链
         [[UIApplication sharedApplication] openURL:tempURL];
-    }else if ([tmpstring isEqualToString:@"查看"]){
+    }else if ([tmpstring isEqualToString:@"查看"]){//你摇到了 xxx
         [_SearchBox setText:tempTitle];
         [self MainMission];
+    }else if ([tmpstring isEqualToString:@"否"]){//你是否已经年满18周岁
+
+            [self ProgressGo:0.45];
+            UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
+            [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
+            pointer_current --;
+            [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
+            NSString *baselink;
+            if (![_SearchBox.text isEqualToString:@"首页"]) {
+                baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            } else {
+                baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/",baseID];
+            }
+            [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+            PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
+            jumptotarget = 1;
+            if (pointer_current == 1) {
+                [_BackwardButton setEnabled:NO];
+            }
+            pointer_max --;
+            if (pointer_current < pointer_max) {
+                [_ForwardButton setEnabled:YES];
+            }
+
     }
 }
 
@@ -310,19 +373,19 @@ NSURLConnection * RequestConnectionForRandom;
 - (IBAction)GoBackward:(id)sender {
     NSLog(@"往后");
     if (pointer_current > 1) {
-        [self ProgressGo:0.8];
+        [self ProgressGo:0.45];
         UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
         pointer_current --;
-        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
+        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
         NSString *baselink;
         if (![_SearchBox.text isEqualToString:@"首页"]) {
             baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else {
-            baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
+            baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/",baseID];
         }
-        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]);
+        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
         jumptotarget = 1;
         if (pointer_current == 1) {
             [_BackwardButton setEnabled:NO];
@@ -339,19 +402,19 @@ NSURLConnection * RequestConnectionForRandom;
 - (IBAction)GoForward:(id)sender {
     NSLog(@"往前");
     if (pointer_current < pointer_max) {
-        [self ProgressGo:0.8];
+        [self ProgressGo:0.45];
         UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
         pointer_current ++;
-        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]];
+        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
         NSString *baselink;
         if (![_SearchBox.text isEqualToString:@"首页"]) {
             baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         } else {
-            baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
+            baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/",baseID];
         }
-        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%d",pointer_current]]);
+        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
+        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
         jumptotarget = 1;
         if (pointer_current == pointer_max) {
             [_ForwardButton setEnabled:NO];
@@ -373,27 +436,36 @@ NSURLConnection * RequestConnectionForRandom;
     [_HideMenuButton setHidden:YES];
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+
+    UIViewController * theview = segue.destinationViewController;
+    
+    NSString * reportTitle = _SearchBox.text;
+    NSString * reportContent = [_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
+    NSString * reportErrorInfo = tempError;
+    
+    if (reportContent.length > 200) {
+        reportContent = [reportContent substringToIndex:200];
+    }
+    
+    [theview setValue:reportTitle forKeyPath:@"rtitle"];
+    [theview setValue:reportContent forKeyPath:@"rcontent"];
+    [theview setValue:reportErrorInfo forKeyPath:@"rerror"];
+    //将第一个 view的参数准备给下一个view
+}
+
 - (IBAction)SendReport:(id)sender {
     
     [_popoutView setHidden:YES];
     [_HideMenuButton setHidden:YES];
-    //发送错误报告
-    NSString *RequestURL = ReportAPI;
-    NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
-    [TheRequest setHTTPMethod:@"POST"];
-    NSData * data = [[NSString stringWithFormat:@"page=%@&error=%@",_SearchBox.text,tempError] dataUsingEncoding:NSUTF8StringEncoding];
-    [TheRequest setHTTPBody:data];
-    RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:nil];
-    //提示信息
-    NSString *Title = @" 谢谢！";
-    UIAlertView *ReportWarning=[[UIAlertView alloc] initWithTitle:Title message:@"报告已经发送，我们将会尽快处理！" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:nil];
-    ReportWarning.alertViewStyle=UIAlertViewStyleDefault;
-    [ReportWarning show];
+    
+    [self performSegueWithIdentifier:@"sendReport" sender:nil];
+    //将到mcReportController.m处理
 }
 
 - (IBAction)GoRandom:(id)sender {
     NSInteger k = (int)(arc4random()%10);
-    NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",k]];
+    NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%ld",(long)k]];
     [_SearchBox setText:theTitle];
     [self MainMission];
     [_popoutView setHidden:YES];
@@ -407,6 +479,8 @@ NSURLConnection * RequestConnectionForRandom;
 }
 
 - (IBAction)GoRefresh:(id)sender {
+    isRefresh = 1;
+    pointer_current --;
     [self MainMission];
     
     [_popoutView setHidden:YES];
@@ -442,30 +516,63 @@ NSURLConnection * RequestConnectionForRandom;
     
     NSString *ItemName = [_SearchBox text];
     
+    [self ProgressReset];
+    
     if ([[ItemName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         //空白字符串不执行任务
         NSLog(@"空白字符串不进行工作");
     } else {
+        
+        
         if ([ItemName isEqualToString:@"首页"]) {
             //开始加载首页
             NSLog(@"检索 首页");
             
-            [self ProgressGo:0.35];
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            if (([defaultdata objectForKey:@"homepage"] == nil)||(isRefresh == 1)) {
+                //如果缓存中没有首页的数据或者是刷新请求，则向网络请求首页的数据
+                [self ProgressGo:0.35];
+                
+                InstanceLock = 0;
+                
+                //向masterchan.me请求框架
+                NSString *RequestURL = homepagelink;
+                NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
+                [TheRequest setHTTPMethod:@"GET"];
+                RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
+                
+                //向zh.moegirl.org请求内容
+                
+                NSMutableURLRequest * TheRequest2 = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:API,@"Mainpage"]] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
+                [TheRequest2 setHTTPMethod:@"POST"];
+                RequestConnectionForMainpage = [[NSURLConnection alloc]initWithRequest:TheRequest2 delegate:self];
+                
+                //======================
+                
+                isRefresh = 0;
+            } else {
+                //如果缓存中有首页的数据，这直接SendToInterface
+                [self SendToInterface:[defaultdata objectForKey:@"homepage"]];
+                //----------------------------------------
+            }
             
-            NSString *RequestURL = homepagelink;
             
-            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:RequestTimeOutSec];
-            [TheRequest setHTTPMethod:@"GET"];
-            RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
         } else {
             //开始加载词条
             NSLog(@"检索 %@",ItemName);
             
             [self ProgressGo:0.1];
             
+            NSURLRequestCachePolicy loadType = NSURLRequestReturnCacheDataElseLoad;
+            if (isRefresh == 1) {
+                loadType = NSURLRequestReloadIgnoringLocalCacheData;
+                isRefresh = 0;
+            }
+            
             NSString *RequestURL = [NSString stringWithFormat:API,[ItemName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             
-            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:RequestTimeOutSec];
+            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:loadType timeoutInterval:RequestTimeOutSec];
+            
             [TheRequest setHTTPMethod:@"GET"];
             RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
         }
@@ -475,25 +582,38 @@ NSURLConnection * RequestConnectionForRandom;
 
 - (void)SendToInterface:(NSString *)content
 {
-    [self ProgressGo:0.15];
     NSString *baselink;
     if (![_SearchBox.text isEqualToString:@"首页"]) {
+        
+        //如果这个页面是没有结果的页面，将地址栏修改成查询模式然后重新加载
+        
+        NSString * regexstr = @"此页目前没有内容，您可以在其它页";
+        NSRange range = [content rangeOfString:regexstr];
+        if (range.location != NSNotFound) {
+            NSLog(@"==无结果！==");
+            _SearchBox.text = [NSString stringWithFormat:@"Special:搜索/%@",_SearchBox.text];
+            [self MainMission];
+            return;
+        }
+        //return;
+        
+        
         NSLog(@"开始处理页面");
         content = [self PrepareContent:content];
         baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     } else {
-        baselink = [NSString stringWithFormat:@"https://masterchan.me/%@/",baseID];
+        baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/",baseID];
     }
     
     //取得页面阅读到的位置
     UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-    [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+    [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
     
     
     if (pointer_current< 10) {
         pointer_current ++;
-        [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%d",pointer_current]];
-        [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%d",pointer_current]];
+        [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
+        [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
         
         [_ForwardButton setEnabled:NO];
         if (pointer_current != 1) {
@@ -502,9 +622,9 @@ NSURLConnection * RequestConnectionForRandom;
     }else{
         NSInteger i;
         for (i=2; i<=10; i++) {
-            [_HistoryPool setObject:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
-            [_NamePool setObject:[_NamePool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
-            [_PositionPool setObject:[_PositionPool objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",(i-1)]];
+            [_HistoryPool setObject:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
+            [_NamePool setObject:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
+            [_PositionPool setObject:[_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
         }
         [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%d",10]];
         [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%d",10]];
@@ -590,14 +710,39 @@ NSURLConnection * RequestConnectionForRandom;
     
     
     [self ProgressGo:0.05];
+    //R18修正
+    regexstr = @"<script language=\"javascript\"[\\s\\S]*?<div id=x18[\\s\\S]*?</div>[\\s\\S]*?</script>[\\s\\S]*<span style=\"position:fixed;top: 0px;[\\s\\S]*width=\"227\" height=\"83\" /></a></span>[\\s\\S]*?</p>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    if (range.location != NSNotFound) {
+        //NSLog(@"%@",[content substringWithRange:range]);
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        NSLog(@"此词条为 R18 限制");
+        NSString *Title = @"R-18 限制";
+        UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
+        R18Warning.alertViewStyle=UIAlertViewStyleDefault;
+        [R18Warning show];
+    }
+    
+    //搜索结果修正
+    if ([_SearchBox.text hasPrefix:@"Special:搜索"]) {
+        regexstr = @"<form id=\"search\" [\\s\\S]*?</form>";
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        if (range.location != NSNotFound) {
+            content = [content stringByReplacingCharactersInRange:range withString:@""];
+        }
+    }
+    
+    
+    [self ProgressGo:0.05];
     //添加定制样式
     regexstr = @"</body>";
     range = [content rangeOfString:regexstr];
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@""];
-        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} </style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
+        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
         content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],style,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
     }
+    
     
 
     return content;
@@ -609,8 +754,14 @@ NSURLConnection * RequestConnectionForRandom;
     if (motion == UIEventSubtypeMotionShake)
     {
         NSLog(@"检测到摇晃！");
-        [self SendRandomRequest];
+        if ((arc4random()%10)>8) {//只有20％的概率会刷新概率池
+            [self SendRandomRequest];
+        }
         NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",(int)(arc4random()%10)]];
+        if (theTitle == nil) {
+            [self SendRandomRequest];
+            return;
+        }
         NSString *Title = [NSString stringWithFormat:@"你摇到了「 %@ 」",theTitle];
         UIAlertView *RanPage=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"查看" otherButtonTitles:@"取消",nil];
         RanPage.alertViewStyle=UIAlertViewStyleDefault;
@@ -630,15 +781,76 @@ NSURLConnection * RequestConnectionForRandom;
         therange = [content rangeOfString:@"\" />" options:NSLiteralSearch];
         thetext = [content substringToIndex:therange.location];
         content = [content substringFromIndex:therange.location+4];
-        [_RandomPool setObject:thetext forKey:[NSString stringWithFormat:@"%d",i]];
+        [_RandomPool setObject:thetext forKey:[NSString stringWithFormat:@"%ld",(long)i]];
     }
+    
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    [defaultdata setObject:[_RandomPool objectForKey:@"0"] forKey:@"ran0"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"1"] forKey:@"ran1"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"2"] forKey:@"ran2"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"3"] forKey:@"ran3"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"4"] forKey:@"ran4"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"5"] forKey:@"ran5"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"6"] forKey:@"ran6"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"7"] forKey:@"ran7"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"8"] forKey:@"ran8"];
+    [defaultdata setObject:[_RandomPool objectForKey:@"9"] forKey:@"ran9"];
+    [defaultdata synchronize];
 }
 
 - (void)SendRandomRequest{
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:APIrandom] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:RequestTimeOutSec];
     [TheRequest setHTTPMethod:@"POST"];
     RequestConnectionForRandom = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
-    
+}
+
+
+- (void)PrepareHomepage{
+    if (InstanceLock >= 2) {
+        NSString * TheStructure = [[NSString alloc] initWithData:_RecievePool encoding:NSUTF8StringEncoding];
+        NSString * TheContent = [[NSString alloc] initWithData:_RecievePool3 encoding:NSUTF8StringEncoding];
+       
+        NSString *regexstr = @"<div id=\"mainpage\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
+        NSRange range = [TheContent rangeOfString:regexstr options:NSRegularExpressionSearch];
+        if (range.location != NSNotFound) {
+            TheContent = [TheContent substringWithRange:range];
+            
+            //清除图标
+            regexstr =@"<div class=\"floatleft\">[\\s\\S]*?</div>";
+            range = [TheContent rangeOfString:regexstr options:NSRegularExpressionSearch];
+            if (range.location != NSNotFound) {
+                TheContent = [TheContent stringByReplacingCharactersInRange:range withString:@""];
+            }
+            
+            //清除最后一个栏目
+            
+            TheContent = [TheContent stringByReplacingOccurrencesOfString:@"<div class=\"mainpage-title\">萌娘网姊妹项目</div>" withString:@""];
+            
+            regexstr = @"<div class=\"mainpage-content nomobile\">[\\s\\S]*?</div>";
+            range = [TheContent rangeOfString:regexstr options:NSRegularExpressionSearch];
+            if (range.location != NSNotFound) {
+                TheContent = [TheContent stringByReplacingCharactersInRange:range withString:@""];
+            }
+            
+            //汇报到主页面
+            regexstr = @"<!--MainpageContent-->";
+            range = [TheStructure rangeOfString:regexstr];
+            if (range.location != NSNotFound) {
+                NSString* timestamp;
+                NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+                [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+                timestamp = [formatter stringFromDate:[NSDate date]];
+                TheContent = [TheContent stringByAppendingString:[NSString stringWithFormat:@"<p id='update'>更新时间 %@</p>",timestamp]];
+                TheStructure = [TheStructure stringByReplacingCharactersInRange:range withString:TheContent];
+            }
+        }
+        
+        
+        [self SendToInterface:TheStructure];
+        NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+        [defaultdata setObject:TheStructure forKey:@"homepage"];
+        [defaultdata synchronize];
+    }
 }
 
 @end
