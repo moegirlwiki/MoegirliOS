@@ -753,6 +753,10 @@ NSURLConnection * RequestConnectionForMainpage;
             [self SendRandomRequest];
         }
         NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",(int)(arc4random()%10)]];
+        if (theTitle == nil) {
+            [self SendRandomRequest];
+            return;
+        }
         NSString *Title = [NSString stringWithFormat:@"你摇到了「 %@ 」",theTitle];
         UIAlertView *RanPage=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"查看" otherButtonTitles:@"取消",nil];
         RanPage.alertViewStyle=UIAlertViewStyleDefault;
