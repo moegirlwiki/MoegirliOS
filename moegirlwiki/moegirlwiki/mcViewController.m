@@ -67,7 +67,7 @@ NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&
 //如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
 
 
-NSString * DefaultPage =@"<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"></head><body><div id=\"content\"><h3>请接入互联网</h3></div></body></html>";
+NSString * DefaultPage =@"<!DOCTYPE html><html lang='zh-CN'><head>	<!--%@-->	<meta charset='UTF-8'>	<meta name='viewport' content='width=device-width, initial-scale=1'></head><body>	<style type='text/css'>	ul{padding-left: 20px;} body{		font-size: 11px;	}	</style>	<div id='content'>		<h3>出现了点问题哎~~!</h3>		<p>错误信息: <strong>%@</strong></p>		<p>您可以做的事情有：</p>		<ul>			<li>提交此页面的错误报告，帮助我们改进程序</li>			<li>到网络环境更好的地方再试一试</li>			<li>使用黑科技保护您的手机与萌百服务器之间的连接</li>		</ul>	</div></body></html>";
 
 NSString * tempError = @"";
 NSURL * tempURL;
@@ -207,11 +207,16 @@ NSURLConnection * RequestConnectionForMainpage;
 
 //错误处理
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSString * errorinfo;
     if (connection==RequestConnection) {
         NSLog(@"[Request] 发生错误！");
-        [self SendToInterface:DefaultPage];
+        errorinfo = [NSString stringWithFormat:@"\n%@\n%@\n",
+                                [error localizedDescription],
+                                [[error userInfo] objectForKey:NSURLErrorFailingURLErrorKey]
+                                ];
+        [self SendToInterface:[NSString stringWithFormat:DefaultPage,errorinfo,[error localizedDescription]]];
     }
-    NSLog(@"%@",error);
+    //NSLog(@"%@",errorinfo);
     tempError = [error localizedDescription];
 }
 
@@ -539,7 +544,7 @@ NSURLConnection * RequestConnectionForMainpage;
                 //向zh.moegirl.org请求内容
                 
                 NSMutableURLRequest * TheRequest2 = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:API,@"Mainpage"]] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
-                [TheRequest2 setHTTPMethod:@"GET"];
+                [TheRequest2 setHTTPMethod:@"POST"];
                 RequestConnectionForMainpage = [[NSURLConnection alloc]initWithRequest:TheRequest2 delegate:self];
                 
                 //======================
@@ -734,7 +739,7 @@ NSURLConnection * RequestConnectionForMainpage;
     range = [content rangeOfString:regexstr];
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@""];
-        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
+        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
         content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],style,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
     }
     
@@ -831,6 +836,11 @@ NSURLConnection * RequestConnectionForMainpage;
             regexstr = @"<!--MainpageContent-->";
             range = [TheStructure rangeOfString:regexstr];
             if (range.location != NSNotFound) {
+                NSString* timestamp;
+                NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
+                [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+                timestamp = [formatter stringFromDate:[NSDate date]];
+                TheContent = [TheContent stringByAppendingString:[NSString stringWithFormat:@"<p id='update'>更新时间 %@</p>",timestamp]];
                 TheStructure = [TheStructure stringByReplacingCharactersInRange:range withString:TheContent];
             }
         }
