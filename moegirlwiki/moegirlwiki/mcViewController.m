@@ -708,13 +708,16 @@ NSURLConnection * RequestConnectionForMainpage;
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self ProgressGo:0.05];
+    //banner修正
+    content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:80%;" withString:@"<table class=\"common-box\" style=\""];
+    content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:350px;" withString:@"<table class=\"common-box\" style=\""];
     
     [self ProgressGo:0.05];
     //R18修正
     regexstr = @"<script language=\"javascript\"[\\s\\S]*?<div id=x18[\\s\\S]*?</div>[\\s\\S]*?</script>[\\s\\S]*<span style=\"position:fixed;top: 0px;[\\s\\S]*width=\"227\" height=\"83\" /></a></span>[\\s\\S]*?</p>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     if (range.location != NSNotFound) {
-        //NSLog(@"%@",[content substringWithRange:range]);
         content = [content stringByReplacingCharactersInRange:range withString:@""];
         NSLog(@"此词条为 R18 限制");
         NSString *Title = @"R-18 限制";
@@ -739,7 +742,7 @@ NSURLConnection * RequestConnectionForMainpage;
     range = [content rangeOfString:regexstr];
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@""];
-        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
+        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;} iframe{width:292px !important; height:auto;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
         content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],style,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
     }
     
