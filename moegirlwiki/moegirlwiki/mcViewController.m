@@ -63,7 +63,8 @@ NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.3.php";//�
 
 NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
 
-NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&rnlimit=10&format=xml&rnnamespace=0";//获取随机页面的API
+//NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&rnlimit=10&format=xml&rnnamespace=0";//获取随机页面的API
+NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random.php";//获取随机页面的API
 //如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
 
 
