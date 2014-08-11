@@ -51,11 +51,11 @@ NSURLConnection * ReportRequestConnection;
     // Do any additional setup after loading the view.
     issueList = [NSArray arrayWithObjects:
                  @"请选择...",
+                 @"词条违反有关规定",
                  @"页面无法完成加载",
                  @"页面排版错误",
                  @"词条不完善",
-                 @"词条描述有误，请求修正",
-                 @"词条违反有关规定",nil];
+                 @"词条描述有误，请求修正",nil];
     _thePicker.delegate = self;
     NSUserDefaults *DefaultData = [NSUserDefaults standardUserDefaults];
     if ([DefaultData objectForKey:@"email"] != nil) {

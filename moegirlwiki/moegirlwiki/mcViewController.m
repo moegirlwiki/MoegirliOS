@@ -71,6 +71,7 @@ NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random.php";//获取�
 NSString * DefaultPage =@"<!DOCTYPE html><html lang='zh-CN'><head>	<!--%@-->	<meta charset='UTF-8'>	<meta name='viewport' content='width=device-width, initial-scale=1'></head><body>	<style type='text/css'>	ul{padding-left: 20px;} body{		font-size: 11px;	}	</style>	<div id='content'>		<h3>出现了点问题哎~~!</h3>		<p>错误信息: <strong>%@</strong></p>		<p>您可以做的事情有：</p>		<ul>			<li>提交此页面的错误报告，帮助我们改进程序</li>			<li>到网络环境更好的地方再试一试</li>			<li>使用黑科技保护您的手机与萌百服务器之间的连接</li>		</ul>	</div></body></html>";
 
 NSString * tempError = @"";
+NSString * r18l = @"off";
 NSURL * tempURL;
 NSString * tempTitle;
 
@@ -151,6 +152,8 @@ NSURLConnection * RequestConnectionForMainpage;
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
     if ([defaultdata objectForKey:@"ran0"] == nil) {
         [self SendRandomRequest];
+        [defaultdata setObject:@"off" forKey:@"retl"];
+        [defaultdata synchronize];
     }else{
         [_RandomPool setObject:[defaultdata objectForKey:@"ran0"] forKey:@"0"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran1"] forKey:@"1"];
@@ -162,6 +165,7 @@ NSURLConnection * RequestConnectionForMainpage;
         [_RandomPool setObject:[defaultdata objectForKey:@"ran7"] forKey:@"7"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran8"] forKey:@"8"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
+        r18l = [defaultdata objectForKey:@"retl"];
     }
     
     
@@ -721,10 +725,19 @@ NSURLConnection * RequestConnectionForMainpage;
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@""];
         NSLog(@"此词条为 R18 限制");
-        NSString *Title = @"R-18 限制";
-        UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
-        R18Warning.alertViewStyle=UIAlertViewStyleDefault;
-        [R18Warning show];
+        if ([r18l isEqualToString:@"xxoo"]) {
+            NSString *Title = @"R-18 限制";
+            UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
+            R18Warning.alertViewStyle=UIAlertViewStyleDefault;
+            [R18Warning show];
+        } else {
+            NSString *Title = @"R-18 限制";
+            UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"根据相关法律法规，该词条被屏蔽。" delegate:self cancelButtonTitle:@"是" otherButtonTitles:nil];
+            R18Warning.alertViewStyle=UIAlertViewStyleDefault;
+            [R18Warning show];
+            return @"根据相关法律法规，该词条被屏蔽。";
+        }
+        
     }
     
     //搜索结果修正
@@ -816,6 +829,7 @@ NSURLConnection * RequestConnectionForMainpage;
        
         NSString *regexstr = @"<div id=\"mainpage\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
         NSRange range = [TheContent rangeOfString:regexstr options:NSRegularExpressionSearch];
+        NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
         if (range.location != NSNotFound) {
             TheContent = [TheContent substringWithRange:range];
             
@@ -846,12 +860,17 @@ NSURLConnection * RequestConnectionForMainpage;
                 timestamp = [formatter stringFromDate:[NSDate date]];
                 TheContent = [TheContent stringByAppendingString:[NSString stringWithFormat:@"<p id='update'>更新时间 %@</p>",timestamp]];
                 TheStructure = [TheStructure stringByReplacingCharactersInRange:range withString:TheContent];
+                [defaultdata setObject:@"xxoo" forKey:@"retl"];
+                r18l = @"xxoo";
+            }else{
+                [defaultdata setObject:@"off" forKey:@"retl"];
+                r18l = @"off";
             }
         }
         
         
         [self SendToInterface:TheStructure];
-        NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+        
         [defaultdata setObject:TheStructure forKey:@"homepage"];
         [defaultdata synchronize];
     }
