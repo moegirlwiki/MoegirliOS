@@ -574,6 +574,10 @@ NSURLConnection * RequestConnectionForMainpage;
     
     [self ProgressReset];
     
+    [RequestConnection cancel];
+    [RequestConnectionForMainpage cancel];
+    
+    
     if ([[ItemName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         //空白字符串不执行任务
         NSLog(@"空白字符串不进行工作");
