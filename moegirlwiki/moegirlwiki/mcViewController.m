@@ -31,6 +31,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *RandomButton;
 @property (weak, nonatomic) IBOutlet UIButton *BackToTopButton;
 @property (weak, nonatomic) IBOutlet UIButton *versionbutton;
+@property (weak, nonatomic) IBOutlet UILabel *GoBackLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ForwardLabel;
 
 
 - (IBAction)MenuButton:(id)sender;
@@ -43,6 +45,9 @@
 - (IBAction)GoRandom:(id)sender;
 - (IBAction)AboutApp:(id)sender;
 - (IBAction)GoRefresh:(id)sender;
+- (IBAction)SwipeBack:(id)sender;
+- (IBAction)SwipeForward:(id)sender;
+
 
 - (void)ProgressReset;
 - (void)ProgressGo:(float)step;
@@ -58,13 +63,13 @@
 
 @implementation mcViewController
 
-NSString * baseID = @"moegirl-app-1.3";//用于GoogleAnalytics等统计工具识别   (15个字符)
-NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.3.php";//主页所在的位置
+NSString * baseID = @"moegirl-app-1.4";//用于GoogleAnalytics等统计工具识别   (15个字符)
+NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.4.php";//主页所在的位置
 
 NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
 
 //NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&rnlimit=10&format=xml&rnnamespace=0";//获取随机页面的API
-NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random.php";//获取随机页面的API
+NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random1.4.php";//获取随机页面的API
 //如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
 
 
@@ -118,6 +123,7 @@ NSURLConnection * RequestConnectionForMainpage;
     _ReportButton.layer.cornerRadius = 3;
     _RefreshButton.layer.cornerRadius = 3;
     _RandomButton.layer.cornerRadius = 3;
+    _GoBackLabel.layer.cornerRadius = 3;
     _popoutView.layer.cornerRadius = 5;
     _aboutView.layer.cornerRadius = 5;
     _BackwardButton.layer.masksToBounds = YES;
@@ -126,6 +132,7 @@ NSURLConnection * RequestConnectionForMainpage;
     _ReportButton.layer.masksToBounds = YES;
     _RefreshButton.layer.masksToBounds = YES;
     _RandomButton.layer.masksToBounds = YES;
+    _GoBackLabel.layer.masksToBounds = YES;
     _popoutView.layer.masksToBounds = YES;
     _aboutView.layer.masksToBounds = YES;
     
@@ -237,6 +244,7 @@ NSURLConnection * RequestConnectionForMainpage;
         }
     }else if (connection==RequestConnectionForRandom) {
         NSLog(@"[Random] 数据接收完成！");
+        //NSLog(@"%@",[[NSString alloc] initWithData:_RecievePool2 encoding:NSUTF8StringEncoding]);
         [self PrepareRandomPopout:[[NSString alloc] initWithData:_RecievePool2 encoding:NSUTF8StringEncoding]];
         
     }else if (connection==RequestConnectionForMainpage) {
@@ -490,6 +498,36 @@ NSURLConnection * RequestConnectionForMainpage;
     
     [_popoutView setHidden:YES];
     [_HideMenuButton setHidden:YES];
+}
+
+//向右滑动－退后
+- (IBAction)SwipeBack:(id)sender {
+    NSLog(@"检测到向后滑动");
+    if (pointer_current > 1) {
+        NSLog(@"传递参数");
+        [_ForwardLabel setHidden:YES];
+        [_GoBackLabel setHidden:NO];
+        [self GoBackward:nil];
+        [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+    }
+}
+
+
+//向左滑动－向前
+- (IBAction)SwipeForward:(id)sender {
+    NSLog(@"检测到向前滑动");
+    if (pointer_current < pointer_max) {
+        NSLog(@"传递参数");
+        [_GoBackLabel setHidden:YES];
+        [_ForwardLabel setHidden:NO];
+        [self GoForward:nil];
+        [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+    }
+}
+
+- (void)resetLabel:(NSObject *)theobj {
+    [_GoBackLabel setHidden:YES];
+    [_ForwardLabel setHidden:YES];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -771,9 +809,9 @@ NSURLConnection * RequestConnectionForMainpage;
     if (motion == UIEventSubtypeMotionShake)
     {
         NSLog(@"检测到摇晃！");
-        if ((arc4random()%10)>8) {//只有20％的概率会刷新概率池
+        //if ((arc4random()%10)>8) {//只有20％的概率会刷新概率池
             [self SendRandomRequest];
-        }
+        //}
         NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",(int)(arc4random()%10)]];
         if (theTitle == nil) {
             [self SendRandomRequest];
