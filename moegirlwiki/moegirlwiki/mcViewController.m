@@ -174,8 +174,21 @@ NSURLConnection * RequestConnectionForMainpage;
         [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
         r18l = [defaultdata objectForKey:@"retl"];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
     
-    
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([defaultdata objectForKey:@"target"] != nil) {
+        NSString * TheTarget = [defaultdata objectForKey:@"target"];
+        if ([TheTarget hasPrefix:@"moegirl://?w="]) {
+            TheTarget = [TheTarget substringFromIndex:13];
+            [_SearchBox setText:[TheTarget stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            [self MainMission];
+        }
+        [defaultdata removeObjectForKey:@"target"];
+        [defaultdata synchronize];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -913,5 +926,6 @@ NSURLConnection * RequestConnectionForMainpage;
         [defaultdata synchronize];
     }
 }
+
 
 @end

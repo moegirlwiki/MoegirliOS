@@ -14,16 +14,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    /*
+    NSLog(@"Launch!");
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSLog(@"%@",url);
+    NSString *URLStr = [url absoluteString];
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([defaultdata objectForKey:@"ran0"] == nil) {
-        //提示信息
-        NSString *Title = @"欢迎使用 萌娘百科 v1.3";
-        UIAlertView *FirstTimeInfo=[[UIAlertView alloc] initWithTitle:Title message:@"新版特性:\n1.xxxxx\n2.ddddddd" delegate:nil cancelButtonTitle:@"关闭" otherButtonTitles:nil];
-        FirstTimeInfo.alertViewStyle=UIAlertViewStyleDefault;
-        [FirstTimeInfo show];
-    }
-     */
+    [defaultdata setObject:URLStr forKey:@"target"];
+    [defaultdata synchronize];
     return YES;
 }
 							
