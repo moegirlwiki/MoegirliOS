@@ -17,7 +17,12 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="4Hm-9f-wW7" appends="YES" id="hhM-e5-BBP"/>
+                                    <outletCollection property="gestureRecognizers" destination="tcq-BH-WOy" appends="YES" id="QBc-Pl-EMH"/>
+                                </connections>
                             </webView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" id="d5a-pe-SeX">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="2"/>
@@ -55,6 +60,7 @@
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Sxn-Dh-PgQ">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <gestureRecognizers/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -70,7 +76,7 @@
                                         <rect key="frame" x="20" y="20" width="76" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.85343070649999997" green="0.85343070649999997" blue="0.85343070649999997" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="向后">
+                                        <state key="normal" title="后退">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -103,7 +109,7 @@
                                         <rect key="frame" x="104" y="20" width="76" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.85343070649999997" green="0.85343070649999997" blue="0.85343070649999997" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="向前">
+                                        <state key="normal" title="前进">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -136,7 +142,7 @@
                                         <rect key="frame" x="116" y="185" width="64" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <state key="normal" title="Version 1.3">
+                                        <state key="normal" title="Version 1.4">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -162,7 +168,7 @@
                                         <rect key="frame" x="20" y="34" width="71" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <attributedString key="attributedText">
-                                            <fragment content="Version 1.3">
+                                            <fragment content="Version 1.4">
                                                 <attributes>
                                                     <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="11" name="HelveticaNeue"/>
@@ -177,13 +183,20 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <attributedString key="attributedText">
                                             <fragment>
-                                                <string key="content">2014-08-v1.3 
+                                                <string key="content">2014-08-v1.4 
 © masterchan.me 2014
 
-萌娘百科形象、图标及资料归萌娘百科所有。本程序及其内容严禁用于商业目的。</string>
+</string>
                                                 <attributes>
                                                     <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="11" name="HelveticaNeue"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="萌娘百科形象、图标及资料归萌娘百科所有。本程序及其内容严禁用于商业目的。">
+                                                <attributes>
+                                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="11" name="STHeitiSC-Light"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                 </attributes>
                                             </fragment>
@@ -193,6 +206,24 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.62" colorSpace="calibratedRGB"/>
                             </view>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="后退" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wGi-gc-ovG">
+                                <rect key="frame" x="121" y="120" width="79" height="28"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.85343070649999997" green="0.85343070649999997" blue="0.85343070649999997" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.85343070649999997" green="0.85343070649999997" blue="0.85343070649999997" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="前进" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8ki-ye-Uub">
+                                <rect key="frame" x="120" y="120" width="79" height="28"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.85343070649999997" green="0.85343070649999997" blue="0.85343070649999997" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.85343070649999997" green="0.85343070649999997" blue="0.85343070649999997" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -200,6 +231,8 @@
                         <outlet property="BackToTopButton" destination="FEX-6u-vyD" id="iah-LN-7PC"/>
                         <outlet property="BackwardButton" destination="Pja-k0-WdX" id="xI3-9u-HUB"/>
                         <outlet property="ForwardButton" destination="LHy-KY-yom" id="LZb-03-rfB"/>
+                        <outlet property="ForwardLabel" destination="8ki-ye-Uub" id="Qwu-Bv-lSV"/>
+                        <outlet property="GoBackLabel" destination="wGi-gc-ovG" id="6at-iI-A89"/>
                         <outlet property="HideMenuButton" destination="Sxn-Dh-PgQ" id="B4T-S7-Xro"/>
                         <outlet property="HomepageButton" destination="Juy-yo-UEj" id="F7g-XH-Yid"/>
                         <outlet property="MasterWebView" destination="GhU-Qf-OIB" id="Jle-Lv-SFF"/>
@@ -215,6 +248,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="4Hm-9f-wW7">
+                    <connections>
+                        <action selector="SwipeBack:" destination="vXZ-lx-hvc" id="PEZ-gh-V1i"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="tcq-BH-WOy">
+                    <connections>
+                        <action selector="SwipeForward:" destination="vXZ-lx-hvc" id="YV9-c7-yd3"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="343" y="318"/>
         </scene>
