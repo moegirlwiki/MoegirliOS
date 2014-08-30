@@ -33,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *versionbutton;
 @property (weak, nonatomic) IBOutlet UILabel *GoBackLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ForwardLabel;
+@property (weak, nonatomic) IBOutlet UIButton *SettingButton;
 
 
 - (IBAction)MenuButton:(id)sender;
@@ -47,6 +48,7 @@
 - (IBAction)GoRefresh:(id)sender;
 - (IBAction)SwipeBack:(id)sender;
 - (IBAction)SwipeForward:(id)sender;
+- (IBAction)SettingButton:(id)sender;
 
 
 - (void)ProgressReset;
@@ -63,13 +65,12 @@
 
 @implementation mcViewController
 
-NSString * baseID = @"moegirl-app-1.4";//用于GoogleAnalytics等统计工具识别   (15个字符)
-NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.4.php";//主页所在的位置
+NSString * baseID = @"moegirl-app-1.5";//用于GoogleAnalytics等统计工具识别   (15个字符)
+NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.5.php";//主页所在的位置
 
 NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
 
-//NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&rnlimit=10&format=xml&rnnamespace=0";//获取随机页面的API
-NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random1.4.php";//获取随机页面的API
+NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random1.5.php";//获取随机页面的API
 //如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
 
 
@@ -123,6 +124,7 @@ NSURLConnection * RequestConnectionForMainpage;
     _ReportButton.layer.cornerRadius = 3;
     _RefreshButton.layer.cornerRadius = 3;
     _RandomButton.layer.cornerRadius = 3;
+    _SettingButton.layer.cornerRadius = 3;
     _GoBackLabel.layer.cornerRadius = 3;
     _popoutView.layer.cornerRadius = 5;
     _aboutView.layer.cornerRadius = 5;
@@ -132,6 +134,7 @@ NSURLConnection * RequestConnectionForMainpage;
     _ReportButton.layer.masksToBounds = YES;
     _RefreshButton.layer.masksToBounds = YES;
     _RandomButton.layer.masksToBounds = YES;
+    _SettingButton.layer.masksToBounds = YES;
     _GoBackLabel.layer.masksToBounds = YES;
     _popoutView.layer.masksToBounds = YES;
     _aboutView.layer.masksToBounds = YES;
@@ -240,6 +243,19 @@ NSURLConnection * RequestConnectionForMainpage;
                                 [[error userInfo] objectForKey:NSURLErrorFailingURLErrorKey]
                                 ];
         [self SendToInterface:[NSString stringWithFormat:DefaultPage,errorinfo,[error localizedDescription]]];
+    }else if (connection==RequestConnectionForMainpage){
+        NSLog(@"[Mainpage] 发生错误！");
+        //NSLog(@"%@",error);
+        if ([error code]!=-1009) {
+            //如果萌百服务器处于某种原因不能够打开则弹出错误提示
+            NSString *Title = @"萌百服务器似乎无法连接?!?!";
+            UIAlertView *PageWarning=[[UIAlertView alloc] initWithTitle:Title message:@"服务器可能暂时下线了，请留意各媒体上更新姬发布的消息，为您带来的不便敬请谅解" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+            PageWarning.alertViewStyle=UIAlertViewStyleDefault;
+            [PageWarning show];
+        }
+        _RecievePool3 = nil;
+        InstanceLock ++;
+        [self PrepareHomepage];
     }
     //NSLog(@"%@",errorinfo);
     tempError = [error localizedDescription];
@@ -477,7 +493,9 @@ NSURLConnection * RequestConnectionForMainpage;
     [theview setValue:reportTitle forKeyPath:@"rtitle"];
     [theview setValue:reportContent forKeyPath:@"rcontent"];
     [theview setValue:reportErrorInfo forKeyPath:@"rerror"];
+    
     //将第一个 view的参数准备给下一个view
+
 }
 
 - (IBAction)SendReport:(id)sender {
@@ -538,6 +556,14 @@ NSURLConnection * RequestConnectionForMainpage;
     }
 }
 
+- (IBAction)SettingButton:(id)sender {
+    [_popoutView setHidden:YES];
+    [_HideMenuButton setHidden:YES];
+    
+    [self performSegueWithIdentifier:@"showSettings" sender:nil];
+    //将到mcSettingsController.m处理
+}
+
 - (void)resetLabel:(NSObject *)theobj {
     [_GoBackLabel setHidden:YES];
     [_ForwardLabel setHidden:YES];
@@ -582,7 +608,10 @@ NSURLConnection * RequestConnectionForMainpage;
         //空白字符串不执行任务
         NSLog(@"空白字符串不进行工作");
     } else {
-        
+        if ([ItemName isEqualToString:@"Mainpage"]) {
+            [_SearchBox setText:@"首页"];
+            ItemName = @"首页";
+        }
         
         if ([ItemName isEqualToString:@"首页"]) {
             //开始加载首页
@@ -758,7 +787,14 @@ NSURLConnection * RequestConnectionForMainpage;
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
-    
+    //Template:Vocaloid Songbox
+    [self ProgressGo:0.05];
+    regexstr = @"align=\"center\" width=\"450px\" style=\"border:0px; text-align:center; line-height:1.3em;\" class=\"infotemplate\"";
+    range = [content rangeOfString:regexstr];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"align=\"center\" style=\"border:0px; text-align:center; line-height:1.3em;width:100%;margin-left:-5px;\" class=\"infotemplate\""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
     
     [self ProgressGo:0.05];
     regexstr = @"<div id=\"siteNotice\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";

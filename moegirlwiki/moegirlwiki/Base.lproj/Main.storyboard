@@ -127,11 +127,22 @@
                                             <action selector="GoHomePage:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="EqH-in-sCo"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WcV-Un-RQJ">
-                                        <rect key="frame" x="20" y="142" width="160" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mPS-e9-cuK">
+                                        <rect key="frame" x="20" y="142" width="112" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.85343070649999997" green="0.85343070649999997" blue="0.85343070649999997" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="报告问题页面">
+                                        <state key="normal" title="设置">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="SettingButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="QoB-x7-8hx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WcV-Un-RQJ">
+                                        <rect key="frame" x="140" y="142" width="40" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.85343070649999997" green="0.85343070649999997" blue="0.85343070649999997" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="❗️">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -142,7 +153,7 @@
                                         <rect key="frame" x="116" y="185" width="64" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <state key="normal" title="Version 1.4">
+                                        <state key="normal" title="Version 1.5">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -168,7 +179,7 @@
                                         <rect key="frame" x="20" y="34" width="71" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <attributedString key="attributedText">
-                                            <fragment content="Version 1.4">
+                                            <fragment content="Version 1.5">
                                                 <attributes>
                                                     <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="11" name="HelveticaNeue"/>
@@ -183,7 +194,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <attributedString key="attributedText">
                                             <fragment>
-                                                <string key="content">2014-08-v1.4 
+                                                <string key="content">2014-09-v1.5
 © masterchan.me 2014
 
 </string>
@@ -240,11 +251,13 @@
                         <outlet property="RefreshButton" destination="rkF-4m-1eJ" id="hEg-EA-6s4"/>
                         <outlet property="ReportButton" destination="WcV-Un-RQJ" id="zgu-PH-2rY"/>
                         <outlet property="SearchBox" destination="zvs-T3-rDC" id="Xmv-Ab-zEe"/>
+                        <outlet property="SettingButton" destination="mPS-e9-cuK" id="1mT-IW-44R"/>
                         <outlet property="aboutView" destination="6qN-92-Td3" id="IMa-WC-7p5"/>
                         <outlet property="popoutView" destination="R1J-7T-stN" id="EAv-eW-tXy"/>
                         <outlet property="progressBar" destination="d5a-pe-SeX" id="des-9g-frI"/>
                         <outlet property="versionbutton" destination="ikf-gX-BgQ" id="Hkg-1a-e6v"/>
                         <segue destination="lb9-6j-ILR" kind="modal" identifier="sendReport" id="dxr-yM-6MA"/>
+                        <segue destination="Czv-q6-NT2" kind="modal" identifier="showSettings" id="fAB-pi-BWc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -259,7 +272,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="343" y="318"/>
+            <point key="canvasLocation" x="240" y="318"/>
         </scene>
         <!--Mc Report Controller-->
         <scene sceneID="cP3-yJ-POS">
@@ -356,6 +369,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XGy-Wj-zML" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="771" y="318"/>
+        </scene>
+        <!--Mc Settings Controller-->
+        <scene sceneID="dgX-v7-KF4">
+            <objects>
+                <viewController id="Czv-q6-NT2" customClass="mcSettingsController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Kot-zy-8Bp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" id="da4-1n-wfJ">
+                                <rect key="frame" x="0.0" y="19" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                <items>
+                                    <navigationItem title="设置" id="zLK-Oo-Mvq">
+                                        <barButtonItem key="leftBarButtonItem" title="返回" id="KCd-0a-Uxm">
+                                            <connections>
+                                                <action selector="GoBackButton:" destination="Czv-q6-NT2" id="vyv-EQ-rIR"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cmU-DO-k17" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="771" y="1009"/>
         </scene>
     </scenes>
     <resources>
