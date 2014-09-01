@@ -59,6 +59,7 @@
 - (void)PrepareRandomPopout:(NSString *)content;
 - (void)SendRandomRequest;
 - (void)PrepareHomepage;
+- (void)CallFromScheme;
 
 @end
 
@@ -177,21 +178,15 @@ NSURLConnection * RequestConnectionForMainpage;
         [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
         r18l = [defaultdata objectForKey:@"retl"];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(CallFromScheme)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([defaultdata objectForKey:@"target"] != nil) {
-        NSString * TheTarget = [defaultdata objectForKey:@"target"];
-        if ([TheTarget hasPrefix:@"moegirl://?w="]) {
-            TheTarget = [TheTarget substringFromIndex:13];
-            [_SearchBox setText:[TheTarget stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            [self MainMission];
-        }
-        [defaultdata removeObjectForKey:@"target"];
-        [defaultdata synchronize];
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -967,5 +962,19 @@ NSURLConnection * RequestConnectionForMainpage;
     }
 }
 
-
+- (void)CallFromScheme{
+    NSLog(@"检查是否由URL Scheme调用");
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([defaultdata objectForKey:@"target"] != nil) {
+        NSLog(@"是由URL Scheme调用");
+        NSString * TheTarget = [defaultdata objectForKey:@"target"];
+        if ([TheTarget hasPrefix:@"moegirl://?w="]) {
+            TheTarget = [TheTarget substringFromIndex:13];
+            [_SearchBox setText:[TheTarget stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            [self MainMission];
+        }
+        [defaultdata removeObjectForKey:@"target"];
+        [defaultdata synchronize];
+    }
+}
 @end
