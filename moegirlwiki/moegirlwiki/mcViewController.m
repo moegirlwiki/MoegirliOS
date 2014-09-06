@@ -786,7 +786,15 @@ NSURLConnection * RequestConnectionForMainpage;
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self ProgressGo:0.05];
+    regexstr = @"<div id=\"siteNotice\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
     
+    //无图模式
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
     if ([[defaultdata objectForKey:@"NoImgMode"]isEqualToString:@"ON"]) {
         NSLog(@"无图模式开启");
@@ -799,7 +807,6 @@ NSURLConnection * RequestConnectionForMainpage;
         }
     }
     
-    
     //Template:Vocaloid Songbox
     [self ProgressGo:0.05];
     regexstr = @"align=\"center\" width=\"450px\" style=\"border:0px; text-align:center; line-height:1.3em;\" class=\"infotemplate\"";
@@ -809,21 +816,16 @@ NSURLConnection * RequestConnectionForMainpage;
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
-    [self ProgressGo:0.05];
-    regexstr = @"<div id=\"siteNotice\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
     
-    [self ProgressGo:0.05];
     //banner修正
+    [self ProgressGo:0.05];
     content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:80%;" withString:@"<table class=\"common-box\" style=\""];
     content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:350px;" withString:@"<table class=\"common-box\" style=\""];
     
-    [self ProgressGo:0.05];
+    
+    
     //R18修正
+    [self ProgressGo:0.05];
     regexstr = @"<script language=\"javascript\"[\\s\\S]*?<div id=x18[\\s\\S]*?</div>[\\s\\S]*?</script>[\\s\\S]*<span style=\"position:fixed;top: 0px;[\\s\\S]*width=\"227\" height=\"83\" /></a></span>[\\s\\S]*?</p>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     if (range.location != NSNotFound) {
@@ -853,9 +855,23 @@ NSURLConnection * RequestConnectionForMainpage;
         }
     }
     
-    
+    //flashmp3 插件修正，针对音频
     [self ProgressGo:0.05];
+    regexstr = @"<script language=\"JavaScript\" src=\"/extensions/FlashMP3/audio-player\\.js\".*soundFile=";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"<audio src=\""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    regexstr = @"\"><param name=\"quality\" value=\"high\"><param name=\"menu\" value=\"false\"><param name=\"wmode\" value=\"transparent\"></object>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"\" controls=\"controls\"></audio>"];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
     //添加定制样式
+    [self ProgressGo:0.05];
     regexstr = @"</body>";
     range = [content rangeOfString:regexstr];
     if (range.location != NSNotFound) {
