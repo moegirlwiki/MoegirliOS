@@ -104,7 +104,14 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
-            SwitchItem.on = YES;
+            
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            if ([[defaultdata objectForKey:@"NoImgMode"]isEqualToString:@"ON"]) {
+                SwitchItem.on = YES;
+            } else {
+                SwitchItem.on = NO;
+            }
+            
             [SwitchItem addTarget:self action:@selector(NoImageMode_Switch:) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = SwitchItem;
             
@@ -114,8 +121,15 @@
             cell.textLabel.text = @"左右拉动翻页";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectOffset(CGRectZero, 50, 50)];
-            SwitchItem.on = YES;
+            UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
+            
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            if ([[defaultdata objectForKey:@"SwipeMode"]isEqualToString:@"ON"]) {
+                SwitchItem.on = YES;
+            } else {
+                SwitchItem.on = NO;
+            }
+            
             [SwitchItem addTarget:self action:@selector(SwipeSwitchMode_Switch:) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = SwitchItem;
             
@@ -154,20 +168,32 @@
 -(void)NoImageMode_Switch:(id)sender
 {
     UISwitch *switchView = (UISwitch *)sender;
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    
     if ([switchView isOn])  {
         NSLog(@"ON  -- 无图模式");
+        [defaultdata setObject:@"ON" forKey:@"NoImgMode"];
+        [defaultdata synchronize];
     } else {
         NSLog(@"OFF -- 无图模式");
+        [defaultdata setObject:@"OFF" forKey:@"NoImgMode"];
+        [defaultdata synchronize];
     }
 }
 
 -(void)SwipeSwitchMode_Switch:(id)sender
 {
     UISwitch *switchView = (UISwitch *)sender;
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    
     if ([switchView isOn])  {
         NSLog(@"ON  -- 左右滑动翻页");
+        [defaultdata setObject:@"ON" forKey:@"SwipeMode"];
+        [defaultdata synchronize];
     } else {
         NSLog(@"OFF -- 左右滑动翻页");
+        [defaultdata setObject:@"OFF" forKey:@"SwipeMode"];
+        [defaultdata synchronize];
     }
 }
 

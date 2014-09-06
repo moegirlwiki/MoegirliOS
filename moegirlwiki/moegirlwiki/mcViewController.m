@@ -161,11 +161,7 @@ NSURLConnection * RequestConnectionForMainpage;
     [self MainMission];
     
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([defaultdata objectForKey:@"ran0"] == nil) {
-        [self SendRandomRequest];
-        [defaultdata setObject:@"off" forKey:@"retl"];
-        [defaultdata synchronize];
-    }else{
+    if ([[defaultdata objectForKey:@"version"] isEqualToString:baseID]) {
         [_RandomPool setObject:[defaultdata objectForKey:@"ran0"] forKey:@"0"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran1"] forKey:@"1"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran2"] forKey:@"2"];
@@ -177,6 +173,12 @@ NSURLConnection * RequestConnectionForMainpage;
         [_RandomPool setObject:[defaultdata objectForKey:@"ran8"] forKey:@"8"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
         r18l = [defaultdata objectForKey:@"retl"];
+    }else{
+        [self SendRandomRequest];
+        [defaultdata setObject:@"off" forKey:@"retl"];
+        [defaultdata setObject:@"SwipeMode" forKey:@"ON"];
+        [defaultdata setObject:@"NoImgMode" forKey:@"OFF"];
+        [defaultdata synchronize];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -528,13 +530,16 @@ NSURLConnection * RequestConnectionForMainpage;
 
 //向右滑动－退后
 - (IBAction)SwipeBack:(id)sender {
-    NSLog(@"检测到向后滑动");
-    if (pointer_current > 1) {
-        NSLog(@"传递参数");
-        [_ForwardLabel setHidden:YES];
-        [_GoBackLabel setHidden:NO];
-        [self GoBackward:nil];
-        [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([[defaultdata objectForKey:@"SwipeMode"]isEqualToString:@"ON"]) {
+        NSLog(@"检测到向后滑动");
+        if (pointer_current > 1) {
+            NSLog(@"传递参数");
+            [_ForwardLabel setHidden:YES];
+            [_GoBackLabel setHidden:NO];
+            [self GoBackward:nil];
+            [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+        }
     }
 }
 
@@ -733,7 +738,6 @@ NSURLConnection * RequestConnectionForMainpage;
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
-    
     [self ProgressGo:0.05];
     regexstr = @"<div id=\"mw-page-base\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
@@ -781,6 +785,20 @@ NSURLConnection * RequestConnectionForMainpage;
         content = [content stringByReplacingCharactersInRange:range withString:@""];
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
+    
+    
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([[defaultdata objectForKey:@"NoImgMode"]isEqualToString:@"ON"]) {
+        NSLog(@"无图模式开启");
+        [self ProgressGo:0.05];
+        regexstr = @"<img .*?>";
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        while (range.location != NSNotFound) {
+            content = [content stringByReplacingCharactersInRange:range withString:@""];
+            range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        }
+    }
+    
     
     //Template:Vocaloid Songbox
     [self ProgressGo:0.05];
@@ -898,6 +916,10 @@ NSURLConnection * RequestConnectionForMainpage;
     [defaultdata setObject:[_RandomPool objectForKey:@"7"] forKey:@"ran7"];
     [defaultdata setObject:[_RandomPool objectForKey:@"8"] forKey:@"ran8"];
     [defaultdata setObject:[_RandomPool objectForKey:@"9"] forKey:@"ran9"];
+    //===================================================================
+    [defaultdata setObject:baseID forKey:@"version"];
+    NSLog(@"加入版本号");
+    //===================================================================
     [defaultdata synchronize];
 }
 
