@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface mcSettingsController : UIViewController
+@interface mcSettingsController : UIViewController<UITableViewDelegate, UITableViewDataSource>{}
 
 @property (strong, nonatomic) NSString *rtitle;
 @property (strong, nonatomic) NSString *rcontent;

@@ -54,4 +54,143 @@
 - (IBAction)GoBackButton:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+/* Table View 构建代码======================开始
+============================================================*/
+
+// tableView 每个不同Group的项目数量
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 3;
+    }else if (section == 1){
+        return 2;
+    }else{
+        return 1;
+    }
+}
+
+// tableView 中Group的数量
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 3;
+}
+
+// tableView Section Header的值
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return @"浏览设置";
+    }else if (section == 1){
+        return @"界面自定义";
+    }else{
+        return @"工具";
+    }
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *simpleTableIdentifier = @"SimpleTableCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    
+    
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"无图模式";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
+            SwitchItem.on = YES;
+            [SwitchItem addTarget:self action:@selector(NoImageMode_Switch:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = SwitchItem;
+            
+        }else if (indexPath.row == 1){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"左右拉动翻页";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectOffset(CGRectZero, 50, 50)];
+            SwitchItem.on = YES;
+            [SwitchItem addTarget:self action:@selector(SwipeSwitchMode_Switch:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = SwitchItem;
+            
+        }else{
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"更新页面排版数据";
+            cell.detailTextLabel.text = @"当前版本 2014-09-05";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }else if(indexPath.section == 1){
+        if (indexPath.row == 0) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"设置菜单图片";
+            cell.detailTextLabel.text = @"推荐使用75x75以上背景透明的图片";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"还原菜单图片";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }else{
+        if (indexPath.row == 0) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"检测服务器可用性";
+            cell.detailTextLabel.text = @"若遇不明错误，可以使用此诊断";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }
+    return cell;
+}
+
+-(void)NoImageMode_Switch:(id)sender
+{
+    UISwitch *switchView = (UISwitch *)sender;
+    if ([switchView isOn])  {
+        NSLog(@"ON  -- 无图模式");
+    } else {
+        NSLog(@"OFF -- 无图模式");
+    }
+}
+
+-(void)SwipeSwitchMode_Switch:(id)sender
+{
+    UISwitch *switchView = (UISwitch *)sender;
+    if ([switchView isOn])  {
+        NSLog(@"ON  -- 左右滑动翻页");
+    } else {
+        NSLog(@"OFF -- 左右滑动翻页");
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        NSLog(@"无图模式 点击");
+    }else if (indexPath.section == 0 && indexPath.row == 1) {
+        NSLog(@"左右拉动翻页 点击");
+    }else if (indexPath.section == 0 && indexPath.row == 2) {
+        NSLog(@"更新页面排版数据 点击");
+    }else if (indexPath.section == 1 && indexPath.row == 0) {
+        NSLog(@"设置菜单图片 点击");
+    }else if (indexPath.section == 1 && indexPath.row == 1) {
+        NSLog(@"还原菜单图片 点击");
+    }else if (indexPath.section == 2 && indexPath.row == 0) {
+        NSLog(@"检测服务器可用性 点击");
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+
+/* Table View 构建代码=========================结束
+ ============================================================*/
+
 @end
