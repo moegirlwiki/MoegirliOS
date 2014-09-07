@@ -66,7 +66,7 @@
     }else if (section == 1){
         return 2;
     }else{
-        return 1;
+        return 3;
     }
 }
 
@@ -84,7 +84,18 @@
     }else if (section == 1){
         return @"界面自定义";
     }else{
-        return @"工具";
+        return @"其它";
+    }
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return @"请在网络环境良好的地方更新页面排版数据。页面排版数据不会经常更新。\n\n";
+    }else if (section == 1){
+        return @"建议使用电脑将图片裁剪为200x200的图片，保存为带透明背景的PNG格式，然后保存到手机相册中。\n\n\n";
+    }else{
+        return @"\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
 }
 
@@ -159,6 +170,17 @@
             
             cell.textLabel.text = @"检测服务器可用性";
             cell.detailTextLabel.text = @"若遇不明错误，可以使用此诊断";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else if (indexPath.row == 1) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"给我评分";
+            cell.detailTextLabel.text = @"据说五星好评可以给程序猿们恢复SAN值";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else if (indexPath.row == 2) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"更新说明";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }

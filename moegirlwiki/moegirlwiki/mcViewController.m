@@ -546,13 +546,16 @@ NSURLConnection * RequestConnectionForMainpage;
 
 //向左滑动－向前
 - (IBAction)SwipeForward:(id)sender {
-    NSLog(@"检测到向前滑动");
-    if (pointer_current < pointer_max) {
-        NSLog(@"传递参数");
-        [_GoBackLabel setHidden:YES];
-        [_ForwardLabel setHidden:NO];
-        [self GoForward:nil];
-        [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([[defaultdata objectForKey:@"SwipeMode"]isEqualToString:@"ON"]) {
+        NSLog(@"检测到向前滑动");
+        if (pointer_current < pointer_max) {
+            NSLog(@"传递参数");
+            [_GoBackLabel setHidden:YES];
+            [_ForwardLabel setHidden:NO];
+            [self GoForward:nil];
+            [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+        }
     }
 }
 
