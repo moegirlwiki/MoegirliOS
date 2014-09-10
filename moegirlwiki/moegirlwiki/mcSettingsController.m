@@ -9,6 +9,10 @@
 #import "mcSettingsController.h"
 
 @interface mcSettingsController ()
+@property (strong,nonatomic) NSMutableData *RecieveContent;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *Loader;
+@property (weak, nonatomic) IBOutlet UILabel *LabelMsg;
+@property (weak, nonatomic) IBOutlet UITableView *MasterTableView;
 - (IBAction)GoBackButton:(id)sender;
 
 @end
@@ -19,6 +23,7 @@
 @synthesize rcontent;
 @synthesize rerror;
 
+NSURLConnection * RequestConnectionForCus;
 
 NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";//获取自定义样式的
 
@@ -267,6 +272,17 @@ NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";
         NSLog(@"和谐模式 点击");
     }else if (indexPath.section == 0 && indexPath.row == 3) {
         NSLog(@"更新页面排版数据 点击");
+        /*
+         1. 询问是否更新（确认、取消）
+         2. 界面封锁
+         3. 更新成功｜更新失败
+         
+         */
+        NSString *Title = @"更新排版数据";
+        UIAlertView *Msg=[[UIAlertView alloc] initWithTitle:Title message:@"请在网络环境良好的情况下执行更新" delegate:self cancelButtonTitle:@"更新" otherButtonTitles:@"取消",nil];
+        Msg.alertViewStyle=UIAlertViewStyleDefault;
+        [Msg show];
+        
     }else if (indexPath.section == 1 && indexPath.row == 0) {
         NSLog(@"设置菜单图片 点击");
     }else if (indexPath.section == 1 && indexPath.row == 1) {
@@ -286,4 +302,113 @@ NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";
 /* Table View 构建代码=========================结束
  ============================================================*/
 
+
+/* 接受服务器回传数据=========================开始
+ ============================================================*/
+
+//得到服务器的响应
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
+    if (connection==RequestConnectionForCus) {
+        _RecieveContent = [NSMutableData data];
+        NSLog(@"[Request] 得到服务器的响应");
+    }
+}
+
+//开始接收数据
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    if (connection==RequestConnectionForCus) {
+        [_RecieveContent appendData:data];
+        NSLog(@"[Request] 接收到了服务器传回的数据");
+    }
+}
+
+//错误处理
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSString * errorinfo;
+    if (connection==RequestConnectionForCus) {
+        NSLog(@"[Request] 发生错误！");
+        errorinfo = [NSString stringWithFormat:@"错误信息：%@",[error localizedDescription]];
+        NSString *Title = @"更新失败";
+        UIAlertView *Msg=[[UIAlertView alloc] initWithTitle:Title message:errorinfo delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        Msg.alertViewStyle=UIAlertViewStyleDefault;
+        [Msg show];
+        [_Loader setHidden:YES];
+        [_LabelMsg setHidden:YES];
+        [_MasterTableView setHidden:NO];
+    }
+}
+
+//结束接收数据
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection{
+    if (connection==RequestConnectionForCus) {
+        [self HandleData];
+    }
+}
+
+
+
+/* 接受服务器回传数据=========================结束
+ ============================================================*/
+-(void)HandleData
+{
+    NSString * TheContent = [[NSString alloc] initWithData:_RecieveContent encoding:NSUTF8StringEncoding];
+    
+    NSString * regexstr1 = @"<!--beginconfirm-->";
+    NSString * regexstr2 = @"<!--finishconfirm -->";
+    NSString * regexstr3 = @"<!--version";
+    NSString * regexstr4 = @"end-->";
+    NSRange range1 = [TheContent rangeOfString:regexstr1];
+    NSRange range2 = [TheContent rangeOfString:regexstr2];
+    NSRange range3 = [TheContent rangeOfString:regexstr3];
+    NSRange range4 = [TheContent rangeOfString:regexstr4];
+    if (
+        (range1.location != NSNotFound)&&
+        (range2.location != NSNotFound)&&
+        (range3.location != NSNotFound)&&
+        (range4.location != NSNotFound)&&
+        ((range1.location + range1.length) < range2.location)&&
+        ((range3.location + range3.length) < range4.location)
+        ) {//超级简单的数据校验
+        
+        NSLog(@"校验通过");
+        NSString * TheDateStr = [TheContent substringWithRange:NSMakeRange(range3.location + range3.length, range4.location - range3.location - range3.length)];
+        NSString * TheCustomizeStr = [TheContent substringWithRange:NSMakeRange(range1.location + range1.length, range2.location - range1.location - range1.length)];
+        
+        NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+        [defaultdata setObject:TheDateStr forKey:@"CustomizeDate"];
+        [defaultdata setObject:TheCustomizeStr forKey:@"CustomizeHTMLContent"];
+        [defaultdata synchronize];
+        
+        NSLog(@"更新数据完成");
+        
+        NSString *Title = @"更新成功！";
+        UIAlertView *Msg=[[UIAlertView alloc] initWithTitle:Title message:@"排版数据已经成功更新！" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        Msg.alertViewStyle=UIAlertViewStyleDefault;
+        [Msg show];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        NSString *Title = @"更新失败";
+        UIAlertView *Msg=[[UIAlertView alloc] initWithTitle:Title message:@"数据校验失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        Msg.alertViewStyle=UIAlertViewStyleDefault;
+        [Msg show];
+        [_Loader setHidden:YES];
+        [_LabelMsg setHidden:YES];
+        [_MasterTableView setHidden:NO];
+    }
+}
+
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSString * tmpstring=[alertView buttonTitleAtIndex:buttonIndex];
+    if ([tmpstring isEqualToString:@"更新"]) {//你是否更新？
+        [_Loader setHidden:NO];
+        [_LabelMsg setHidden:NO];
+        [_MasterTableView setHidden:YES];
+        NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:APICustomize] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
+        [TheRequest setHTTPMethod:@"GET"];
+        RequestConnectionForCus = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
+    }
+}
 @end

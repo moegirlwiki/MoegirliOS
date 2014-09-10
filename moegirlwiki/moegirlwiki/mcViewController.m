@@ -170,10 +170,8 @@ NSURLConnection * RequestConnectionForMainpage;
         [_RandomPool setObject:[defaultdata objectForKey:@"ran8"] forKey:@"8"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
         r18l = [defaultdata objectForKey:@"retl"];
-        CustomizeHTMLContent = [defaultdata objectForKey:@"CustomizeHTMLContent"];
-        CustomizeDate = [defaultdata objectForKey:@"CustomizeDate"];
     }else{
-        NSLog(@"init UserDefaultData");
+        NSLog(@"init UserDefaultData Begin");
         [self SendRandomRequest];
         [defaultdata setObject:@"OFF" forKey:@"retl"];
         [defaultdata setObject:@"ON" forKey:@"SwipeMode"];
@@ -183,6 +181,7 @@ NSURLConnection * RequestConnectionForMainpage;
         [defaultdata setObject:CustomizeHTMLContent forKey:@"CustomizeHTMLContent"];
         [defaultdata setObject:CustomizeDate forKey:@"CustomizeDate"];
         [defaultdata synchronize];
+        NSLog(@"init UserDefaultData End");
     }
     
     //初始化页面
@@ -196,6 +195,11 @@ NSURLConnection * RequestConnectionForMainpage;
 
 - (void)viewDidAppear:(BOOL)animated{
     NSLog(@"viewDidAppear");
+    NSLog(@"Refresh Customize Data Begin");
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    CustomizeHTMLContent = [defaultdata objectForKey:@"CustomizeHTMLContent"];
+    CustomizeDate = [defaultdata objectForKey:@"CustomizeDate"];
+    NSLog(@"Refresh Customize Data Finished");
 }
 
 
