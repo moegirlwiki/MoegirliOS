@@ -19,6 +19,9 @@
 @synthesize rcontent;
 @synthesize rerror;
 
+
+NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";//获取自定义样式的
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -165,9 +168,10 @@
             
         }else{
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
             
             cell.textLabel.text = @"更新页面排版数据";
-            cell.detailTextLabel.text = @"当前版本 2014-09-05";
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"当前版本 %@",[defaultdata objectForKey:@"CustomizeDate"]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }else if(indexPath.section == 1){

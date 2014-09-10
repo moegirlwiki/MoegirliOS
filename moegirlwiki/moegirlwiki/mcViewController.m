@@ -68,14 +68,14 @@
 
 NSString * baseID = @"moegirl-app-1.5";//用于GoogleAnalytics等统计工具识别   (15个字符)
 NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.5.php";//主页所在的位置
-
 NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
-
 NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random1.5.php";//获取随机页面的API
-//如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
 
 
 NSString * DefaultPage =@"<!DOCTYPE html><html lang='zh-CN'><head>	<!--%@-->	<meta charset='UTF-8'>	<meta name='viewport' content='width=device-width, initial-scale=1'></head><body>	<style type='text/css'>	ul{padding-left: 20px;} body{		font-size: 11px;	}	</style>	<div id='content'>		<h3>出现了点问题哎~~!</h3>		<p>错误信息: <strong>%@</strong></p>		<p>您可以做的事情有：</p>		<ul>			<li>提交此页面的错误报告，帮助我们改进程序</li>			<li>到网络环境更好的地方再试一试</li>			<li>使用黑科技保护您的手机与萌百服务器之间的连接</li>		</ul>	</div></body></html>";
+
+NSString * CustomizeHTMLContent = @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;} iframe{width:292px !important; height:auto;} #mw-pages .mw-content-ltr td, #mw-subcategories .mw-content-ltr td{float: left;display: block;clear: both;width: 90% !important;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
+NSString * CustomizeDate = @"2014-09-01";
 
 NSString * tempError = @"";
 NSString * r18l = @"OFF";
@@ -157,9 +157,6 @@ NSURLConnection * RequestConnectionForMainpage;
     pointer_current = 0;
     pointer_max = 0;
     
-    //初始化页面
-    [self MainMission];
-    
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
     if ([[defaultdata objectForKey:@"version"] isEqualToString:baseID]) {
         [_RandomPool setObject:[defaultdata objectForKey:@"ran0"] forKey:@"0"];
@@ -173,6 +170,8 @@ NSURLConnection * RequestConnectionForMainpage;
         [_RandomPool setObject:[defaultdata objectForKey:@"ran8"] forKey:@"8"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
         r18l = [defaultdata objectForKey:@"retl"];
+        CustomizeHTMLContent = [defaultdata objectForKey:@"CustomizeHTMLContent"];
+        CustomizeDate = [defaultdata objectForKey:@"CustomizeDate"];
     }else{
         NSLog(@"init UserDefaultData");
         [self SendRandomRequest];
@@ -180,8 +179,14 @@ NSURLConnection * RequestConnectionForMainpage;
         [defaultdata setObject:@"ON" forKey:@"SwipeMode"];
         [defaultdata setObject:@"OFF" forKey:@"NoImgMode"];
         [defaultdata setObject:@"ON" forKey:@"HeXieMode"];
+        [defaultdata removeObjectForKey:@"homepage"];
+        [defaultdata setObject:CustomizeHTMLContent forKey:@"CustomizeHTMLContent"];
+        [defaultdata setObject:CustomizeDate forKey:@"CustomizeDate"];
         [defaultdata synchronize];
     }
+    
+    //初始化页面
+    [self MainMission];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(CallFromScheme)
@@ -190,8 +195,9 @@ NSURLConnection * RequestConnectionForMainpage;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    
+    NSLog(@"viewDidAppear");
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -837,10 +843,15 @@ NSURLConnection * RequestConnectionForMainpage;
         content = [content stringByReplacingCharactersInRange:range withString:@""];
         NSLog(@"此词条为 R18 限制");
         if ([r18l isEqualToString:@"xxoo"]) {
-            NSString *Title = @"R-18 限制";
-            UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
-            R18Warning.alertViewStyle=UIAlertViewStyleDefault;
-            [R18Warning show];
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            if ([[defaultdata objectForKey:@"HeXieMode"] isEqualToString:@"OFF"]) {
+                //和谐模式关闭，其实和谐模式就是一个没有用的冗余功能。
+            }else{
+                NSString *Title = @"R-18 限制";
+                UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
+                R18Warning.alertViewStyle=UIAlertViewStyleDefault;
+                [R18Warning show];
+            }
         } else {
             NSString *Title = @"R-18 限制";
             UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"根据相关法律法规，该词条被屏蔽。" delegate:self cancelButtonTitle:@"是" otherButtonTitles:nil];
@@ -881,8 +892,7 @@ NSURLConnection * RequestConnectionForMainpage;
     range = [content rangeOfString:regexstr];
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@""];
-        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;} iframe{width:292px !important; height:auto;} #mw-pages .mw-content-ltr td, #mw-subcategories .mw-content-ltr td{float: left;display: block;clear: both;width: 90% !important;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
-        content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],style,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
+        content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],CustomizeHTMLContent,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
     }
     
     
