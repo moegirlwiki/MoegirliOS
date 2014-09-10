@@ -245,11 +245,11 @@
     
     if ([switchView isOn])  {
         NSLog(@"ON  -- 和谐模式");
-        [defaultdata setObject:@"ON" forKey:@"SwipeMode"];
+        [defaultdata setObject:@"ON" forKey:@"HeXieMode"];
         [defaultdata synchronize];
     } else {
         NSLog(@"OFF -- 和谐模式");
-        [defaultdata setObject:@"OFF" forKey:@"SwipeMode"];
+        [defaultdata setObject:@"OFF" forKey:@"HeXieMode"];
         [defaultdata synchronize];
     }
 }
@@ -260,6 +260,8 @@
     }else if (indexPath.section == 0 && indexPath.row == 1) {
         NSLog(@"左右拉动翻页 点击");
     }else if (indexPath.section == 0 && indexPath.row == 2) {
+        NSLog(@"和谐模式 点击");
+    }else if (indexPath.section == 0 && indexPath.row == 3) {
         NSLog(@"更新页面排版数据 点击");
     }else if (indexPath.section == 1 && indexPath.row == 0) {
         NSLog(@"设置菜单图片 点击");
@@ -267,6 +269,10 @@
         NSLog(@"还原菜单图片 点击");
     }else if (indexPath.section == 2 && indexPath.row == 0) {
         NSLog(@"检测服务器可用性 点击");
+    }else if (indexPath.section == 2 && indexPath.row == 1) {
+        NSLog(@"给我评分 点击");
+    }else if (indexPath.section == 2 && indexPath.row == 2) {
+        NSLog(@"更新说明 点击");
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

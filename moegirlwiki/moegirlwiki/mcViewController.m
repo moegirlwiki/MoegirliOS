@@ -78,7 +78,7 @@ NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random1.5.php";//获�
 NSString * DefaultPage =@"<!DOCTYPE html><html lang='zh-CN'><head>	<!--%@-->	<meta charset='UTF-8'>	<meta name='viewport' content='width=device-width, initial-scale=1'></head><body>	<style type='text/css'>	ul{padding-left: 20px;} body{		font-size: 11px;	}	</style>	<div id='content'>		<h3>出现了点问题哎~~!</h3>		<p>错误信息: <strong>%@</strong></p>		<p>您可以做的事情有：</p>		<ul>			<li>提交此页面的错误报告，帮助我们改进程序</li>			<li>到网络环境更好的地方再试一试</li>			<li>使用黑科技保护您的手机与萌百服务器之间的连接</li>		</ul>	</div></body></html>";
 
 NSString * tempError = @"";
-NSString * r18l = @"off";
+NSString * r18l = @"OFF";
 NSURL * tempURL;
 NSString * tempTitle;
 
@@ -174,10 +174,12 @@ NSURLConnection * RequestConnectionForMainpage;
         [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
         r18l = [defaultdata objectForKey:@"retl"];
     }else{
+        NSLog(@"init UserDefaultData");
         [self SendRandomRequest];
-        [defaultdata setObject:@"off" forKey:@"retl"];
-        [defaultdata setObject:@"SwipeMode" forKey:@"ON"];
-        [defaultdata setObject:@"NoImgMode" forKey:@"OFF"];
+        [defaultdata setObject:@"OFF" forKey:@"retl"];
+        [defaultdata setObject:@"ON" forKey:@"SwipeMode"];
+        [defaultdata setObject:@"OFF" forKey:@"NoImgMode"];
+        [defaultdata setObject:@"ON" forKey:@"HeXieMode"];
         [defaultdata synchronize];
     }
     
@@ -990,8 +992,8 @@ NSURLConnection * RequestConnectionForMainpage;
                 [defaultdata setObject:@"xxoo" forKey:@"retl"];
                 r18l = @"xxoo";
             }else{
-                [defaultdata setObject:@"off" forKey:@"retl"];
-                r18l = @"off";
+                [defaultdata setObject:@"OFF" forKey:@"retl"];
+                r18l = @"OFF";
             }
         }
         
