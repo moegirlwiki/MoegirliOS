@@ -62,7 +62,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 3;
+        return 4;
     }else if (section == 1){
         return 2;
     }else{
@@ -91,9 +91,9 @@
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        return @"请在网络环境良好的地方更新页面排版数据。页面排版数据不会经常更新。\n\n";
+        return @"请在网络环境良好的地方更新页面排版数据。该功能为实验性功能，页面排版数据无需经常更新。\n\n\n";
     }else if (section == 1){
-        return @"建议使用电脑将图片裁剪为200x200的图片，保存为带透明背景的PNG格式，然后保存到手机相册中。\n\n\n";
+        return @"建议使用电脑将图片裁剪为200x200，并保存为带透明背景的PNG格式，然后保存到手机相册中，再选取该图片作为菜单图标。\n\n\n";
     }else{
         return @"\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
@@ -144,6 +144,25 @@
             [SwitchItem addTarget:self action:@selector(SwipeSwitchMode_Switch:) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = SwitchItem;
             
+        }else if (indexPath.row == 2){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"和谐模式";
+            cell.detailTextLabel.text = @"看不到？一定是打开的方式不对！";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
+            
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            if ([[defaultdata objectForKey:@"HeXieMode"]isEqualToString:@"ON"]) {
+                SwitchItem.on = YES;
+            } else {
+                SwitchItem.on = NO;
+            }
+            
+            [SwitchItem addTarget:self action:@selector(HeXieMode_Switch:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = SwitchItem;
+            
         }else{
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
             
@@ -155,13 +174,13 @@
         if (indexPath.row == 0) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
             
-            cell.textLabel.text = @"设置菜单图片";
+            cell.textLabel.text = @"自定义菜单图标";
             cell.detailTextLabel.text = @"推荐使用75x75以上背景透明的图片";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
             
-            cell.textLabel.text = @"还原菜单图片";
+            cell.textLabel.text = @"还原菜单图标";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }else{
@@ -214,6 +233,22 @@
         [defaultdata synchronize];
     } else {
         NSLog(@"OFF -- 左右滑动翻页");
+        [defaultdata setObject:@"OFF" forKey:@"SwipeMode"];
+        [defaultdata synchronize];
+    }
+}
+
+-(void)HeXieMode_Switch:(id)sender
+{
+    UISwitch *switchView = (UISwitch *)sender;
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    
+    if ([switchView isOn])  {
+        NSLog(@"ON  -- 和谐模式");
+        [defaultdata setObject:@"ON" forKey:@"SwipeMode"];
+        [defaultdata synchronize];
+    } else {
+        NSLog(@"OFF -- 和谐模式");
         [defaultdata setObject:@"OFF" forKey:@"SwipeMode"];
         [defaultdata synchronize];
     }
