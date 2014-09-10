@@ -25,7 +25,13 @@
 
 NSURLConnection * RequestConnectionForCus;
 
+
 NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";//获取自定义样式的
+NSString * AppStoreURL = @"itms-apps://itunes.apple.com/app/id892053828";
+NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机中的，如果需要查看最新内容，请点击菜单中的刷新按钮；\n\n\
+▪️通过 报告问题页面 提交任何使用过程中遇到的困难或错误，可以帮助我们改进此程序；\n\n\
+▪️被涂黑的内容 点击即可查看；\n\n\
+▪️这个程序目前基本上只是一个经过优化的浏览器壳子，目的是为大家提供iOS上最佳的访问萌百的体验，其它功能请自行探索😬\n\n";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -74,7 +80,7 @@ NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";
     }else if (section == 1){
         return 2;
     }else{
-        return 3;
+        return 2;
     }
 }
 
@@ -103,7 +109,7 @@ NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";
     }else if (section == 1){
         return @"建议使用电脑将图片裁剪为200x200，并保存为带透明背景的PNG格式，然后保存到手机相册中，再选取该图片作为菜单图标。\n\n\n";
     }else{
-        return @"\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
+        return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
 }
 
@@ -187,28 +193,23 @@ NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";
             cell.detailTextLabel.text = @"推荐使用75x75以上背景透明的图片";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
             
             cell.textLabel.text = @"还原菜单图标";
+            cell.detailTextLabel.text = @"更新姬大法好，萌娘保平安";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }else{
         if (indexPath.row == 0) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
             
-            cell.textLabel.text = @"检测服务器可用性";
-            cell.detailTextLabel.text = @"若遇不明错误，可以使用此诊断";
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }else if (indexPath.row == 1) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
-            
             cell.textLabel.text = @"给我评分";
             cell.detailTextLabel.text = @"据说五星好评可以给程序猿们恢复SAN值";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }else if (indexPath.row == 2) {
+        }else if (indexPath.row == 1) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
             
-            cell.textLabel.text = @"更新说明";
+            cell.textLabel.text = @"功能说明";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
@@ -285,14 +286,18 @@ NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";
         
     }else if (indexPath.section == 1 && indexPath.row == 0) {
         NSLog(@"设置菜单图片 点击");
+        [self PickUpImg];
     }else if (indexPath.section == 1 && indexPath.row == 1) {
         NSLog(@"还原菜单图片 点击");
     }else if (indexPath.section == 2 && indexPath.row == 0) {
-        NSLog(@"检测服务器可用性 点击");
-    }else if (indexPath.section == 2 && indexPath.row == 1) {
         NSLog(@"给我评分 点击");
-    }else if (indexPath.section == 2 && indexPath.row == 2) {
-        NSLog(@"更新说明 点击");
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:AppStoreURL]];
+    }else if (indexPath.section == 2 && indexPath.row == 1) {
+        NSLog(@"功能说明 点击");
+        NSString *Title = @"功能说明";
+        UIAlertView *Msg=[[UIAlertView alloc] initWithTitle:Title message:UpdateInfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        Msg.alertViewStyle=UIAlertViewStyleDefault;
+        [Msg show];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -349,6 +354,25 @@ NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";
 
 /* 接受服务器回传数据=========================结束
  ============================================================*/
+
+-(void)PickUpImg
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = NO;
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypePhotoLibrary]){
+        picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    NSLog(@"选择了图片");
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    
+}
+
 -(void)HandleData
 {
     NSString * TheContent = [[NSString alloc] initWithData:_RecieveContent encoding:NSUTF8StringEncoding];

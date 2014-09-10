@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface mcSettingsController : UIViewController<UITableViewDelegate, UITableViewDataSource>{}
+@interface mcSettingsController : UIViewController<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{}
 
 @property (strong, nonatomic) NSString *rtitle;
 @property (strong, nonatomic) NSString *rcontent;
 @property (strong, nonatomic) NSString *rerror;
+
 
 @end
