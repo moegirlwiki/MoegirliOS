@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *GoBackLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ForwardLabel;
 @property (weak, nonatomic) IBOutlet UIButton *SettingButton;
+@property (weak, nonatomic) IBOutlet UIButton *MenuButton;
 
 
 - (IBAction)MenuButton:(id)sender;
@@ -149,6 +150,8 @@ NSURLConnection * RequestConnectionForMainpage;
         
     }
     
+    [self CheckImg];
+    
     //初始化历史记录
     _NamePool = [[NSMutableDictionary alloc] init];
     _HistoryPool = [[NSMutableDictionary alloc] init];
@@ -196,6 +199,7 @@ NSURLConnection * RequestConnectionForMainpage;
 - (void)viewDidAppear:(BOOL)animated{
     NSLog(@"viewDidAppear");
     NSLog(@"Refresh Customize Data Begin");
+    [self CheckImg];
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
     CustomizeHTMLContent = [defaultdata objectForKey:@"CustomizeHTMLContent"];
     CustomizeDate = [defaultdata objectForKey:@"CustomizeDate"];
@@ -1034,4 +1038,42 @@ NSURLConnection * RequestConnectionForMainpage;
         [defaultdata synchronize];
     }
 }
+
+
+
+/* Img处理=========================开始
+ ============================================================*/
+//根据图片名将图片保存到ImageFile文件夹中
+-(NSString *)imageSavedPath:(NSString *) imageName
+{
+    //获取Documents文件夹目录
+    NSArray *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [path objectAtIndex:0];
+    //获取文件管理器
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //指定新建文件夹路径
+    NSString *imageDocPath = [documentPath stringByAppendingPathComponent:@"img"];
+    //创建ImageFile文件夹
+    [fileManager createDirectoryAtPath:imageDocPath withIntermediateDirectories:YES attributes:nil error:nil];
+    //返回保存图片的路径（图片保存在ImageFile文件夹下）
+    NSString * imagePath = [imageDocPath stringByAppendingPathComponent:imageName];
+    return imagePath;
+}
+/* Img处理=========================结束
+ ============================================================*/
+
+-(void)CheckImg{
+    NSString *imagePath = [self imageSavedPath:@"menu.png"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //判断文件是否存在
+    if ([fileManager fileExistsAtPath:imagePath]) {
+        UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+        [_MenuButton setBackgroundImage:image forState:UIControlStateNormal];
+        NSLog(@"菜单图标存在");
+    }else{
+        [_MenuButton setBackgroundImage:[UIImage imageNamed:@"MenuImage"] forState:UIControlStateNormal];
+        NSLog(@"菜单图标不存在");
+    }
+}
+
 @end

@@ -289,6 +289,8 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
         [self PickUpImg];
     }else if (indexPath.section == 1 && indexPath.row == 1) {
         NSLog(@"还原菜单图片 点击");
+        [self RemoveImg];
+        
     }else if (indexPath.section == 2 && indexPath.row == 0) {
         NSLog(@"给我评分 点击");
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:AppStoreURL]];
@@ -355,6 +357,56 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
 /* 接受服务器回传数据=========================结束
  ============================================================*/
 
+
+/* Img处理=========================开始
+ ============================================================*/
+//将选取的图片保存到目录文件夹下
+-(BOOL)saveToDocument:(UIImage *) image withFilePath:(NSString *) filePath
+{
+    if ((image == nil) || (filePath == nil) || [filePath isEqualToString:@""]) {
+        return NO;
+    }
+    @try {
+        NSData *imageData = nil;
+        //获取文件扩展名
+        NSString *extention = [filePath pathExtension];
+        if ([extention isEqualToString:@"png"]) {
+            //返回PNG格式的图片数据
+            imageData = UIImagePNGRepresentation(image);
+        }
+        if (imageData == nil || [imageData length] <= 0) {
+            return NO;
+        }
+        //将图片写入指定路径
+        [imageData writeToFile:filePath atomically:YES];
+        return  YES;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"保存图片失败");
+    }
+    return NO;
+}
+
+//根据图片名将图片保存到ImageFile文件夹中
+-(NSString *)imageSavedPath:(NSString *) imageName
+{
+    //获取Documents文件夹目录
+    NSArray *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [path objectAtIndex:0];
+    //获取文件管理器
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //指定新建文件夹路径
+    NSString *imageDocPath = [documentPath stringByAppendingPathComponent:@"img"];
+    //创建ImageFile文件夹
+    [fileManager createDirectoryAtPath:imageDocPath withIntermediateDirectories:YES attributes:nil error:nil];
+    //返回保存图片的路径（图片保存在ImageFile文件夹下）
+    NSString * imagePath = [imageDocPath stringByAppendingPathComponent:imageName];
+    return imagePath;
+}
+/* Img处理=========================结束
+ ============================================================*/
+
+
 -(void)PickUpImg
 {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -369,8 +421,22 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     NSLog(@"选择了图片");
     [picker dismissViewControllerAnimated:YES completion:nil];
-    
-    
+    UIImage * theImg = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    NSString *imagePath = [self imageSavedPath:@"menu.png"];
+    BOOL isSaveSuccess = [self saveToDocument:theImg withFilePath:imagePath];
+    if (isSaveSuccess) {
+        NSLog(@"Save File Success");
+        NSString *Title = @"设置成功！";
+        UIAlertView *Msg=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        Msg.alertViewStyle=UIAlertViewStyleDefault;
+        [Msg show];
+    }else {
+        NSLog(@"Save File Error");
+        NSString *Title = @"图片储存失败";
+        UIAlertView *Msg=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        Msg.alertViewStyle=UIAlertViewStyleDefault;
+        [Msg show];
+    }
 }
 
 -(void)HandleData
@@ -428,6 +494,7 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
     NSString * tmpstring=[alertView buttonTitleAtIndex:buttonIndex];
     if ([tmpstring isEqualToString:@"更新"]) {//你是否更新？
         [_Loader setHidden:NO];
+        [_LabelMsg setText:@"正在更新中，请稍候"];
         [_LabelMsg setHidden:NO];
         [_MasterTableView setHidden:YES];
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:APICustomize] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
@@ -435,4 +502,12 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
         RequestConnectionForCus = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
     }
 }
+
+-(void)RemoveImg{
+    NSString *imagePath = [self imageSavedPath:@"menu.png"];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:imagePath error:nil];
+}
+
 @end
