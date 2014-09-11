@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6FC41FD719B15200005D7634 /* mcSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC41FD619B15200005D7634 /* mcSettingsController.m */; };
 		78210DC319892CD80063AC44 /* mcReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78210DC219892CD80063AC44 /* mcReportController.m */; };
 		789CAC9B1975B46D003A3D2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9A1975B46D003A3D2F /* Foundation.framework */; };
 		789CAC9D1975B46D003A3D2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */; };
@@ -33,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6FC41FD519B15200005D7634 /* mcSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcSettingsController.h; sourceTree = "<group>"; };
+		6FC41FD619B15200005D7634 /* mcSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcSettingsController.m; sourceTree = "<group>"; };
 		78210DC119892CD00063AC44 /* mcReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcReportController.h; sourceTree = "<group>"; };
 		78210DC219892CD80063AC44 /* mcReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcReportController.m; sourceTree = "<group>"; };
 		789CAC971975B46D003A3D2F /* moegirlwiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moegirlwiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,13 +114,15 @@
 		789CACA01975B46D003A3D2F /* moegirlwiki */ = {
 			isa = PBXGroup;
 			children = (
-				78210DC219892CD80063AC44 /* mcReportController.m */,
-				78210DC119892CD00063AC44 /* mcReportController.h */,
+				789CACAC1975B46D003A3D2F /* Main.storyboard */,
 				789CACA91975B46D003A3D2F /* mcAppDelegate.h */,
 				789CACAA1975B46D003A3D2F /* mcAppDelegate.m */,
-				789CACAC1975B46D003A3D2F /* Main.storyboard */,
-				789CACB01975B46D003A3D2F /* mcViewController.m */,
 				789CACAF1975B46D003A3D2F /* mcViewController.h */,
+				789CACB01975B46D003A3D2F /* mcViewController.m */,
+				78210DC119892CD00063AC44 /* mcReportController.h */,
+				78210DC219892CD80063AC44 /* mcReportController.m */,
+				6FC41FD519B15200005D7634 /* mcSettingsController.h */,
+				6FC41FD619B15200005D7634 /* mcSettingsController.m */,
 				789CACB21975B46D003A3D2F /* Images.xcassets */,
 				789CACA11975B46D003A3D2F /* Supporting Files */,
 			);
@@ -196,7 +201,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = mc;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = me.masterchan;
 				TargetAttributes = {
 					789CAC961975B46D003A3D2F = {
@@ -254,6 +259,7 @@
 			files = (
 				789CACB11975B46D003A3D2F /* mcViewController.m in Sources */,
 				789CACAB1975B46D003A3D2F /* mcAppDelegate.m in Sources */,
+				6FC41FD719B15200005D7634 /* mcSettingsController.m in Sources */,
 				789CACA71975B46D003A3D2F /* main.m in Sources */,
 				78210DC319892CD80063AC44 /* mcReportController.m in Sources */,
 			);
@@ -322,8 +328,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = iphoneos7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -355,7 +361,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = iphoneos7.0;
+				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

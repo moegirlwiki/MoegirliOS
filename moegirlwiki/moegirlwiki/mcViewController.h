@@ -11,5 +11,4 @@
 @interface mcViewController : UIViewController<UIWebViewDelegate,UISearchBarDelegate>{}
 @property (weak, nonatomic) IBOutlet UIWebView *MasterWebView;
 @property (weak, nonatomic) IBOutlet UISearchBar *SearchBox;
-
 @end

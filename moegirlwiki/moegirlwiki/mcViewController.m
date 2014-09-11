@@ -33,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *versionbutton;
 @property (weak, nonatomic) IBOutlet UILabel *GoBackLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ForwardLabel;
+@property (weak, nonatomic) IBOutlet UIButton *SettingButton;
+@property (weak, nonatomic) IBOutlet UIButton *MenuButton;
 
 
 - (IBAction)MenuButton:(id)sender;
@@ -47,6 +49,7 @@
 - (IBAction)GoRefresh:(id)sender;
 - (IBAction)SwipeBack:(id)sender;
 - (IBAction)SwipeForward:(id)sender;
+- (IBAction)SettingButton:(id)sender;
 
 
 - (void)ProgressReset;
@@ -57,26 +60,26 @@
 - (void)PrepareRandomPopout:(NSString *)content;
 - (void)SendRandomRequest;
 - (void)PrepareHomepage;
+- (void)CallFromScheme;
 
 @end
 
 
 @implementation mcViewController
 
-NSString * baseID = @"moegirl-app-1.4";//用于GoogleAnalytics等统计工具识别   (15个字符)
-NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.4.php";//主页所在的位置
-
+NSString * baseID = @"moegirl-app-1.5";//用于GoogleAnalytics等统计工具识别   (15个字符)
+NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.5.php";//主页所在的位置
 NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
-
-//NSString * APIrandom = @"http://zh.moegirl.org/api.php?action=query&list=random&rnlimit=10&format=xml&rnnamespace=0";//获取随机页面的API
-NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random1.4.php";//获取随机页面的API
-//如果摇晃后再向服务器调用数据，反应将会过于缓慢，于是多获取几个以备不时之需
+NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random1.5.php";//获取随机页面的API
 
 
 NSString * DefaultPage =@"<!DOCTYPE html><html lang='zh-CN'><head>	<!--%@-->	<meta charset='UTF-8'>	<meta name='viewport' content='width=device-width, initial-scale=1'></head><body>	<style type='text/css'>	ul{padding-left: 20px;} body{		font-size: 11px;	}	</style>	<div id='content'>		<h3>出现了点问题哎~~!</h3>		<p>错误信息: <strong>%@</strong></p>		<p>您可以做的事情有：</p>		<ul>			<li>提交此页面的错误报告，帮助我们改进程序</li>			<li>到网络环境更好的地方再试一试</li>			<li>使用黑科技保护您的手机与萌百服务器之间的连接</li>		</ul>	</div></body></html>";
 
+NSString * CustomizeHTMLContent = @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;} iframe{width:292px !important; height:auto;} #mw-pages .mw-content-ltr td, #mw-subcategories .mw-content-ltr td{float: left;display: block;clear: both;width: 90% !important;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
+NSString * CustomizeDate = @"2014-09-01";
+
 NSString * tempError = @"";
-NSString * r18l = @"off";
+NSString * r18l = @"OFF";
 NSURL * tempURL;
 NSString * tempTitle;
 
@@ -123,6 +126,7 @@ NSURLConnection * RequestConnectionForMainpage;
     _ReportButton.layer.cornerRadius = 3;
     _RefreshButton.layer.cornerRadius = 3;
     _RandomButton.layer.cornerRadius = 3;
+    _SettingButton.layer.cornerRadius = 3;
     _GoBackLabel.layer.cornerRadius = 3;
     _popoutView.layer.cornerRadius = 5;
     _aboutView.layer.cornerRadius = 5;
@@ -132,6 +136,7 @@ NSURLConnection * RequestConnectionForMainpage;
     _ReportButton.layer.masksToBounds = YES;
     _RefreshButton.layer.masksToBounds = YES;
     _RandomButton.layer.masksToBounds = YES;
+    _SettingButton.layer.masksToBounds = YES;
     _GoBackLabel.layer.masksToBounds = YES;
     _popoutView.layer.masksToBounds = YES;
     _aboutView.layer.masksToBounds = YES;
@@ -145,6 +150,8 @@ NSURLConnection * RequestConnectionForMainpage;
         
     }
     
+    [self CheckImg];
+    
     //初始化历史记录
     _NamePool = [[NSMutableDictionary alloc] init];
     _HistoryPool = [[NSMutableDictionary alloc] init];
@@ -153,15 +160,8 @@ NSURLConnection * RequestConnectionForMainpage;
     pointer_current = 0;
     pointer_max = 0;
     
-    //初始化页面
-    [self MainMission];
-    
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([defaultdata objectForKey:@"ran0"] == nil) {
-        [self SendRandomRequest];
-        [defaultdata setObject:@"off" forKey:@"retl"];
-        [defaultdata synchronize];
-    }else{
+    if ([[defaultdata objectForKey:@"version"] isEqualToString:baseID]) {
         [_RandomPool setObject:[defaultdata objectForKey:@"ran0"] forKey:@"0"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran1"] forKey:@"1"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran2"] forKey:@"2"];
@@ -173,23 +173,39 @@ NSURLConnection * RequestConnectionForMainpage;
         [_RandomPool setObject:[defaultdata objectForKey:@"ran8"] forKey:@"8"];
         [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
         r18l = [defaultdata objectForKey:@"retl"];
+    }else{
+        NSLog(@"init UserDefaultData Begin");
+        [self SendRandomRequest];
+        [defaultdata setObject:@"OFF" forKey:@"retl"];
+        [defaultdata setObject:@"ON" forKey:@"SwipeMode"];
+        [defaultdata setObject:@"OFF" forKey:@"NoImgMode"];
+        [defaultdata setObject:@"ON" forKey:@"HeXieMode"];
+        [defaultdata removeObjectForKey:@"homepage"];
+        [defaultdata setObject:CustomizeHTMLContent forKey:@"CustomizeHTMLContent"];
+        [defaultdata setObject:CustomizeDate forKey:@"CustomizeDate"];
+        [defaultdata synchronize];
+        NSLog(@"init UserDefaultData End");
     }
+    
+    //初始化页面
+    [self MainMission];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(CallFromScheme)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    
+    NSLog(@"viewDidAppear");
+    NSLog(@"Refresh Customize Data Begin");
+    [self CheckImg];
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([defaultdata objectForKey:@"target"] != nil) {
-        NSString * TheTarget = [defaultdata objectForKey:@"target"];
-        if ([TheTarget hasPrefix:@"moegirl://?w="]) {
-            TheTarget = [TheTarget substringFromIndex:13];
-            [_SearchBox setText:[TheTarget stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            [self MainMission];
-        }
-        [defaultdata removeObjectForKey:@"target"];
-        [defaultdata synchronize];
-    }
+    CustomizeHTMLContent = [defaultdata objectForKey:@"CustomizeHTMLContent"];
+    CustomizeDate = [defaultdata objectForKey:@"CustomizeDate"];
+    NSLog(@"Refresh Customize Data Finished");
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -240,6 +256,19 @@ NSURLConnection * RequestConnectionForMainpage;
                                 [[error userInfo] objectForKey:NSURLErrorFailingURLErrorKey]
                                 ];
         [self SendToInterface:[NSString stringWithFormat:DefaultPage,errorinfo,[error localizedDescription]]];
+    }else if (connection==RequestConnectionForMainpage){
+        NSLog(@"[Mainpage] 发生错误！");
+        //NSLog(@"%@",error);
+        if ([error code]!=-1009) {
+            //如果萌百服务器处于某种原因不能够打开则弹出错误提示
+            NSString *Title = @"萌百服务器似乎无法连接?!?!";
+            UIAlertView *PageWarning=[[UIAlertView alloc] initWithTitle:Title message:@"服务器可能暂时下线了，请留意各媒体上更新姬发布的消息，为您带来的不便敬请谅解" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+            PageWarning.alertViewStyle=UIAlertViewStyleDefault;
+            [PageWarning show];
+        }
+        _RecievePool3 = nil;
+        InstanceLock ++;
+        [self PrepareHomepage];
     }
     //NSLog(@"%@",errorinfo);
     tempError = [error localizedDescription];
@@ -477,7 +506,9 @@ NSURLConnection * RequestConnectionForMainpage;
     [theview setValue:reportTitle forKeyPath:@"rtitle"];
     [theview setValue:reportContent forKeyPath:@"rcontent"];
     [theview setValue:reportErrorInfo forKeyPath:@"rerror"];
+    
     //将第一个 view的参数准备给下一个view
+
 }
 
 - (IBAction)SendReport:(id)sender {
@@ -515,27 +546,41 @@ NSURLConnection * RequestConnectionForMainpage;
 
 //向右滑动－退后
 - (IBAction)SwipeBack:(id)sender {
-    NSLog(@"检测到向后滑动");
-    if (pointer_current > 1) {
-        NSLog(@"传递参数");
-        [_ForwardLabel setHidden:YES];
-        [_GoBackLabel setHidden:NO];
-        [self GoBackward:nil];
-        [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([[defaultdata objectForKey:@"SwipeMode"]isEqualToString:@"ON"]) {
+        NSLog(@"检测到向后滑动");
+        if (pointer_current > 1) {
+            NSLog(@"传递参数");
+            [_ForwardLabel setHidden:YES];
+            [_GoBackLabel setHidden:NO];
+            [self GoBackward:nil];
+            [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+        }
     }
 }
 
 
 //向左滑动－向前
 - (IBAction)SwipeForward:(id)sender {
-    NSLog(@"检测到向前滑动");
-    if (pointer_current < pointer_max) {
-        NSLog(@"传递参数");
-        [_GoBackLabel setHidden:YES];
-        [_ForwardLabel setHidden:NO];
-        [self GoForward:nil];
-        [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([[defaultdata objectForKey:@"SwipeMode"]isEqualToString:@"ON"]) {
+        NSLog(@"检测到向前滑动");
+        if (pointer_current < pointer_max) {
+            NSLog(@"传递参数");
+            [_GoBackLabel setHidden:YES];
+            [_ForwardLabel setHidden:NO];
+            [self GoForward:nil];
+            [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
+        }
     }
+}
+
+- (IBAction)SettingButton:(id)sender {
+    [_popoutView setHidden:YES];
+    [_HideMenuButton setHidden:YES];
+    
+    [self performSegueWithIdentifier:@"showSettings" sender:nil];
+    //将到mcSettingsController.m处理
 }
 
 - (void)resetLabel:(NSObject *)theobj {
@@ -574,11 +619,18 @@ NSURLConnection * RequestConnectionForMainpage;
     
     [self ProgressReset];
     
+    [RequestConnection cancel];
+    [RequestConnectionForMainpage cancel];
+    
+    
     if ([[ItemName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
         //空白字符串不执行任务
         NSLog(@"空白字符串不进行工作");
     } else {
-        
+        if ([ItemName isEqualToString:@"Mainpage"]) {
+            [_SearchBox setText:@"首页"];
+            ItemName = @"首页";
+        }
         
         if ([ItemName isEqualToString:@"首页"]) {
             //开始加载首页
@@ -705,7 +757,6 @@ NSURLConnection * RequestConnectionForMainpage;
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
-    
     [self ProgressGo:0.05];
     regexstr = @"<div id=\"mw-page-base\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
@@ -754,8 +805,6 @@ NSURLConnection * RequestConnectionForMainpage;
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
-    
-    
     [self ProgressGo:0.05];
     regexstr = @"<div id=\"siteNotice\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
@@ -764,23 +813,53 @@ NSURLConnection * RequestConnectionForMainpage;
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    //无图模式
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([[defaultdata objectForKey:@"NoImgMode"]isEqualToString:@"ON"]) {
+        NSLog(@"无图模式开启");
+        [self ProgressGo:0.05];
+        regexstr = @"<img .*?>";
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        while (range.location != NSNotFound) {
+            content = [content stringByReplacingCharactersInRange:range withString:@""];
+            range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        }
+    }
+    
+    //Template:Vocaloid Songbox
     [self ProgressGo:0.05];
+    regexstr = @"align=\"center\" width=\"450px\" style=\"border:0px; text-align:center; line-height:1.3em;\" class=\"infotemplate\"";
+    range = [content rangeOfString:regexstr];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"align=\"center\" style=\"border:0px; text-align:center; line-height:1.3em;width:100%;margin-left:-5px;\" class=\"infotemplate\""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    
     //banner修正
+    [self ProgressGo:0.05];
     content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:80%;" withString:@"<table class=\"common-box\" style=\""];
     content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:350px;" withString:@"<table class=\"common-box\" style=\""];
     
-    [self ProgressGo:0.05];
+    
+    
     //R18修正
+    [self ProgressGo:0.05];
     regexstr = @"<script language=\"javascript\"[\\s\\S]*?<div id=x18[\\s\\S]*?</div>[\\s\\S]*?</script>[\\s\\S]*<span style=\"position:fixed;top: 0px;[\\s\\S]*width=\"227\" height=\"83\" /></a></span>[\\s\\S]*?</p>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@""];
         NSLog(@"此词条为 R18 限制");
         if ([r18l isEqualToString:@"xxoo"]) {
-            NSString *Title = @"R-18 限制";
-            UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
-            R18Warning.alertViewStyle=UIAlertViewStyleDefault;
-            [R18Warning show];
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            if ([[defaultdata objectForKey:@"HeXieMode"] isEqualToString:@"OFF"]) {
+                //和谐模式关闭，其实和谐模式就是一个没有用的冗余功能。
+            }else{
+                NSString *Title = @"R-18 限制";
+                UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
+                R18Warning.alertViewStyle=UIAlertViewStyleDefault;
+                [R18Warning show];
+            }
         } else {
             NSString *Title = @"R-18 限制";
             UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"根据相关法律法规，该词条被屏蔽。" delegate:self cancelButtonTitle:@"是" otherButtonTitles:nil];
@@ -800,15 +879,28 @@ NSURLConnection * RequestConnectionForMainpage;
         }
     }
     
-    
+    //flashmp3 插件修正，针对音频
     [self ProgressGo:0.05];
+    regexstr = @"<script language=\"JavaScript\" src=\"/extensions/FlashMP3/audio-player\\.js\".*soundFile=";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"<audio src=\""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    regexstr = @"\"><param name=\"quality\" value=\"high\"><param name=\"menu\" value=\"false\"><param name=\"wmode\" value=\"transparent\"></object>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"\" controls=\"controls\"></audio>"];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
     //添加定制样式
+    [self ProgressGo:0.05];
     regexstr = @"</body>";
     range = [content rangeOfString:regexstr];
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@""];
-        NSString *style= @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;} iframe{width:292px !important; height:auto;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script>";
-        content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],style,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
+        content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],CustomizeHTMLContent,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
     }
     
     
@@ -863,6 +955,10 @@ NSURLConnection * RequestConnectionForMainpage;
     [defaultdata setObject:[_RandomPool objectForKey:@"7"] forKey:@"ran7"];
     [defaultdata setObject:[_RandomPool objectForKey:@"8"] forKey:@"ran8"];
     [defaultdata setObject:[_RandomPool objectForKey:@"9"] forKey:@"ran9"];
+    //===================================================================
+    [defaultdata setObject:baseID forKey:@"version"];
+    NSLog(@"加入版本号");
+    //===================================================================
     [defaultdata synchronize];
 }
 
@@ -914,8 +1010,8 @@ NSURLConnection * RequestConnectionForMainpage;
                 [defaultdata setObject:@"xxoo" forKey:@"retl"];
                 r18l = @"xxoo";
             }else{
-                [defaultdata setObject:@"off" forKey:@"retl"];
-                r18l = @"off";
+                [defaultdata setObject:@"OFF" forKey:@"retl"];
+                r18l = @"OFF";
             }
         }
         
@@ -927,5 +1023,57 @@ NSURLConnection * RequestConnectionForMainpage;
     }
 }
 
+- (void)CallFromScheme{
+    NSLog(@"检查是否由URL Scheme调用");
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([defaultdata objectForKey:@"target"] != nil) {
+        NSLog(@"是由URL Scheme调用");
+        NSString * TheTarget = [defaultdata objectForKey:@"target"];
+        if ([TheTarget hasPrefix:@"moegirl://?w="]) {
+            TheTarget = [TheTarget substringFromIndex:13];
+            [_SearchBox setText:[TheTarget stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            [self MainMission];
+        }
+        [defaultdata removeObjectForKey:@"target"];
+        [defaultdata synchronize];
+    }
+}
+
+
+
+/* Img处理=========================开始
+ ============================================================*/
+//根据图片名将图片保存到ImageFile文件夹中
+-(NSString *)imageSavedPath:(NSString *) imageName
+{
+    //获取Documents文件夹目录
+    NSArray *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [path objectAtIndex:0];
+    //获取文件管理器
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //指定新建文件夹路径
+    NSString *imageDocPath = [documentPath stringByAppendingPathComponent:@"img"];
+    //创建ImageFile文件夹
+    [fileManager createDirectoryAtPath:imageDocPath withIntermediateDirectories:YES attributes:nil error:nil];
+    //返回保存图片的路径（图片保存在ImageFile文件夹下）
+    NSString * imagePath = [imageDocPath stringByAppendingPathComponent:imageName];
+    return imagePath;
+}
+/* Img处理=========================结束
+ ============================================================*/
+
+-(void)CheckImg{
+    NSString *imagePath = [self imageSavedPath:@"menu.png"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //判断文件是否存在
+    if ([fileManager fileExistsAtPath:imagePath]) {
+        UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+        [_MenuButton setBackgroundImage:image forState:UIControlStateNormal];
+        NSLog(@"菜单图标存在");
+    }else{
+        [_MenuButton setBackgroundImage:[UIImage imageNamed:@"MenuImage"] forState:UIControlStateNormal];
+        NSLog(@"菜单图标不存在");
+    }
+}
 
 @end
