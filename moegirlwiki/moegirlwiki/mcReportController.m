@@ -28,7 +28,7 @@
 
 NSArray * issueList;
 
-NSString * ReportAPI = @"https://masterchan.me/moegirlwiki/debug/send1.5.php";
+NSString * ReportAPI = @"https://masterchan.me/moegirlwiki/debug/send2.0.php";
 //发送错误报告的链接
 
 NSTimeInterval ReportRequestTimeOutSec = 20;

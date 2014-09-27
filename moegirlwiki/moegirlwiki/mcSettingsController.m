@@ -26,12 +26,9 @@
 NSURLConnection * RequestConnectionForCus;
 
 
-NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize1.5.txt";//获取自定义样式的
+NSString * APICustomize = @"https://masterchan.me/moegirlwiki/customize2.0.txt";//获取自定义样式的
 NSString * AppStoreURL = @"itms-apps://itunes.apple.com/app/id892053828";
-NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机中的，如果需要查看最新内容，请点击菜单中的刷新按钮；\n\n\
-▪️通过 报告问题页面 提交任何使用过程中遇到的困难或错误，可以帮助我们改进此程序；\n\n\
-▪️被涂黑的内容 点击即可查看；\n\n\
-▪️这个程序目前基本上只是一个经过优化的浏览器壳子，目的是为大家提供iOS上最佳的访问萌百的体验，其它功能请自行探索😬\n\n";
+NSString * UpdateInfo = @"iOSApp框架：Michael Chan\nJS Table引擎：Illvili\n\n";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -75,9 +72,11 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
 // tableView 每个不同Group的项目数量
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 4;
-    }else if (section == 1){
+    if (section == 0){
+        return 1;
+    }else if (section == 1) {
+        return 5;
+    }else if (section == 2){
         return 2;
     }else{
         return 2;
@@ -87,15 +86,18 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
 // tableView 中Group的数量
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 // tableView Section Header的值
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    
     if (section == 0) {
-        return @"浏览设置";
+        return @"账户管理";
     }else if (section == 1){
+        return @"浏览设置";
+    }else if (section == 2){
         return @"界面自定义";
     }else{
         return @"其它";
@@ -105,8 +107,10 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        return @"请在网络环境良好的地方更新页面排版数据。该功能为实验性功能，页面排版数据无需经常更新。\n\n\n";
+        return @"登录后可使用编辑功能\n\n";
     }else if (section == 1){
+        return @"开启中转压缩可以节省流量，但服务器资源有限，链接速度可能较慢。\n\n定期更新排版可以获得更好的浏览体验。\n\n\n";
+    }else if (section == 2){
         return @"建议使用电脑将图片裁剪为200x200，并保存为带透明背景的PNG格式，然后保存到手机相册中，再选取该图片作为菜单图标。\n\n\n";
     }else{
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
@@ -120,8 +124,14 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
-    
     if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"登录";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
             
@@ -177,6 +187,24 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
             [SwitchItem addTarget:self action:@selector(HeXieMode_Switch:) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = SwitchItem;
             
+        }else if (indexPath.row == 3){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+            
+            cell.textLabel.text = @"中转压缩";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
+            
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            if ([[defaultdata objectForKey:@"CompMode"]isEqualToString:@"ON"]) {
+                SwitchItem.on = YES;
+            } else {
+                SwitchItem.on = NO;
+            }
+            
+            [SwitchItem addTarget:self action:@selector(CompMode_Switch:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = SwitchItem;
+            
         }else{
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
             NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
@@ -185,7 +213,7 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
             cell.detailTextLabel.text = [NSString stringWithFormat:@"当前版本 %@",[defaultdata objectForKey:@"CustomizeDate"]];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-    }else if(indexPath.section == 1){
+    }else if(indexPath.section == 2){
         if (indexPath.row == 0) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
             
@@ -264,14 +292,30 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
     }
 }
 
+-(void)CompMode_Switch:(id)sender
+{
+    UISwitch *switchView = (UISwitch *)sender;
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    
+    if ([switchView isOn])  {
+        NSLog(@"ON  -- 中转压缩模式");
+        [defaultdata setObject:@"ON" forKey:@"CompMode"];
+        [defaultdata synchronize];
+    } else {
+        NSLog(@"OFF -- 中转压缩模式");
+        [defaultdata setObject:@"OFF" forKey:@"CompMode"];
+        [defaultdata synchronize];
+    }
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0 && indexPath.row == 0) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         NSLog(@"无图模式 点击");
-    }else if (indexPath.section == 0 && indexPath.row == 1) {
+    }else if (indexPath.section == 1 && indexPath.row == 1) {
         NSLog(@"左右拉动翻页 点击");
-    }else if (indexPath.section == 0 && indexPath.row == 2) {
+    }else if (indexPath.section == 1 && indexPath.row == 2) {
         NSLog(@"和谐模式 点击");
-    }else if (indexPath.section == 0 && indexPath.row == 3) {
+    }else if (indexPath.section == 1 && indexPath.row == 3) {
         NSLog(@"更新页面排版数据 点击");
         /*
          1. 询问是否更新（确认、取消）
@@ -284,17 +328,17 @@ NSString * UpdateInfo = @"▪️首页及大部分排版数据是缓存在手机
         Msg.alertViewStyle=UIAlertViewStyleDefault;
         [Msg show];
         
-    }else if (indexPath.section == 1 && indexPath.row == 0) {
+    }else if (indexPath.section == 2 && indexPath.row == 0) {
         NSLog(@"设置菜单图片 点击");
         [self PickUpImg];
-    }else if (indexPath.section == 1 && indexPath.row == 1) {
+    }else if (indexPath.section == 2 && indexPath.row == 1) {
         NSLog(@"还原菜单图片 点击");
         [self RemoveImg];
         
-    }else if (indexPath.section == 2 && indexPath.row == 0) {
+    }else if (indexPath.section == 3 && indexPath.row == 0) {
         NSLog(@"给我评分 点击");
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:AppStoreURL]];
-    }else if (indexPath.section == 2 && indexPath.row == 1) {
+    }else if (indexPath.section == 3 && indexPath.row == 1) {
         NSLog(@"功能说明 点击");
         NSString *Title = @"功能说明";
         UIAlertView *Msg=[[UIAlertView alloc] initWithTitle:Title message:UpdateInfo delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
