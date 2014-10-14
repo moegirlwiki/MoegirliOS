@@ -343,6 +343,15 @@ NSURLConnection * RequestConnectionForMainpage;
                 [self MainMission];
                 return NO;
             }
+        } else if ([link hasSuffix:@"png"] || [link hasSuffix:@"gif"] || [link hasSuffix:@"jpg"]) {
+            // 检测图片URL
+            NSLog(@"Open an image");
+            
+            mcImageViewController *imageViewController = [[mcImageViewController alloc] init];
+            [imageViewController loadImageWithURL:[NSURL URLWithString:link]];
+            [self presentViewController:imageViewController animated:YES completion:nil];
+            
+            return NO;
         }else{
             //提示用户该连接是外链，是否打开浏览器
             NSString *Title = @"这是一个外链，您确定要打开这个链接吗？";

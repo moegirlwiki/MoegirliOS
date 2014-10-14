@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "mcImageViewController.h"
 
 @interface mcViewController : UIViewController<UIWebViewDelegate,UISearchBarDelegate>{}
 @property (weak, nonatomic) IBOutlet UIWebView *MasterWebView;
