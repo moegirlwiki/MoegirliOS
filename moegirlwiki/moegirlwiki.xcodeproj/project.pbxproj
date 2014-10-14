@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B73EC4619ED09E1004E557B /* mcImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73EC4519ED09E1004E557B /* mcImageViewController.m */; };
 		6FC41FD719B15200005D7634 /* mcSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC41FD619B15200005D7634 /* mcSettingsController.m */; };
 		78210DC319892CD80063AC44 /* mcReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78210DC219892CD80063AC44 /* mcReportController.m */; };
 		789CAC9B1975B46D003A3D2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9A1975B46D003A3D2F /* Foundation.framework */; };
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B73EC4419ED09E1004E557B /* mcImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcImageViewController.h; sourceTree = "<group>"; };
+		5B73EC4519ED09E1004E557B /* mcImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcImageViewController.m; sourceTree = "<group>"; };
 		6FC41FD519B15200005D7634 /* mcSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcSettingsController.h; sourceTree = "<group>"; };
 		6FC41FD619B15200005D7634 /* mcSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcSettingsController.m; sourceTree = "<group>"; };
 		78210DC119892CD00063AC44 /* mcReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcReportController.h; sourceTree = "<group>"; };
@@ -123,6 +126,8 @@
 				78210DC219892CD80063AC44 /* mcReportController.m */,
 				6FC41FD519B15200005D7634 /* mcSettingsController.h */,
 				6FC41FD619B15200005D7634 /* mcSettingsController.m */,
+				5B73EC4419ED09E1004E557B /* mcImageViewController.h */,
+				5B73EC4519ED09E1004E557B /* mcImageViewController.m */,
 				789CACB21975B46D003A3D2F /* Images.xcassets */,
 				789CACA11975B46D003A3D2F /* Supporting Files */,
 			);
@@ -261,6 +266,7 @@
 				789CACAB1975B46D003A3D2F /* mcAppDelegate.m in Sources */,
 				6FC41FD719B15200005D7634 /* mcSettingsController.m in Sources */,
 				789CACA71975B46D003A3D2F /* main.m in Sources */,
+				5B73EC4619ED09E1004E557B /* mcImageViewController.m in Sources */,
 				78210DC319892CD80063AC44 /* mcReportController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
