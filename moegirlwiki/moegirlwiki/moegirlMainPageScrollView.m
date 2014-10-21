@@ -31,7 +31,32 @@
 
 - (void)refreshScrollView
 {
+    float initWidth = self.bounds.size.width;
+    float XPoint = 20;
     
+    [self setContentSize:CGSizeMake(initWidth, 0)];
+    
+    for (int i = 0; i< _mainPageTitle.count; i++) {
+        UIView *itemView = [_scrollItemsPanel objectAtIndex:i];
+        [itemView setFrame:CGRectMake(0, XPoint,initWidth, 600)];
+        
+        UILabel *itemTitle = [_scrollItemsTitle objectAtIndex:i];
+        [itemTitle setFrame:CGRectMake(20, 0, initWidth - 40, 30)];
+        
+        UITextView *itemContent = [_scrollItemsContent objectAtIndex:i];
+        CGSize size = [itemContent sizeThatFits:CGSizeMake(initWidth - 10, FLT_MAX)];
+        [itemContent setFrame:CGRectMake(5, 30, initWidth - 10, size.height)];
+        
+        
+        [itemView setFrame:CGRectMake(itemView.frame.origin.x, itemView.frame.origin.y, itemView.frame.size.width, itemContent.frame.origin.y + itemContent.frame.size.height)];
+        
+        XPoint += itemView.frame.size.height + 10;
+    }
+    
+    if (XPoint<self.bounds.size.height) {
+        XPoint = self.bounds.size.height + 1;
+    }
+    [self setContentSize:CGSizeMake(self.bounds.size.width, XPoint)];
 }
 
 - (void)setupScrollView

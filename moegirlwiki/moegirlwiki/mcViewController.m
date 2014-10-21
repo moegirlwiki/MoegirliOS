@@ -46,4 +46,21 @@
     _SearchBox.layer.masksToBounds = YES;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         /*----------------------*/
+                         [_mainPageScrollView setFrame:_MasterInitial.frame];
+                         [_mainPageScrollView refreshScrollView];
+                         
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         NSLog(@"didRotate");
+                     }];
+}
+
 @end
