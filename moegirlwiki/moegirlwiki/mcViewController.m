@@ -25,6 +25,15 @@
     [self visualInit];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    _mainPageScrollView = [moegirlMainPageScrollView new];
+    [_mainPageScrollView setFrame:_MasterInitial.frame];
+    [_MainView addSubview:_mainPageScrollView];
+    [_mainPageScrollView loadMainPage:@"http://zh.moegirl.org" useCache:NO];
+    //[_mainPageScrollView loadMainPage:@"http://zh.moegirl.org" useCache:YES];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

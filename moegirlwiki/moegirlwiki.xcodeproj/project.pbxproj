@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
 		AFB650B419F6C42400C73E81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B319F6C42400C73E81 /* Foundation.framework */; };
 		AFB650B619F6C42400C73E81 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B519F6C42400C73E81 /* CoreGraphics.framework */; };
 		AFB650B819F6C42400C73E81 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B719F6C42400C73E81 /* UIKit.framework */; };
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
+		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
 		AFB650B019F6C42400C73E81 /* moegirlwiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moegirlwiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFB650B319F6C42400C73E81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AFB650B519F6C42400C73E81 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -119,6 +122,8 @@
 				AFB650C919F6C42400C73E81 /* mcViewController.m */,
 				AFB650CB19F6C42400C73E81 /* Images.xcassets */,
 				AFB650BA19F6C42400C73E81 /* Supporting Files */,
+				AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */,
+				AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */,
 			);
 			path = moegirlwiki;
 			sourceTree = "<group>";
@@ -200,6 +205,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = masterchan.me;
 				TargetAttributes = {
+					AFB650AF19F6C42400C73E81 = {
+						DevelopmentTeam = AM4V7T2443;
+					};
 					AFB650D019F6C42400C73E81 = {
 						TestTargetID = AFB650AF19F6C42400C73E81;
 					};
@@ -251,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
+				AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */,
 				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,
 				AFB650C019F6C42400C73E81 /* main.m in Sources */,
 			);
@@ -377,6 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "moegirlwiki/moegirlwiki-Prefix.pch";
 				INFOPLIST_FILE = "moegirlwiki/moegirlwiki-Info.plist";
@@ -391,6 +401,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "moegirlwiki/moegirlwiki-Prefix.pch";
 				INFOPLIST_FILE = "moegirlwiki/moegirlwiki-Info.plist";

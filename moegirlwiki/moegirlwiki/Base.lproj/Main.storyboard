@@ -20,7 +20,42 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="taZ-F5-8wQ" userLabel="MainView">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jnO-P3-adA" userLabel="RightDragView">
+                                        <rect key="frame" x="295" y="0.0" width="25" height="416"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="25" id="NKF-fH-mJh"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xp8-84-GKe" userLabel="LeftDragView">
+                                        <rect key="frame" x="0.0" y="0.0" width="25" height="416"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="25" id="gF5-yJ-chf"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N0t-wg-dMb" userLabel="MasterInitial">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="N0t-wg-dMb" secondAttribute="bottom" id="3Bw-Z1-JGY"/>
+                                    <constraint firstAttribute="bottom" secondItem="xp8-84-GKe" secondAttribute="bottom" id="EB7-dE-F5x"/>
+                                    <constraint firstAttribute="bottom" secondItem="jnO-P3-adA" secondAttribute="bottom" id="FOR-8O-hU9"/>
+                                    <constraint firstItem="N0t-wg-dMb" firstAttribute="top" secondItem="taZ-F5-8wQ" secondAttribute="top" id="IGF-RN-2fG"/>
+                                    <constraint firstItem="jnO-P3-adA" firstAttribute="top" secondItem="taZ-F5-8wQ" secondAttribute="top" id="Qe3-NR-aLY"/>
+                                    <constraint firstItem="xp8-84-GKe" firstAttribute="leading" secondItem="taZ-F5-8wQ" secondAttribute="leading" id="Sm9-8d-cl7"/>
+                                    <constraint firstItem="N0t-wg-dMb" firstAttribute="leading" secondItem="taZ-F5-8wQ" secondAttribute="leading" id="hhp-sr-lro"/>
+                                    <constraint firstItem="xp8-84-GKe" firstAttribute="top" secondItem="taZ-F5-8wQ" secondAttribute="top" id="k1H-DP-bSu"/>
+                                    <constraint firstAttribute="trailing" secondItem="N0t-wg-dMb" secondAttribute="trailing" id="nLr-Lk-TK0"/>
+                                    <constraint firstAttribute="trailing" secondItem="jnO-P3-adA" secondAttribute="trailing" id="up0-Dl-OMD"/>
+                                </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9cR-UZ-VwR" userLabel="StatusBar">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
@@ -104,12 +139,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="MainView" destination="taZ-F5-8wQ" id="bd5-K7-PU5"/>
+                        <outlet property="MasterInitial" destination="N0t-wg-dMb" id="ARt-GY-BXL"/>
                         <outlet property="SearchBox" destination="ipk-mp-3o5" id="uMm-XG-Zik"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="105"/>
+            <point key="canvasLocation" x="-102" y="256"/>
         </scene>
     </scenes>
     <resources>
