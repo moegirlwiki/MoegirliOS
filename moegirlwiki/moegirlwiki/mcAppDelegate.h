@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol mcAppDelegate <NSObject>
+
+- (void)urlSchemeCall:(NSString *)target;
+
+@end
+
 @interface mcAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (assign, nonatomic) id<mcAppDelegate> hook;
 
 @end

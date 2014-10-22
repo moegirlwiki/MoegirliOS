@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
+		AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F619F831D20077F893 /* moegirlWebView.m */; };
+		AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F919F834600077F893 /* mcCachedRequest.m */; };
 		AFB650B419F6C42400C73E81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B319F6C42400C73E81 /* Foundation.framework */; };
 		AFB650B619F6C42400C73E81 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B519F6C42400C73E81 /* CoreGraphics.framework */; };
 		AFB650B819F6C42400C73E81 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B719F6C42400C73E81 /* UIKit.framework */; };
@@ -40,6 +42,10 @@
 		AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSearchSuggestionsTableView.m; sourceTree = "<group>"; };
 		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
 		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
+		AFAAB8F519F831D20077F893 /* moegirlWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlWebView.h; sourceTree = "<group>"; };
+		AFAAB8F619F831D20077F893 /* moegirlWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlWebView.m; sourceTree = "<group>"; };
+		AFAAB8F819F834600077F893 /* mcCachedRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcCachedRequest.h; sourceTree = "<group>"; };
+		AFAAB8F919F834600077F893 /* mcCachedRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcCachedRequest.m; sourceTree = "<group>"; };
 		AFB650B019F6C42400C73E81 /* moegirlwiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moegirlwiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFB650B319F6C42400C73E81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AFB650B519F6C42400C73E81 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -123,12 +129,16 @@
 				AFB650C519F6C42400C73E81 /* Main.storyboard */,
 				AFB650C819F6C42400C73E81 /* mcViewController.h */,
 				AFB650C919F6C42400C73E81 /* mcViewController.m */,
+				AFAAB8F819F834600077F893 /* mcCachedRequest.h */,
+				AFAAB8F919F834600077F893 /* mcCachedRequest.m */,
 				AFB650CB19F6C42400C73E81 /* Images.xcassets */,
 				AFB650BA19F6C42400C73E81 /* Supporting Files */,
 				AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */,
 				AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */,
 				AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */,
 				AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */,
+				AFAAB8F519F831D20077F893 /* moegirlWebView.h */,
+				AFAAB8F619F831D20077F893 /* moegirlWebView.m */,
 			);
 			path = moegirlwiki;
 			sourceTree = "<group>";
@@ -264,7 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
+				AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */,
 				AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */,
+				AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */,
 				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,
 				AFB650C019F6C42400C73E81 /* main.m in Sources */,
 				AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */,

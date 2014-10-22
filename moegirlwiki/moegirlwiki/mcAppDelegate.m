@@ -48,6 +48,13 @@
     }
     return YES;
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSString *URLStr = [url absoluteString];
+    [self.hook urlSchemeCall:URLStr];
+    return YES;
+}
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {

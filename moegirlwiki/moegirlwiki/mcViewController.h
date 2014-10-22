@@ -7,17 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "mcAppDelegate.h"
 #import "moegirlMainPageScrollView.h"
 #import "moegirlSearchSuggestionsTableView.h"
+#import "moegirlWebView.h"
 
-@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate>
+@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate,mcAppDelegate>
 {
-    
+    @private
+    int webViewListPost;
 }
 //代码创建元件
 @property (strong, nonatomic) moegirlMainPageScrollView * mainPageScrollView;
 @property (strong, nonatomic) moegirlSearchSuggestionsTableView * searchSuggestionsTableView;
-
+@property (weak, nonatomic) mcAppDelegate * appDelegate;
+@property (strong, nonatomic) NSMutableArray * webViewList;
 
 //xib元件
 @property (weak, nonatomic) IBOutlet UIView *SearchBox;
@@ -29,6 +33,7 @@
 //过程
 - (void)visualInit;//初始化视觉效果
 - (void)resetSizes;//重置元件尺寸
+- (void)createMoeWebViewFormURLScheme:(NSString *)target;
 
 
 //xib过程

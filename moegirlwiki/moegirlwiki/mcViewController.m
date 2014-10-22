@@ -18,6 +18,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    _webViewList = [NSMutableArray new];
+    _appDelegate = [[UIApplication sharedApplication] delegate];
+    [_appDelegate setHook:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,6 +95,26 @@
 - (void)cancelKeyboard
 {
     [_SearchTextField resignFirstResponder];
+}
+
+- (void)urlSchemeCall:(NSString *)target
+{
+    NSLog(@"%@",target);
+    NSRange rangeA = [target rangeOfString:@"?w="];
+    if (rangeA.location != NSNotFound) {
+        target = [target substringFromIndex:rangeA.location + 3];
+        [self createMoeWebViewFormURLScheme:target];
+    }
+}
+
+- (void)createMoeWebViewFormURLScheme:(NSString *)target
+{
+    moegirlWebView * webView = [moegirlWebView new];
+    [webView setFrame:_MasterInitial.frame];
+    [webView setTargetURL:@"http://zh.moegirl.org"];
+    [webView loadContentWithDecodedKeyWord:target useCache:YES];
+    [_MainView addSubview:webView];
+    [_webViewList addObject:webView];
 }
 
 - (IBAction)searchFieldEditChange:(id)sender
