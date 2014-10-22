@@ -16,35 +16,8 @@
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
     if (![[defaultdata objectForKey:@"version"] isEqualToString:@"2.0"]) {
     //首次开启程序
-
-        /*
-        ------初始化目录结构------
-        /cache
-        /cache/page
-        /cache/image
-        /data
-        /data/mainpage
-        /data/setting
-        */
-        NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSFileManager * fileManager = [NSFileManager defaultManager];
-        [fileManager createDirectoryAtPath:[[documentPath stringByAppendingPathComponent:@"cache"] stringByAppendingPathComponent:@"page"] withIntermediateDirectories:YES attributes:nil error:nil];
-        [fileManager createDirectoryAtPath:[[documentPath stringByAppendingPathComponent:@"cache"] stringByAppendingPathComponent:@"image"] withIntermediateDirectories:YES attributes:nil error:nil];
-        [fileManager createDirectoryAtPath:[[documentPath stringByAppendingPathComponent:@"data"] stringByAppendingPathComponent:@"mainpage"] withIntermediateDirectories:YES attributes:nil error:nil];
-        [fileManager createDirectoryAtPath:[[documentPath stringByAppendingPathComponent:@"data"] stringByAppendingPathComponent:@"setting"] withIntermediateDirectories:YES attributes:nil error:nil];
-        
-        //初始化关键文件
-        NSString * mainpageDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"] stringByAppendingPathComponent:@"mainpage"];
-
-        NSString * tempFile = @"<div id=\"mainpage\"><div id=\"mainpage-a\"><div class=\"mainpage-newsbox\"><div class=\"mainpage-title\">你好~欢迎来到萌娘百科！</div><div class=\"mainpage-1stcontent\">请下拉刷新页面</div></div></div></div>";
-        [tempFile writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageCache"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
-
-        tempFile = @"2014-10-20 12:00:00";
-        [tempFile writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageDate"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
-
-        //赋值UserDefaults
-        [defaultdata setObject:@"2.0" forKey:@"version"];
-        [defaultdata synchronize];
+        mcInitial * initialProcess = [mcInitial new];
+        [initialProcess resetFiles];
     }
     return YES;
 }

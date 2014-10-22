@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
+		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
 		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
 		AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F619F831D20077F893 /* moegirlWebView.m */; };
 		AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F919F834600077F893 /* mcCachedRequest.m */; };
@@ -40,6 +41,8 @@
 /* Begin PBXFileReference section */
 		AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSearchSuggestionsTableView.h; sourceTree = "<group>"; };
 		AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSearchSuggestionsTableView.m; sourceTree = "<group>"; };
+		AF40D71F19F855530043F74A /* mcInitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcInitial.h; sourceTree = "<group>"; };
+		AF40D72019F855530043F74A /* mcInitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcInitial.m; sourceTree = "<group>"; };
 		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
 		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
 		AFAAB8F519F831D20077F893 /* moegirlWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlWebView.h; sourceTree = "<group>"; };
@@ -124,9 +127,11 @@
 		AFB650B919F6C42400C73E81 /* moegirlwiki */ = {
 			isa = PBXGroup;
 			children = (
+				AFB650C519F6C42400C73E81 /* Main.storyboard */,
+				AF40D71F19F855530043F74A /* mcInitial.h */,
+				AF40D72019F855530043F74A /* mcInitial.m */,
 				AFB650C219F6C42400C73E81 /* mcAppDelegate.h */,
 				AFB650C319F6C42400C73E81 /* mcAppDelegate.m */,
-				AFB650C519F6C42400C73E81 /* Main.storyboard */,
 				AFB650C819F6C42400C73E81 /* mcViewController.h */,
 				AFB650C919F6C42400C73E81 /* mcViewController.m */,
 				AFAAB8F819F834600077F893 /* mcCachedRequest.h */,
@@ -273,6 +278,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF40D72119F855530043F74A /* mcInitial.m in Sources */,
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
 				AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */,
 				AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */,

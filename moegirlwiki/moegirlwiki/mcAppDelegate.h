@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "mcInitial.h"
 
 @protocol mcAppDelegate <NSObject>
 
