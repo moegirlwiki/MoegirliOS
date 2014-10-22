@@ -7,6 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol moegirlMainPageScrollViewDekegate <NSObject>
+
+- (void)cancelKeyboard;
+
+@end
 
 @interface moegirlMainPageScrollView : UIScrollView<UITextViewDelegate,UIScrollViewDelegate>
 {
@@ -40,6 +45,8 @@
 @property (strong, nonatomic) NSMutableArray * mainPageContent;
 
 @property (strong,nonatomic) NSMutableData * recievePool;
+
+@property (assign, nonatomic) id<moegirlMainPageScrollViewDekegate> hook;
 
 @end
 

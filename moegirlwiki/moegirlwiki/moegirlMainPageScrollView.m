@@ -391,6 +391,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    [self.hook cancelKeyboard];
     if (scrollView.contentOffset.y < -70) {
         [_scrollHeadHint1 setText:@"释放更新 (((o(*ﾟ▽ﾟ*)o)))"];
     }else{

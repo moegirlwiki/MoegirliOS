@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol moegirlSearchSuggestionsTableViewDelegate <NSObject>
+
+- (void)cancelKeyboard;
+
+@end
+
 @interface moegirlSearchSuggestionsTableView : UITableView<UITableViewDelegate,UITableViewDataSource>
 {
 @private
@@ -23,5 +29,7 @@
 @property (strong, nonatomic) NSMutableData * recievePool;
 
 @property (strong, nonatomic) NSArray * suggestions;
+
+@property (assign, nonatomic) id<moegirlSearchSuggestionsTableViewDelegate> hook;
 
 @end

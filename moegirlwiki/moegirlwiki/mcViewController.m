@@ -47,6 +47,7 @@
     [_searchSuggestionsTableView setFrame:_MasterInitial.frame];
     [_searchSuggestionsTableView setDataSource:_searchSuggestionsTableView];
     [_searchSuggestionsTableView setDelegate:_searchSuggestionsTableView];
+    [_searchSuggestionsTableView setHook:self];
     [_searchSuggestionsTableView setRowHeight:40];
     [_searchSuggestionsTableView setTargetURL:@"http://zh.moegirl.org"];
     [_MainView addSubview:_searchSuggestionsTableView];
@@ -55,10 +56,11 @@
     // 首页
     _mainPageScrollView = [moegirlMainPageScrollView new];
     [_mainPageScrollView setFrame:_MasterInitial.frame];
-    [_MainView addSubview:_mainPageScrollView];
     [_mainPageScrollView setDelegate:_mainPageScrollView];
+    [_mainPageScrollView setHook:self];
     [_mainPageScrollView setTargetURL:@"http://zh.moegirl.org"];
     [_mainPageScrollView loadMainPage:YES];
+    [_MainView addSubview:_mainPageScrollView];
     
 }
 
@@ -77,6 +79,11 @@
                      completion:^(BOOL finished){
                          NSLog(@"didRotate");
                      }];
+}
+
+- (void)cancelKeyboard
+{
+    [_SearchTextField resignFirstResponder];
 }
 
 - (IBAction)searchFieldEditChange:(id)sender

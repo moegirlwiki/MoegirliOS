@@ -10,7 +10,7 @@
 #import "moegirlMainPageScrollView.h"
 #import "moegirlSearchSuggestionsTableView.h"
 
-@interface mcViewController : UIViewController
+@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate>
 {
     
 }
