@@ -81,13 +81,16 @@
                                                 </constraints>
                                             </imageView>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="搜索  萌娘百科" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="inO-4j-D9D" userLabel="SearchTextField">
-                                                <rect key="frame" x="33" y="0.0" width="222" height="31"/>
+                                                <rect key="frame" x="33" y="0.0" width="235" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="222" id="b4z-Kf-YUi"/>
+                                                    <constraint firstAttribute="width" constant="235" id="b4z-Kf-YUi"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="search"/>
+                                                <connections>
+                                                    <action selector="searchFieldEditChange:" destination="vXZ-lx-hvc" eventType="editingChanged" id="qZh-9e-bGM"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" red="0.75294117647058822" green="0.9137254901960784" blue="0.71372549019607845" alpha="1" colorSpace="calibratedRGB"/>
@@ -96,7 +99,7 @@
                                             <constraint firstAttribute="bottom" secondItem="inO-4j-D9D" secondAttribute="bottom" id="Be4-OO-08L"/>
                                             <constraint firstItem="iXT-Qv-8pN" firstAttribute="top" secondItem="ipk-mp-3o5" secondAttribute="top" id="ER9-JU-OFh"/>
                                             <constraint firstItem="iXT-Qv-8pN" firstAttribute="leading" secondItem="ipk-mp-3o5" secondAttribute="leading" constant="5" id="cwy-hE-44b"/>
-                                            <constraint firstAttribute="trailing" secondItem="inO-4j-D9D" secondAttribute="trailing" constant="13" id="ur3-5S-Btf"/>
+                                            <constraint firstAttribute="trailing" secondItem="inO-4j-D9D" secondAttribute="trailing" id="ur3-5S-Btf"/>
                                             <constraint firstAttribute="bottom" secondItem="iXT-Qv-8pN" secondAttribute="bottom" id="xGt-vY-nk2"/>
                                             <constraint firstAttribute="width" constant="268" id="ybt-Wq-ztd"/>
                                         </constraints>
@@ -142,11 +145,12 @@
                         <outlet property="MainView" destination="taZ-F5-8wQ" id="bd5-K7-PU5"/>
                         <outlet property="MasterInitial" destination="N0t-wg-dMb" id="ARt-GY-BXL"/>
                         <outlet property="SearchBox" destination="ipk-mp-3o5" id="uMm-XG-Zik"/>
+                        <outlet property="SearchTextField" destination="inO-4j-D9D" id="gmN-PY-e9q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-102" y="256"/>
+            <point key="canvasLocation" x="-320" y="438"/>
         </scene>
     </scenes>
     <resources>

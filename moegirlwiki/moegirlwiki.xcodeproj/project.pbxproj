@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
 		AFB650B419F6C42400C73E81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B319F6C42400C73E81 /* Foundation.framework */; };
 		AFB650B619F6C42400C73E81 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B519F6C42400C73E81 /* CoreGraphics.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSearchSuggestionsTableView.h; sourceTree = "<group>"; };
+		AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSearchSuggestionsTableView.m; sourceTree = "<group>"; };
 		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
 		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
 		AFB650B019F6C42400C73E81 /* moegirlwiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moegirlwiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +127,8 @@
 				AFB650BA19F6C42400C73E81 /* Supporting Files */,
 				AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */,
 				AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */,
+				AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */,
+				AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */,
 			);
 			path = moegirlwiki;
 			sourceTree = "<group>";
@@ -262,6 +267,7 @@
 				AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */,
 				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,
 				AFB650C019F6C42400C73E81 /* main.m in Sources */,
+				AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

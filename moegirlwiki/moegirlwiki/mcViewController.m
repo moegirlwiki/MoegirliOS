@@ -27,12 +27,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    _mainPageScrollView = [moegirlMainPageScrollView new];
-    [_mainPageScrollView setFrame:_MasterInitial.frame];
-    [_MainView addSubview:_mainPageScrollView];
-    [_mainPageScrollView setDelegate:_mainPageScrollView];
-    [_mainPageScrollView setTargetURL:@"http://zh.moegirl.org/Mainpage?action=render"];
-    [_mainPageScrollView loadMainPage:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,8 +38,28 @@
 
 - (void)visualInit
 {
+    // 搜索框的圆角
     _SearchBox.layer.cornerRadius = 5;
     _SearchBox.layer.masksToBounds = YES;
+    
+    // 搜索建议框
+    _searchSuggestionsTableView = [moegirlSearchSuggestionsTableView new];
+    [_searchSuggestionsTableView setFrame:_MasterInitial.frame];
+    [_searchSuggestionsTableView setDataSource:_searchSuggestionsTableView];
+    [_searchSuggestionsTableView setDelegate:_searchSuggestionsTableView];
+    [_searchSuggestionsTableView setRowHeight:40];
+    [_searchSuggestionsTableView setTargetURL:@"http://zh.moegirl.org"];
+    [_MainView addSubview:_searchSuggestionsTableView];
+
+    
+    // 首页
+    _mainPageScrollView = [moegirlMainPageScrollView new];
+    [_mainPageScrollView setFrame:_MasterInitial.frame];
+    [_MainView addSubview:_mainPageScrollView];
+    [_mainPageScrollView setDelegate:_mainPageScrollView];
+    [_mainPageScrollView setTargetURL:@"http://zh.moegirl.org"];
+    [_mainPageScrollView loadMainPage:YES];
+    
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -62,6 +77,21 @@
                      completion:^(BOOL finished){
                          NSLog(@"didRotate");
                      }];
+}
+
+- (IBAction)searchFieldEditChange:(id)sender
+{
+    if ([_SearchTextField.text isEqual:@""]) {
+        [_MainView sendSubviewToBack:_searchSuggestionsTableView];
+        return;
+    }
+    NSString * Keyword = _SearchTextField.text;
+    NSRange rangeA = [Keyword rangeOfString:@" "];
+    if (rangeA.location != NSNotFound) {
+        Keyword = [Keyword substringToIndex:rangeA.location];
+    }
+    [_searchSuggestionsTableView checkSuggestions:Keyword];
+    [_MainView bringSubviewToFront:_searchSuggestionsTableView];
 }
 
 @end

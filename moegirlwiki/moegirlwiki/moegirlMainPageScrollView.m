@@ -318,16 +318,17 @@
     [self setupScrollView];
     [self setupHeadBanner];
     
-    
-    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString * mainpageDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"]stringByAppendingPathComponent:@"mainpage"];
-    NSString * TempFile = [[NSString alloc] initWithData:_recievePool encoding:NSUTF8StringEncoding];
-    [TempFile writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageCache"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    
-    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
-    _lastRefreshDateTime = [formatter stringFromDate:[NSDate date]];
-    [_lastRefreshDateTime writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageDate"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    if (!usingCache) {
+        NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString * mainpageDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"]stringByAppendingPathComponent:@"mainpage"];
+        NSString * TempFile = [[NSString alloc] initWithData:_recievePool encoding:NSUTF8StringEncoding];
+        [TempFile writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageCache"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        
+        NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+        _lastRefreshDateTime = [formatter stringFromDate:[NSDate date]];
+        [_lastRefreshDateTime writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageDate"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
 }
 
 - (void)loadMainPage:(BOOL)useCache
@@ -340,8 +341,9 @@
         requestConnection = nil;
     }
     _recievePool = nil;
+    usingCache = useCache;
     
-    if (useCache) {
+    if (usingCache) {
         NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString * mainpageDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"]stringByAppendingPathComponent:@"mainpage"];
         
@@ -350,7 +352,8 @@
         
         [self processRawData:data];
     }else{
-        NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:_targetURL]
+        NSString * requestURL = [[NSString alloc] initWithFormat:@"%@/Mainpage?action=render",_targetURL];
+        NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestURL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                     timeoutInterval:20];
         requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest

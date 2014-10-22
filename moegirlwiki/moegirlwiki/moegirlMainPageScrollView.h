@@ -11,7 +11,8 @@
 @interface moegirlMainPageScrollView : UIScrollView<UITextViewDelegate,UIScrollViewDelegate>
 {
     @private
-        NSURLConnection *requestConnection;
+        bool usingCache;
+        NSURLConnection * requestConnection;
     
 }
 
