@@ -27,7 +27,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    
+    [self resetSizes];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,6 +64,13 @@
     
 }
 
+- (void)resetSizes
+{
+    [_mainPageScrollView setFrame:_MasterInitial.frame];
+    [_mainPageScrollView refreshScrollView];
+    [_searchSuggestionsTableView setFrame:_MasterInitial.frame];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [UIView animateWithDuration:0.2
@@ -71,13 +78,13 @@
                         options: UIViewAnimationOptionCurveLinear
                      animations:^{
                          /*----------------------*/
-                         [_mainPageScrollView setFrame:_MasterInitial.frame];
-                         [_mainPageScrollView refreshScrollView];
-                         
+                         [self resetSizes];
                          /*----------------------*/
                      }
                      completion:^(BOOL finished){
-                         NSLog(@"didRotate");
+                         /*----------------------*/
+                         
+                         /*----------------------*/
                      }];
 }
 

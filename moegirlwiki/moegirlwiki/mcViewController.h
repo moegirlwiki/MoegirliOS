@@ -28,6 +28,7 @@
 
 //过程
 - (void)visualInit;//初始化视觉效果
+- (void)resetSizes;//重置元件尺寸
 
 
 //xib过程

@@ -16,6 +16,8 @@
     if (self) {
         // Initialization code
     }
+    lastKeyword = @"";
+    firstTime = YES;
     return self;
 }
 
@@ -35,10 +37,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_suggestions == nil) {
+    if (firstTime) {
         return 0;
     }
-    return _suggestions.count;
+    if (_suggestions == nil) {
+        return 1;
+    }
+    return _suggestions.count + 1;
 }
 
 
@@ -50,15 +55,27 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                  reuseIdentifier:CellIdentifier];
-    cell.textLabel.text = [_suggestions objectAtIndex:indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
-    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-    
-    return cell;
+    if (indexPath.row == 0) {
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = [NSString stringWithFormat:@"搜索：“%@”",lastKeyword];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+        
+        return cell;
+    }else{
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = [_suggestions objectAtIndex:indexPath.row - 1];
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+        
+        return cell;
+    }
 }
 
 - (NSString *)urlEncode:(NSString*)unencodeString
@@ -69,6 +86,8 @@
 
 - (void)checkSuggestions:(NSString *)keyword 
 {
+    firstTime = NO;
+    
     if (![keyword isEqualToString:lastKeyword]) {
         lastKeyword = keyword;
         [requestConnection cancel];
@@ -97,19 +116,26 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     NSLog(@"%@",error.localizedDescription);
+    [self reloadData];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSString * preProcessStr = [[NSString alloc] initWithData:_recievePool encoding:NSUTF8StringEncoding];
-    NSRange rangeA = [preProcessStr rangeOfString:@"\",["];
-    preProcessStr = [preProcessStr substringWithRange:NSMakeRange(rangeA.location + 2, preProcessStr.length - rangeA.location - 3)];
-    NSData * preparedData = [preProcessStr dataUsingEncoding:NSUTF8StringEncoding];
-    _suggestions = [NSJSONSerialization JSONObjectWithData:preparedData
-                                                   options:NSJSONReadingMutableLeaves
-                                                     error:nil];
-    if (_suggestions != nil) {
+    @try {
+        NSString * preProcessStr = [[NSString alloc] initWithData:_recievePool encoding:NSUTF8StringEncoding];
+        NSRange rangeA = [preProcessStr rangeOfString:@"\",["];
+        preProcessStr = [preProcessStr substringWithRange:NSMakeRange(rangeA.location + 2, preProcessStr.length - rangeA.location - 3)];
+        NSData * preparedData = [preProcessStr dataUsingEncoding:NSUTF8StringEncoding];
+        _suggestions = [NSJSONSerialization JSONObjectWithData:preparedData
+                                                       options:NSJSONReadingMutableLeaves
+                                                         error:nil];
         [self reloadData];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception: %@", exception);
+    }
+    @finally {
+        
     }
 }
 

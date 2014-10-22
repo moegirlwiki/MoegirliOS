@@ -19,6 +19,7 @@
 @private
     NSString * lastKeyword;
     NSURLConnection *requestConnection;
+    bool firstTime;
 }
 
 - (NSString *)urlEncode:(NSString*)unencodeString;
