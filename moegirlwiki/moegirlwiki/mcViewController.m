@@ -30,8 +30,9 @@
     _mainPageScrollView = [moegirlMainPageScrollView new];
     [_mainPageScrollView setFrame:_MasterInitial.frame];
     [_MainView addSubview:_mainPageScrollView];
-    [_mainPageScrollView loadMainPage:@"http://zh.moegirl.org" useCache:NO];
-    //[_mainPageScrollView loadMainPage:@"http://zh.moegirl.org" useCache:YES];
+    [_mainPageScrollView setDelegate:_mainPageScrollView];
+    [_mainPageScrollView setTargetURL:@"http://zh.moegirl.org/Mainpage?action=render"];
+    [_mainPageScrollView loadMainPage:YES];
 }
 
 - (void)didReceiveMemoryWarning

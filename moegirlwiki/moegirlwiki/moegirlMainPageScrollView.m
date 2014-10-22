@@ -32,13 +32,13 @@
 - (void)refreshScrollView
 {
     float initWidth = self.bounds.size.width;
-    float XPoint = 20;
+    float YPoint = 20;
     
     [self setContentSize:CGSizeMake(initWidth, 0)];
     
     for (int i = 0; i< _mainPageTitle.count; i++) {
         UIView *itemView = [_scrollItemsPanel objectAtIndex:i];
-        [itemView setFrame:CGRectMake(0, XPoint,initWidth, 600)];
+        [itemView setFrame:CGRectMake(0, YPoint,initWidth, 600)];
         
         UILabel *itemTitle = [_scrollItemsTitle objectAtIndex:i];
         [itemTitle setFrame:CGRectMake(20, 0, initWidth - 40, 30)];
@@ -50,19 +50,24 @@
         
         [itemView setFrame:CGRectMake(itemView.frame.origin.x, itemView.frame.origin.y, itemView.frame.size.width, itemContent.frame.origin.y + itemContent.frame.size.height)];
         
-        XPoint += itemView.frame.size.height + 10;
+        YPoint += itemView.frame.size.height + 10;
     }
     
-    if (XPoint<self.bounds.size.height) {
-        XPoint = self.bounds.size.height + 1;
+    if (YPoint<self.bounds.size.height) {
+        YPoint = self.bounds.size.height + 1;
     }
-    [self setContentSize:CGSizeMake(self.bounds.size.width, XPoint)];
+    [self setContentSize:CGSizeMake(self.bounds.size.width, YPoint)];
+    
+    float XPoint = (self.bounds.size.width - 180)/2;
+    [_scrollHeadBanner setFrame:CGRectMake(XPoint,  -55, 180, 40)];
+    [_scrollHeadHint1 setFrame:CGRectMake(0, 0, 180, 20)];
+    [_scrollHeadHint2 setFrame:CGRectMake(0, 20, 180, 20)];
 }
 
 - (void)setupScrollView
 {
     float initWidth = self.bounds.size.width;
-    float XPoint = 20;
+    float YPoint = 20;
     
     _scrollItemsPanel = [NSMutableArray new];
     _scrollItemsTitle = [NSMutableArray new];
@@ -73,7 +78,7 @@
     [self setContentSize:CGSizeMake(initWidth, 0)];
     
     for (int i = 0; i< _mainPageTitle.count; i++) {
-        UIView *itemView = [[UIView alloc] initWithFrame:CGRectMake(0, XPoint,initWidth, 600)];
+        UIView *itemView = [[UIView alloc] initWithFrame:CGRectMake(0, YPoint,initWidth, 600)];
         [itemView setBackgroundColor:[UIColor clearColor]];
         [self addSubview:itemView];
         
@@ -106,7 +111,7 @@
         
         [itemView setFrame:CGRectMake(itemView.frame.origin.x, itemView.frame.origin.y, itemView.frame.size.width, itemContent.frame.origin.y + itemContent.frame.size.height)];
         
-        XPoint += itemView.frame.size.height + 15;
+        YPoint += itemView.frame.size.height + 15;
         
         [_scrollItemsContent addObject:itemContent];
         [_scrollItemsTitle addObject:itemTitle];
@@ -114,10 +119,34 @@
         
     }
     
-    if (XPoint<self.bounds.size.height) {
-        XPoint = self.bounds.size.height + 1;
+    if (YPoint<self.bounds.size.height) {
+        YPoint = self.bounds.size.height + 1;
     }
-    [self setContentSize:CGSizeMake(self.bounds.size.width, XPoint)];
+    [self setContentSize:CGSizeMake(self.bounds.size.width, YPoint)];
+}
+
+- (void)setupHeadBanner
+{
+    float XPoint = (self.bounds.size.width - 180)/2;
+    _scrollHeadBanner = [[UIView alloc] initWithFrame:CGRectMake(XPoint, -55, 180, 40)];
+    [_scrollHeadBanner setBackgroundColor:[UIColor clearColor]];
+    [self addSubview:_scrollHeadBanner];
+    
+    _scrollHeadHint1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 20)];
+    [_scrollHeadHint1 setText:@"下拉刷新 (´･_･`)"];
+    [_scrollHeadHint1 setBackgroundColor:[UIColor clearColor]];
+    [_scrollHeadHint1 setTextColor:[UIColor darkGrayColor]];
+    [_scrollHeadHint1 setFont:[UIFont boldSystemFontOfSize:11]];
+    
+    _scrollHeadHint2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 180, 20)];
+    [_scrollHeadHint2 setText:[[NSString alloc] initWithFormat:@"最后更新：%@",_lastRefreshDateTime]];
+    [_scrollHeadHint2 setBackgroundColor:[UIColor clearColor]];
+    [_scrollHeadHint2 setTextColor:[UIColor darkGrayColor]];
+    [_scrollHeadHint2 setFont:[UIFont systemFontOfSize:10]];
+    
+    [_scrollHeadBanner addSubview:_scrollHeadHint1];
+    [_scrollHeadBanner addSubview:_scrollHeadHint2];
+    
 }
 
 - (void)presentError:(NSString *)info
@@ -284,10 +313,24 @@
         range = [data rangeOfString:regex options:NSRegularExpressionSearch];
     }
     
+    [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
     [self setupScrollView];
+    [self setupHeadBanner];
+    
+    
+    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString * mainpageDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"]stringByAppendingPathComponent:@"mainpage"];
+    NSString * TempFile = [[NSString alloc] initWithData:_recievePool encoding:NSUTF8StringEncoding];
+    [TempFile writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageCache"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    
+    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    _lastRefreshDateTime = [formatter stringFromDate:[NSDate date]];
+    [_lastRefreshDateTime writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageDate"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
-- (void)loadMainPage:(NSString *)targetURL useCache:(BOOL)useCache
+- (void)loadMainPage:(BOOL)useCache
 {
     if (_lastRefreshDateTime == nil) {
         _lastRefreshDateTime = [NSString new];
@@ -307,8 +350,7 @@
         
         [self processRawData:data];
     }else{
-        targetURL = [targetURL stringByAppendingString:@"/Mainpage?action=render"];
-        NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:targetURL]
+        NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:_targetURL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                     timeoutInterval:20];
         requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
@@ -334,21 +376,24 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSString *receivedData = [[NSString alloc] initWithData:_recievePool encoding:NSUTF8StringEncoding];
-    [self processRawData:receivedData];
-    
-    
-    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString * mainpageDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"]stringByAppendingPathComponent:@"mainpage"];
-    
-    [receivedData writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageCache"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    
-    NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
-    _lastRefreshDateTime = [formatter stringFromDate:[NSDate date]];
-    [_lastRefreshDateTime writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageDate"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    [self processRawData:[[NSString alloc] initWithData:_recievePool encoding:NSUTF8StringEncoding]];
 }
 
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y < -70) {
+        [self loadMainPage:NO];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y < -70) {
+        [_scrollHeadHint1 setText:@"释放更新 (((o(*ﾟ▽ﾟ*)o)))"];
+    }else{
+        [_scrollHeadHint1 setText:@"下拉刷新 (´･_･`)"];
+    }
+}
 
 @end
 
