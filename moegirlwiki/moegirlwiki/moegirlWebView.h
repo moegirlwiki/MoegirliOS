@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "mcCachedRequest.h"
+#import "moegirlSaveImageAlertView.h"
 
 @protocol moegirlWebViewDelegate <NSObject>
 
@@ -29,6 +30,7 @@
 - (void)loadContentWithEncodedKeyWord:(NSString *)keywordAfterEncode useCache:(BOOL)useCache;
 
 @property (strong, nonatomic) mcCachedRequest * contentRequest;
+@property (strong, nonatomic) moegirlSaveImageAlertView * saveImageAlertView;
 @property (strong, nonatomic) NSString * targetURL;
 @property (strong, nonatomic) NSString * keyword;
 

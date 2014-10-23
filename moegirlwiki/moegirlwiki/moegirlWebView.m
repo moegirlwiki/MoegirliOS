@@ -217,7 +217,11 @@
     _keyword = [keywordAfterEncode stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     _contentRequest = [mcCachedRequest new];
     [_contentRequest setHook:self];
-    [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@?action=render",_targetURL,keywordAfterEncode] ignoreCache:!useCache];
+    if ([_keyword hasPrefix:@"Special:"]||[_keyword hasPrefix:@"File:"]) {
+        [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@",_targetURL,keywordAfterEncode] ignoreCache:!useCache];
+    }else{
+        [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@?action=render",_targetURL,keywordAfterEncode] ignoreCache:!useCache];
+    }
 }
 
 -(void)mcCachedRequestFinishLoading:(bool)success LoadFromCache:(bool)cache error:(NSString *)error data:(NSMutableData *)data
@@ -229,7 +233,7 @@
     }
     NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,_keyword];
     if (success) {
-        if ([_keyword hasPrefix:@"Special:"]) {
+        if ([_keyword hasPrefix:@"Special:"]||[_keyword hasPrefix:@"File:"]) {
             [self loadHTMLString:[self prepareContentOld:data]
                          baseURL:[NSURL URLWithString:baseURL]];
         }else{
@@ -272,11 +276,6 @@
                 return  YES;// a href # 页面内部转跳
             }
             NSLog(@"%@",link);
-            //<------------------------
-            //在这里添加对图片地址的判断
-            
-            
-            //<------------------------
             //开启新词条
             [self.hook newWebViewRequestFormWebView:link];
             return NO;
@@ -285,11 +284,17 @@
             return YES;
         }
         
+        if ([link hasPrefix:@"http://static.mengniang.org/"]) {
+            _saveImageAlertView = [moegirlSaveImageAlertView alloc];
+            [_saveImageAlertView setImageURL:link];
+            _saveImageAlertView = [_saveImageAlertView initWithTitle:@"是否保存该图片?"
+                                                           message:nil
+                                                          delegate:_saveImageAlertView
+                                                 cancelButtonTitle:@"取消"
+                                                 otherButtonTitles:@"保存", nil];
+            [_saveImageAlertView show];
+        }
         //站外链接
-        
-        
-        
-        
         return NO;
     }else{
         return YES;

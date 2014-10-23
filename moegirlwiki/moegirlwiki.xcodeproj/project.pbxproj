@@ -28,6 +28,8 @@
 		AFB650D519F6C42400C73E81 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B719F6C42400C73E81 /* UIKit.framework */; };
 		AFB650DD19F6C42400C73E81 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AFB650DB19F6C42400C73E81 /* InfoPlist.strings */; };
 		AFB650DF19F6C42400C73E81 /* moegirlwikiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB650DE19F6C42400C73E81 /* moegirlwikiTests.m */; };
+		AFC2611819F9A31C00F12B37 /* mcCachedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC2611719F9A31C00F12B37 /* mcCachedImage.m */; };
+		AFC2611B19F9A64000F12B37 /* moegirlSaveImageAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,10 @@
 		AFB650DA19F6C42400C73E81 /* moegirlwikiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwikiTests-Info.plist"; sourceTree = "<group>"; };
 		AFB650DC19F6C42400C73E81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AFB650DE19F6C42400C73E81 /* moegirlwikiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = moegirlwikiTests.m; sourceTree = "<group>"; };
+		AFC2611619F9A31C00F12B37 /* mcCachedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcCachedImage.h; sourceTree = "<group>"; };
+		AFC2611719F9A31C00F12B37 /* mcCachedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcCachedImage.m; sourceTree = "<group>"; };
+		AFC2611919F9A64000F12B37 /* moegirlSaveImageAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSaveImageAlertView.h; sourceTree = "<group>"; };
+		AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSaveImageAlertView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,8 @@
 		AF91053419F892C300EC5DFD /* Functions */ = {
 			isa = PBXGroup;
 			children = (
+				AFC2611619F9A31C00F12B37 /* mcCachedImage.h */,
+				AFC2611719F9A31C00F12B37 /* mcCachedImage.m */,
 				AFAAB8F819F834600077F893 /* mcCachedRequest.h */,
 				AFAAB8F919F834600077F893 /* mcCachedRequest.m */,
 				AF91053619F8987F00EC5DFD /* mcLeftDrag.h */,
@@ -122,6 +130,8 @@
 				AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */,
 				AFAAB8F519F831D20077F893 /* moegirlWebView.h */,
 				AFAAB8F619F831D20077F893 /* moegirlWebView.m */,
+				AFC2611919F9A64000F12B37 /* moegirlSaveImageAlertView.h */,
+				AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */,
 			);
 			name = moegirlSpecify;
 			sourceTree = "<group>";
@@ -304,6 +314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFC2611819F9A31C00F12B37 /* mcCachedImage.m in Sources */,
 				AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */,
 				AF40D72119F855530043F74A /* mcInitial.m in Sources */,
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
@@ -313,6 +324,7 @@
 				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,
 				AFB650C019F6C42400C73E81 /* main.m in Sources */,
 				AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */,
+				AFC2611B19F9A64000F12B37 /* moegirlSaveImageAlertView.m in Sources */,
 				AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

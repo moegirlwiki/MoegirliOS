@@ -59,6 +59,7 @@
     [_searchSuggestionsTableView setDelegate:_searchSuggestionsTableView];
     [_searchSuggestionsTableView setHook:self];
     [_searchSuggestionsTableView setRowHeight:40];
+    [_searchSuggestionsTableView setScrollsToTop:NO];
     [_searchSuggestionsTableView setTargetURL:@"http://zh.moegirl.org"];
     [_MainView addSubview:_searchSuggestionsTableView];
 
@@ -136,6 +137,12 @@
 
 - (void)createMoeWebView:(NSString *)target
 {
+    if (webViewListPosition == 0) {
+        [_mainPageScrollView setScrollsToTop:NO];
+    } else {
+        moegirlWebView * currentView = [_webViewList objectAtIndex:webViewListPosition - 1];
+        [currentView.scrollView setScrollsToTop:NO];
+    }
     
     [_SearchTextField setText:[target stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     moegirlWebView * webView = [moegirlWebView new];
@@ -147,6 +154,7 @@
     [webView setDelegate:webView];
     [webView setHook:self];
     [webView loadContentWithEncodedKeyWord:target useCache:YES];
+    [webView.scrollView setScrollsToTop:YES];
     [_MainView addSubview:webView];
     [_webViewList insertObject:webView atIndex:webViewListPosition];
     [_webViewTitles insertObject:_SearchTextField.text atIndex:webViewListPosition];
@@ -175,6 +183,7 @@
 
 - (void)newWebViewRequestFormSuggestions:(NSString *)keyword
 {
+
     [self createMoeWebView:keyword];
     [_MainView sendSubviewToBack:_searchSuggestionsTableView];
     [self cancelKeyboard];
@@ -197,7 +206,6 @@
     [_searchSuggestionsTableView checkSuggestions:Keyword];
     [_MainView bringSubviewToFront:_searchSuggestionsTableView];
 }
-
 
 #pragma mark MainViewSwitcher
 
@@ -280,6 +288,14 @@
                                  [tempWebView setFrame:_MasterInitial.frame];
                                  [_MainView bringSubviewToFront:_leftPanel];
                                  [_MainView bringSubviewToFront:_rightPanel];
+                                 
+                                 [tempWebView.scrollView setScrollsToTop:NO];
+                                 if (webViewListPosition == 0) {
+                                     [_mainPageScrollView setScrollsToTop:YES];
+                                 }else{
+                                     moegirlWebView * currentWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+                                     [currentWebView.scrollView setScrollsToTop:YES];
+                                 }
                              }];
             
         }else{
@@ -322,6 +338,10 @@
                                      [_mainPageScrollView setFrame:_MasterInitial.frame];
                                      [_MainView bringSubviewToFront:_leftPanel];
                                      [_MainView bringSubviewToFront:_rightPanel];
+                                     
+                                     [_mainPageScrollView setScrollsToTop:NO];
+                                     moegirlWebView * currentWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+                                     [currentWebView.scrollView setScrollsToTop:YES];
                                  }];
             }else{
                 //保留View
@@ -356,6 +376,10 @@
                                      [tempWebView setFrame:_MasterInitial.frame];
                                      [_MainView bringSubviewToFront:_leftPanel];
                                      [_MainView bringSubviewToFront:_rightPanel];
+                                     
+                                     [tempWebView.scrollView setScrollsToTop:NO];
+                                     moegirlWebView * currentWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+                                     [currentWebView.scrollView setScrollsToTop:YES];
                                  }];
             }else{
                 //保留View
@@ -426,5 +450,7 @@
         [_StatusLabel setText:info];
     }
 }
+
+
 
 @end
