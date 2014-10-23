@@ -25,7 +25,9 @@
 @property (weak, nonatomic) mcAppDelegate * appDelegate;
 @property (strong, nonatomic) mcLeftDrag * leftPanel;
 @property (strong, nonatomic) mcRightDrag * rightPanel;
+
 @property (strong, nonatomic) NSMutableArray * webViewList;
+@property (strong, nonatomic) NSMutableArray * webViewTitles;
 
 //xib元件
 @property (weak, nonatomic) IBOutlet UIView *SearchBox;
@@ -34,6 +36,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *SearchTextField;
 @property (weak, nonatomic) IBOutlet UIView *LeftPanelInitialPosition;
 @property (weak, nonatomic) IBOutlet UIView *RightPanelInitialPosition;
+@property (weak, nonatomic) IBOutlet UILabel *StatusLabel;
+@property (weak, nonatomic) IBOutlet UIProgressView *ProgressBar;
 
 
 //过程

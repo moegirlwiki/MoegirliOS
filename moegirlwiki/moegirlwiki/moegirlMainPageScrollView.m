@@ -123,6 +123,8 @@
         YPoint = self.bounds.size.height + 1;
     }
     [self setContentSize:CGSizeMake(self.bounds.size.width, YPoint)];
+    
+    [self.hook progressAndStatusHide];
 }
 
 - (void)setupHeadBanner
@@ -247,7 +249,7 @@
 - (void)processRawData:(NSString *)data
 {
     //处理首页数据
-    
+    [self.hook progressAndStatusSetToValue:80 info:@"处理首页数据"];
     //挖出首页
     NSString *regex = @"<div id=\"mainpage\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
     NSRange range = [data rangeOfString:regex options:NSRegularExpressionSearch];
@@ -329,10 +331,13 @@
         _lastRefreshDateTime = [formatter stringFromDate:[NSDate date]];
         [_lastRefreshDateTime writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageDate"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
+    
+    
 }
 
 - (void)loadMainPage:(BOOL)useCache
 {
+    
     if (_lastRefreshDateTime == nil) {
         _lastRefreshDateTime = [NSString new];
     }
@@ -352,6 +357,7 @@
         
         [self processRawData:data];
     }else{
+        [self.hook progressAndStatusShowUp];
         NSString * requestURL = [[NSString alloc] initWithFormat:@"%@/Mainpage?action=render",_targetURL];
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestURL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -359,6 +365,7 @@
         requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
                                                            delegate:self
                                                    startImmediately:YES];
+        [self.hook progressAndStatusSetToValue:38 info:@"请求数据"];
     }
 }
 

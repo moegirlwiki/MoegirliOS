@@ -51,11 +51,13 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     _recievePool = [NSMutableData new];
+    [self.hook mcCachedRequestGotRespond];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [_recievePool appendData:data];
+    [self.hook mcCachedRequestGotData];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error

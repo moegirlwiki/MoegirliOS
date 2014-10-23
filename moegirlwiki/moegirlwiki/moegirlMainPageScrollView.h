@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 @protocol moegirlMainPageScrollViewDekegate <NSObject>
 
+- (void)progressAndStatusShowUp;
+- (void)progressAndStatusHide;
+- (void)progressAndStatusMakeStep:(float)step info:(NSString *)info;
+- (void)progressAndStatusSetToValue:(float)step info:(NSString *)info;
 - (void)cancelKeyboard;
 
 @end

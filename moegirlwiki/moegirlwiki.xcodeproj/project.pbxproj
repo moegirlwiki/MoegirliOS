@@ -160,8 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				AFB650C519F6C42400C73E81 /* Main.storyboard */,
-				AF40D71F19F855530043F74A /* mcInitial.h */,
-				AF40D72019F855530043F74A /* mcInitial.m */,
 				AFB650C219F6C42400C73E81 /* mcAppDelegate.h */,
 				AFB650C319F6C42400C73E81 /* mcAppDelegate.m */,
 				AFB650C819F6C42400C73E81 /* mcViewController.h */,
@@ -177,6 +175,8 @@
 		AFB650BA19F6C42400C73E81 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AF40D71F19F855530043F74A /* mcInitial.h */,
+				AF40D72019F855530043F74A /* mcInitial.m */,
 				AFB650BB19F6C42400C73E81 /* moegirlwiki-Info.plist */,
 				AFB650BC19F6C42400C73E81 /* InfoPlist.strings */,
 				AFB650BF19F6C42400C73E81 /* main.m */,

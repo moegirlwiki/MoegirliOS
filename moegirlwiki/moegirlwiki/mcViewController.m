@@ -20,6 +20,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     _webViewList = [NSMutableArray new];
+    _webViewTitles = [NSMutableArray new];
     
     _appDelegate = [[UIApplication sharedApplication] delegate];
     [_appDelegate setHook:self];
@@ -42,6 +43,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark MainMethods
 
 - (void)visualInit
 {
@@ -119,6 +122,8 @@
     [_SearchTextField resignFirstResponder];
 }
 
+#pragma mark CreateNewWebView
+
 - (void)urlSchemeCall:(NSString *)target
 {
     NSLog(@"%@",target);
@@ -144,10 +149,13 @@
     [webView loadContentWithEncodedKeyWord:target useCache:YES];
     [_MainView addSubview:webView];
     [_webViewList insertObject:webView atIndex:webViewListPosition];
+    [_webViewTitles insertObject:_SearchTextField.text atIndex:webViewListPosition];
     webViewListPosition ++;
     for (int i = webViewListPosition; i < _webViewList.count ; i++) {
-        [_webViewList removeObjectAtIndex:i];
+        [[_webViewList objectAtIndex:i] removeFromSuperview];
     }
+    [_webViewList removeObjectsInRange:NSMakeRange(webViewListPosition, _webViewList.count - webViewListPosition)];
+    [_webViewTitles removeObjectsInRange:NSMakeRange(webViewListPosition, _webViewList.count - webViewListPosition)];
     [UIView animateWithDuration:0.5
                           delay:0
                         options: UIViewAnimationOptionCurveLinear
@@ -159,6 +167,21 @@
                          [_MainView bringSubviewToFront:_rightPanel];
                      }];
 }
+
+- (void)newWebViewRequestFormWebView:(NSString *)decodedKeyword
+{
+    [self createMoeWebView:decodedKeyword];
+}
+
+- (void)newWebViewRequestFormSuggestions:(NSString *)keyword
+{
+    [self createMoeWebView:keyword];
+    [_MainView sendSubviewToBack:_searchSuggestionsTableView];
+    [self cancelKeyboard];
+}
+
+
+#pragma mark SearchSuggestion
 
 - (IBAction)searchFieldEditChange:(id)sender
 {
@@ -175,17 +198,9 @@
     [_MainView bringSubviewToFront:_searchSuggestionsTableView];
 }
 
-- (void)newWebViewRequestFormWebView:(NSString *)decodedKeyword
-{
-    [self createMoeWebView:decodedKeyword];
-}
 
-- (void)newWebViewRequestFormSuggestions:(NSString *)keyword
-{
-    [self createMoeWebView:keyword];
-    [_MainView sendSubviewToBack:_searchSuggestionsTableView];
-    [self cancelKeyboard];
-}
+#pragma mark MainViewSwitcher
+
 
 - (void)MoveMainViewByLeftBegan
 {
@@ -254,6 +269,11 @@
                                                                   _MasterInitial.frame.origin.y,
                                                                   _MasterInitial.frame.size.width,
                                                                   _MasterInitial.frame.size.height)];
+                                 if (webViewListPosition == 0) {
+                                     [_SearchTextField setText:@""];
+                                 }else{
+                                     [_SearchTextField setText:[_webViewTitles objectAtIndex:webViewListPosition -1]];
+                                 }
                              }
                              completion:^(BOOL finished){
                                  [_MainView sendSubviewToBack:tempWebView];
@@ -295,6 +315,7 @@
                                                                               _MasterInitial.frame.origin.y,
                                                                               _MasterInitial.frame.size.width,
                                                                               _MasterInitial.frame.size.height)];
+                                     [_SearchTextField setText:[_webViewTitles objectAtIndex:webViewListPosition -1]];
                                  }
                                  completion:^(BOOL finished){
                                      [_MainView sendSubviewToBack:_mainPageScrollView];
@@ -328,6 +349,7 @@
                                                                       _MasterInitial.frame.origin.y,
                                                                       _MasterInitial.frame.size.width,
                                                                       _MasterInitial.frame.size.height)];
+                                     [_SearchTextField setText:[_webViewTitles objectAtIndex:webViewListPosition -1]];
                                  }
                                  completion:^(BOOL finished){
                                      [_MainView sendSubviewToBack:tempWebView];
@@ -352,6 +374,57 @@
     [_rightPanel setFrame:_RightPanelInitialPosition.frame];
 }
 
+#pragma mark ProgressBarAndStatusLabel
 
+- (void)progressAndStatusShowUp
+{
+    [_StatusLabel setText:@"开始加载"];
+    [_ProgressBar setProgress:0];
+    [UIView animateWithDuration:0.1
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_StatusLabel setAlpha:1];
+                         [_ProgressBar setAlpha:1];
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void)progressAndStatusHide
+{
+    [_StatusLabel setText:@"加载完成 !"];
+    [_ProgressBar setProgress:1 animated:YES];
+    [UIView animateWithDuration:0.2
+                          delay:0.2
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_StatusLabel setAlpha:0];
+                         [_ProgressBar setAlpha:0];
+                     }
+                     completion:^(BOOL finished){
+                         [_ProgressBar setProgress:0];
+                         
+                     }];
+}
+
+- (void)progressAndStatusMakeStep:(float)step info:(NSString *)info
+{
+    step = (step / 100) + _ProgressBar.progress;
+    [_ProgressBar setProgress:step animated:YES];
+    if (info != nil) {
+        [_StatusLabel setText:info];
+    }
+}
+
+- (void)progressAndStatusSetToValue:(float)step info:(NSString *)info
+{
+    step = (step / 100);
+    [_ProgressBar setProgress:step animated:YES];
+    if (info != nil) {
+        [_StatusLabel setText:info];
+    }
+}
 
 @end

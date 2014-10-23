@@ -39,8 +39,8 @@
     NSString * regexstr;
     NSRange range;    
     
-    
         //R18修正
+        [self.hook progressAndStatusMakeStep:3 info:nil];
         regexstr = @"<script language=\"javascript\"[\\s\\S]*?<div id=x18[\\s\\S]*?</div>[\\s\\S]*?</script>[\\s\\S]*<span style=\"position:fixed;top: 0px;[\\s\\S]*width=\"227\" height=\"83\" /></a></span>[\\s\\S]*?</p>";
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
         if (range.location != NSNotFound) {
@@ -49,10 +49,12 @@
         }
         
         //banner修正
+        [self.hook progressAndStatusMakeStep:3 info:nil];
         content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:80%;" withString:@"<table class=\"common-box\" style=\""];
         content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:350px;" withString:@"<table class=\"common-box\" style=\""];
         
         //Template:Vocaloid Songbox
+        [self.hook progressAndStatusMakeStep:3 info:nil];
         regexstr = @"align=\"center\" width=\"450px\" style=\"border:0px; text-align:center; line-height:1.3em;\" class=\"infotemplate\"";
         range = [content rangeOfString:regexstr];
         while (range.location != NSNotFound) {
@@ -61,12 +63,15 @@
         }
         
         //flashmp3 插件修正，针对音频
+        [self.hook progressAndStatusMakeStep:3 info:nil];
         regexstr = @"<script language=\"JavaScript\" src=\"/extensions/FlashMP3/audio-player\\.js\".*soundFile=";
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
         while (range.location != NSNotFound) {
             content = [content stringByReplacingCharactersInRange:range withString:@"<audio src=\""];
             range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
         }
+    
+        [self.hook progressAndStatusMakeStep:3 info:nil];
         regexstr = @"\"><param name=\"quality\" value=\"high\"><param name=\"menu\" value=\"false\"><param name=\"wmode\" value=\"transparent\"></object>";
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
         while (range.location != NSNotFound) {
@@ -85,6 +90,7 @@
     content = [NSString stringWithFormat:@"%@%@%@",header,content,footer];
     /*============*/
     
+    [self.hook progressAndStatusSetToValue:90 info:@"等待页面绘制"];
     return content;
 }
 
@@ -97,6 +103,7 @@
     
     NSString * oldcss = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"oldcustomize"] encoding:NSUTF8StringEncoding error:nil];
     
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     NSString *regexstr = @"<div id=\"siteSub\">.*?</div>";
     NSRange range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
@@ -104,6 +111,7 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<div id=\"mw-page-base\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
@@ -111,6 +119,7 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<div id=\"mw-head-base\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
@@ -118,6 +127,7 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<div id=\"jump-to-nav\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
@@ -125,6 +135,7 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<div id=\'mw-data-after-content\'>[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
@@ -132,6 +143,7 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<div id=\"mw-navigation\">[\\s\\S]*?<div style=\"clear:both\"></div>[\\s\\S]*?</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
@@ -139,6 +151,7 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @" id=\"content\"";
     range = [content rangeOfString:regexstr];
     while (range.location != NSNotFound) {
@@ -146,6 +159,7 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<div id=\"siteNotice\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
@@ -154,10 +168,12 @@
     }
     
     //banner修正
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:80%;" withString:@"<table class=\"common-box\" style=\""];
     content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:350px;" withString:@"<table class=\"common-box\" style=\""];
     
     //搜索结果修正
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<form id=\"search\" [\\s\\S]*?</form>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     if (range.location != NSNotFound) {
@@ -165,12 +181,15 @@
     }
     
     //flashmp3 插件修正，针对音频
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<script language=\"JavaScript\" src=\"/extensions/FlashMP3/audio-player\\.js\".*soundFile=";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:@"<audio src=\""];
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
+    
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"\"><param name=\"quality\" value=\"high\"><param name=\"menu\" value=\"false\"><param name=\"wmode\" value=\"transparent\"></object>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
@@ -179,18 +198,22 @@
     }
     
     //添加定制样式
+    [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"</body>";
     range = [content rangeOfString:regexstr];
     if (range.location != NSNotFound) {
         content = [content stringByReplacingCharactersInRange:range withString:oldcss];
     }
     
-    
+    [self.hook progressAndStatusSetToValue:90 info:@"等待页面绘制"];
     return content;
+    
 }
 
 - (void)loadContentWithEncodedKeyWord:(NSString *)keywordAfterEncode useCache:(BOOL)useCache
 {
+    [self.hook progressAndStatusShowUp];
+    [self.hook progressAndStatusMakeStep:5 info:@"发送请求"];
     _keyword = [keywordAfterEncode stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     _contentRequest = [mcCachedRequest new];
     [_contentRequest setHook:self];
@@ -200,9 +223,9 @@
 -(void)mcCachedRequestFinishLoading:(bool)success LoadFromCache:(bool)cache error:(NSString *)error data:(NSMutableData *)data
 {
     if (cache) {
-        NSLog(@"load from cache");
+        [self.hook progressAndStatusSetToValue:50 info:@"发现缓存，正在处理"];
     }else{
-        NSLog(@"new content");
+        [self.hook progressAndStatusSetToValue:50 info:@"接收完成，正在处理"];
     }
     NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,_keyword];
     if (success) {
@@ -224,6 +247,11 @@
         
         NSLog(@"Error: %@",error);
     }
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [self.hook progressAndStatusHide];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -251,7 +279,12 @@
             //<------------------------
             //开启新词条
             [self.hook newWebViewRequestFormWebView:link];
+            return NO;
         }
+        if ([link hasPrefix:@"applewebdata://"]) {
+            return YES;
+        }
+        
         //站外链接
         
         
@@ -266,6 +299,17 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.hook cancelKeyboard];
+}
+
+
+-(void)mcCachedRequestGotRespond
+{
+    [self.hook progressAndStatusMakeStep:4 info:@"得到响应，开始接收"];
+}
+
+-(void)mcCachedRequestGotData
+{
+    [self.hook progressAndStatusMakeStep:1 info:@"正在接收数据"];
 }
 
 @end

@@ -11,6 +11,10 @@
 
 @protocol moegirlWebViewDelegate <NSObject>
 
+- (void)progressAndStatusShowUp;
+- (void)progressAndStatusHide;
+- (void)progressAndStatusMakeStep:(float)step info:(NSString *)info;
+- (void)progressAndStatusSetToValue:(float)step info:(NSString *)info;
 - (void)cancelKeyboard;
 - (void)newWebViewRequestFormWebView:(NSString *)keyword;
 

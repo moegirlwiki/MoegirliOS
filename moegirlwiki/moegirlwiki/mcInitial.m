@@ -12,7 +12,6 @@
 
 - (void)resetFiles
 {
-    
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
     
     

@@ -11,6 +11,8 @@
 
 @protocol mcCachedRequestDelegate <NSObject>
 
+-(void)mcCachedRequestGotRespond;
+-(void)mcCachedRequestGotData;
 -(void)mcCachedRequestFinishLoading:(bool)success LoadFromCache:(bool)cache error:(NSString *)error data:(NSMutableData *)data;
 
 @end
