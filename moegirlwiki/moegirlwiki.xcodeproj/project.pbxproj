@@ -94,6 +94,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF91053419F892C300EC5DFD /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				AFAAB8F819F834600077F893 /* mcCachedRequest.h */,
+				AFAAB8F919F834600077F893 /* mcCachedRequest.m */,
+			);
+			name = Functions;
+			sourceTree = "<group>";
+		};
+		AF91053519F892F000EC5DFD /* moegirlSpecify */ = {
+			isa = PBXGroup;
+			children = (
+				AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */,
+				AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */,
+				AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */,
+				AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */,
+				AFAAB8F519F831D20077F893 /* moegirlWebView.h */,
+				AFAAB8F619F831D20077F893 /* moegirlWebView.m */,
+			);
+			name = moegirlSpecify;
+			sourceTree = "<group>";
+		};
 		AFB650A719F6C42400C73E81 = {
 			isa = PBXGroup;
 			children = (
@@ -134,16 +156,10 @@
 				AFB650C319F6C42400C73E81 /* mcAppDelegate.m */,
 				AFB650C819F6C42400C73E81 /* mcViewController.h */,
 				AFB650C919F6C42400C73E81 /* mcViewController.m */,
-				AFAAB8F819F834600077F893 /* mcCachedRequest.h */,
-				AFAAB8F919F834600077F893 /* mcCachedRequest.m */,
 				AFB650CB19F6C42400C73E81 /* Images.xcassets */,
+				AF91053519F892F000EC5DFD /* moegirlSpecify */,
+				AF91053419F892C300EC5DFD /* Functions */,
 				AFB650BA19F6C42400C73E81 /* Supporting Files */,
-				AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */,
-				AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */,
-				AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */,
-				AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */,
-				AFAAB8F519F831D20077F893 /* moegirlWebView.h */,
-				AFAAB8F619F831D20077F893 /* moegirlWebView.m */,
 			);
 			path = moegirlwiki;
 			sourceTree = "<group>";

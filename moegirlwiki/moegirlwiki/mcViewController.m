@@ -22,6 +22,7 @@
     _webViewList = [NSMutableArray new];
     _appDelegate = [[UIApplication sharedApplication] delegate];
     [_appDelegate setHook:self];
+    webViewListPosition = 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -106,18 +107,25 @@
     NSRange rangeA = [target rangeOfString:@"?w="];
     if (rangeA.location != NSNotFound) {
         target = [target substringFromIndex:rangeA.location + 3];
-        [self createMoeWebViewFormURLScheme:target];
+        [self createMoeWebView:target];
     }
 }
 
-- (void)createMoeWebViewFormURLScheme:(NSString *)target
+- (void)createMoeWebView:(NSString *)target
 {
     moegirlWebView * webView = [moegirlWebView new];
     [webView setFrame:_MasterInitial.frame];
     [webView setTargetURL:@"http://zh.moegirl.org"];
+    [webView setDelegate:webView];
+    [webView setHook:self];
     [webView loadContentWithDecodedKeyWord:target useCache:YES];
     [_MainView addSubview:webView];
     [_webViewList addObject:webView];
+    webViewListPosition ++;
+    for (int i = webViewListPosition; i < _webViewList.count ; i++) {
+        [[_webViewList objectAtIndex:i] cancel];
+        [_webViewList removeObjectAtIndex:i];
+    }
 }
 
 - (IBAction)searchFieldEditChange:(id)sender
@@ -133,6 +141,11 @@
     }
     [_searchSuggestionsTableView checkSuggestions:Keyword];
     [_MainView bringSubviewToFront:_searchSuggestionsTableView];
+}
+
+- (void)newWebViewRequestFormWebView:(NSString *)decodedKeyword
+{
+    [self createMoeWebView:decodedKeyword];
 }
 
 @end

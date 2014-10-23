@@ -28,12 +28,6 @@
 }
 */
 
-- (NSString *)urlEncode:(NSString*)unencodeString
-{
-    NSString * encodedString = (NSString*) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)unencodeString, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]",kCFStringEncodingUTF8));
-    return encodedString;
-}
-
 - (NSString *)prepareContent:(NSData *)data
 {
     NSString * content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -104,17 +98,55 @@
 
 - (void)loadContentWithKeyWord:(NSString *)keyword useCache:(BOOL)useCache
 {
-    [self loadContentWithDecodedKeyWord:[self urlEncode:keyword] useCache:useCache];
+    [self loadContentWithDecodedKeyWord:[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] useCache:useCache];
     _keyword = keyword;
 }
 
 -(void)mcCachedRequestFinishLoading:(bool)success LoadFromCache:(bool)cache error:(NSString *)error data:(NSMutableData *)data
 {
     if (success) {
+        NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,_keyword];
         [self loadHTMLString:[self prepareContent:data]
-                     baseURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,_keyword]]];
+                     baseURL:[NSURL URLWithString:baseURL]];
     } else {
         NSLog(@"Error: %@",error);
+    }
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if ( navigationType == UIWebViewNavigationTypeLinkClicked ) {
+        NSString *link = [[request URL] absoluteString];
+        NSLog(@"%@",link);
+        if ([link hasPrefix:@"moegirl://"]) {
+            return YES;//App 内部调用
+        }
+        NSRange rangeA = [link rangeOfString:@"//zh.moegirl.org/"];
+        if (rangeA.location != NSNotFound) {
+            link = [link substringFromIndex:rangeA.location + 17];
+            if ([link hasPrefix:@"moegirl-app-2.0/"]) {
+                link = [link substringFromIndex:16];
+            }
+            if ([link hasPrefix:[NSString stringWithFormat:@"%@#",[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){
+                return  YES;// a href # 页面内部转跳
+            }
+            NSLog(@"%@",link);
+            //<------------------------
+            //在这里添加对图片地址的判断
+            
+            
+            //<------------------------
+            //开启新词条
+            [self.hook newWebViewRequestFormWebView:link];
+        }
+        //站外链接
+        
+        
+        
+        
+        return NO;
+    }else{
+        return YES;
     }
 }
 

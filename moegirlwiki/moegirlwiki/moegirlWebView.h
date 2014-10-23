@@ -9,18 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "mcCachedRequest.h"
 
+@protocol moegirlWebViewDelegate <NSObject>
+
+- (void)newWebViewRequestFormWebView:(NSString *)decodedKeyword;
+
+@end
+
 @interface moegirlWebView : UIWebView<UIWebViewDelegate,mcCachedRequestDelegate>
 {
-
+    
 }
+
+- (NSString *)prepareContent:(NSData *)data;
+- (void)loadContentWithDecodedKeyWord:(NSString *)keywordAfterDecode useCache:(BOOL)useCache;
+- (void)loadContentWithKeyWord:(NSString *)keyword useCache:(BOOL)useCache;
 
 @property (strong, nonatomic) mcCachedRequest * contentRequest;
 @property (strong, nonatomic) NSString * targetURL;
 @property (strong, nonatomic) NSString * keyword;
 
-- (NSString *)urlEncode:(NSString *)unencodeString;
-- (NSString *)prepareContent:(NSData *)data;
-- (void)loadContentWithDecodedKeyWord:(NSString *)keywordAfterDecode useCache:(BOOL)useCache;
-- (void)loadContentWithKeyWord:(NSString *)keyword useCache:(BOOL)useCache;
+@property (assign, nonatomic) id<moegirlWebViewDelegate> hook;
 
 @end
