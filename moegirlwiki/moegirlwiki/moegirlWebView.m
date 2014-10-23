@@ -263,4 +263,9 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.hook cancelKeyboard];
+}
+
 @end

@@ -11,6 +11,7 @@
 
 @protocol moegirlWebViewDelegate <NSObject>
 
+- (void)cancelKeyboard;
 - (void)newWebViewRequestFormWebView:(NSString *)keyword;
 
 @end
