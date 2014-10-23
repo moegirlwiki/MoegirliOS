@@ -83,8 +83,11 @@
     
     
     NSString * header = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"pageheader"] encoding:NSUTF8StringEncoding error:nil];
-    NSString * footer = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"pagefooter"] encoding:NSUTF8StringEncoding error:nil];
+    header = [NSString stringWithFormat:@"%@<div class=\"mw-body\" role=\"main\"><h1 id=\"firstHeading\" class=\"firstHeading\" lang=\"zh-CN\"><span dir=\"auto\">%@</span></h1><div id=\"bodyContent\"><div id=\"mw-content-text\" lang=\"zh-CN\" dir=\"ltr\" class=\"mw-content-ltr\">",header,_keyword];
     
+    
+    NSString * footer = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"pagefooter"] encoding:NSUTF8StringEncoding error:nil];
+    footer = [NSString stringWithFormat:@"</div></div></div><div style=\"height:50px;\"></div>%@",footer];
     content = [NSString stringWithFormat:@"%@%@%@",header,content,footer];
     /*============*/
     
@@ -93,15 +96,16 @@
 
 - (void)loadContentWithDecodedKeyWord:(NSString *)keywordAfterDecode useCache:(BOOL)useCache
 {
-    _keyword = keywordAfterDecode;
+    _keyword = [keywordAfterDecode stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     _contentRequest = [mcCachedRequest new];
     [_contentRequest setHook:self];
-    [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@?action=render",_targetURL,_keyword] ignoreCache:useCache];
+    [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@?action=render",_targetURL,keywordAfterDecode] ignoreCache:useCache];
 }
 
 - (void)loadContentWithKeyWord:(NSString *)keyword useCache:(BOOL)useCache
 {
     [self loadContentWithDecodedKeyWord:[self urlEncode:keyword] useCache:useCache];
+    _keyword = keyword;
 }
 
 -(void)mcCachedRequestFinishLoading:(bool)success LoadFromCache:(bool)cache error:(NSString *)error data:(NSMutableData *)data

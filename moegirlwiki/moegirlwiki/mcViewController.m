@@ -73,6 +73,9 @@
     [_mainPageScrollView setFrame:_MasterInitial.frame];
     [_mainPageScrollView refreshScrollView];
     [_searchSuggestionsTableView setFrame:_MasterInitial.frame];
+    for (int i = 0 ; i < _webViewList.count; i++) {
+        [[_webViewList objectAtIndex:i] setFrame:_MasterInitial.frame];
+    }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

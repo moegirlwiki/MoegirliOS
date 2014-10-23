@@ -10,6 +10,9 @@
 #import "mcCachedRequest.h"
 
 @interface moegirlWebView : UIWebView<UIWebViewDelegate,mcCachedRequestDelegate>
+{
+
+}
 
 @property (strong, nonatomic) mcCachedRequest * contentRequest;
 @property (strong, nonatomic) NSString * targetURL;
