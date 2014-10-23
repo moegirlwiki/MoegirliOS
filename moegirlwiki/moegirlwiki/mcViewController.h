@@ -11,8 +11,10 @@
 #import "moegirlMainPageScrollView.h"
 #import "moegirlSearchSuggestionsTableView.h"
 #import "moegirlWebView.h"
+#import "mcLeftDrag.h"
+#import "mcRightDrag.h"
 
-@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate,mcAppDelegate,moegirlWebViewDelegate>
+@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate,mcAppDelegate,moegirlWebViewDelegate,mcLeftDragDelegate,mcRightDragDelegate>
 {
     @private
     int webViewListPosition;
@@ -21,6 +23,8 @@
 @property (strong, nonatomic) moegirlMainPageScrollView * mainPageScrollView;
 @property (strong, nonatomic) moegirlSearchSuggestionsTableView * searchSuggestionsTableView;
 @property (weak, nonatomic) mcAppDelegate * appDelegate;
+@property (strong, nonatomic) mcLeftDrag * leftPanel;
+@property (strong, nonatomic) mcRightDrag * rightPanel;
 @property (strong, nonatomic) NSMutableArray * webViewList;
 
 //xib元件
@@ -28,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet UIView *MainView;
 @property (weak, nonatomic) IBOutlet UIView *MasterInitial;
 @property (weak, nonatomic) IBOutlet UITextField *SearchTextField;
+@property (weak, nonatomic) IBOutlet UIView *LeftPanelInitialPosition;
+@property (weak, nonatomic) IBOutlet UIView *RightPanelInitialPosition;
 
 
 //过程

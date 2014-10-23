@@ -142,8 +142,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="LeftPanelInitialPosition" destination="xp8-84-GKe" id="FOA-a4-zFb"/>
                         <outlet property="MainView" destination="taZ-F5-8wQ" id="bd5-K7-PU5"/>
                         <outlet property="MasterInitial" destination="N0t-wg-dMb" id="ARt-GY-BXL"/>
+                        <outlet property="RightPanelInitialPosition" destination="jnO-P3-adA" id="lFe-SX-ejK"/>
                         <outlet property="SearchBox" destination="ipk-mp-3o5" id="uMm-XG-Zik"/>
                         <outlet property="SearchTextField" destination="inO-4j-D9D" id="gmN-PY-e9q"/>
                     </connections>

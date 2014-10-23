@@ -144,4 +144,16 @@
     [self.hook cancelKeyboard];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSString * requestString;
+    if (indexPath.row != 0) {
+        requestString = [_suggestions objectAtIndex:indexPath.row - 1];
+    }else{
+        requestString = [NSString stringWithFormat:@"Special:搜索/%@",lastKeyword];
+    }
+    [self.hook newWebViewRequestFormSuggestions:[requestString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+}
+
 @end

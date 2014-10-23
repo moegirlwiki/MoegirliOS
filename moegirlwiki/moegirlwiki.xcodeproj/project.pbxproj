@@ -10,6 +10,8 @@
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
 		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
+		AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053719F8987F00EC5DFD /* mcLeftDrag.m */; };
+		AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */; };
 		AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F619F831D20077F893 /* moegirlWebView.m */; };
 		AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F919F834600077F893 /* mcCachedRequest.m */; };
 		AFB650B419F6C42400C73E81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B319F6C42400C73E81 /* Foundation.framework */; };
@@ -45,6 +47,10 @@
 		AF40D72019F855530043F74A /* mcInitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcInitial.m; sourceTree = "<group>"; };
 		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
 		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
+		AF91053619F8987F00EC5DFD /* mcLeftDrag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcLeftDrag.h; sourceTree = "<group>"; };
+		AF91053719F8987F00EC5DFD /* mcLeftDrag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcLeftDrag.m; sourceTree = "<group>"; };
+		AF91053919F8AC4D00EC5DFD /* mcRightDrag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcRightDrag.h; sourceTree = "<group>"; };
+		AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcRightDrag.m; sourceTree = "<group>"; };
 		AFAAB8F519F831D20077F893 /* moegirlWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlWebView.h; sourceTree = "<group>"; };
 		AFAAB8F619F831D20077F893 /* moegirlWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlWebView.m; sourceTree = "<group>"; };
 		AFAAB8F819F834600077F893 /* mcCachedRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcCachedRequest.h; sourceTree = "<group>"; };
@@ -99,6 +105,10 @@
 			children = (
 				AFAAB8F819F834600077F893 /* mcCachedRequest.h */,
 				AFAAB8F919F834600077F893 /* mcCachedRequest.m */,
+				AF91053619F8987F00EC5DFD /* mcLeftDrag.h */,
+				AF91053719F8987F00EC5DFD /* mcLeftDrag.m */,
+				AF91053919F8AC4D00EC5DFD /* mcRightDrag.h */,
+				AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */,
 			);
 			name = Functions;
 			sourceTree = "<group>";
@@ -294,6 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */,
 				AF40D72119F855530043F74A /* mcInitial.m in Sources */,
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
 				AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */,
@@ -301,6 +312,7 @@
 				AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */,
 				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,
 				AFB650C019F6C42400C73E81 /* main.m in Sources */,
+				AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */,
 				AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

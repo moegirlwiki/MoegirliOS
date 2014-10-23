@@ -88,22 +88,21 @@
     return content;
 }
 
-- (void)loadContentWithDecodedKeyWord:(NSString *)keywordAfterDecode useCache:(BOOL)useCache
+- (void)loadContentWithEncodedKeyWord:(NSString *)keywordAfterEncode useCache:(BOOL)useCache
 {
-    _keyword = [keywordAfterDecode stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    _keyword = [keywordAfterEncode stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     _contentRequest = [mcCachedRequest new];
     [_contentRequest setHook:self];
-    [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@?action=render",_targetURL,keywordAfterDecode] ignoreCache:useCache];
-}
-
-- (void)loadContentWithKeyWord:(NSString *)keyword useCache:(BOOL)useCache
-{
-    [self loadContentWithDecodedKeyWord:[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] useCache:useCache];
-    _keyword = keyword;
+    [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@?action=render",_targetURL,keywordAfterEncode] ignoreCache:!useCache];
 }
 
 -(void)mcCachedRequestFinishLoading:(bool)success LoadFromCache:(bool)cache error:(NSString *)error data:(NSMutableData *)data
 {
+    if (cache) {
+        NSLog(@"load from cache");
+    }else{
+        NSLog(@"new content");
+    }
     if (success) {
         NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,_keyword];
         [self loadHTMLString:[self prepareContent:data]

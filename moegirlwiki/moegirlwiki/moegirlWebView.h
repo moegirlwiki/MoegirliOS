@@ -11,7 +11,7 @@
 
 @protocol moegirlWebViewDelegate <NSObject>
 
-- (void)newWebViewRequestFormWebView:(NSString *)decodedKeyword;
+- (void)newWebViewRequestFormWebView:(NSString *)keyword;
 
 @end
 
@@ -21,8 +21,7 @@
 }
 
 - (NSString *)prepareContent:(NSData *)data;
-- (void)loadContentWithDecodedKeyWord:(NSString *)keywordAfterDecode useCache:(BOOL)useCache;
-- (void)loadContentWithKeyWord:(NSString *)keyword useCache:(BOOL)useCache;
+- (void)loadContentWithEncodedKeyWord:(NSString *)keywordAfterEncode useCache:(BOOL)useCache;
 
 @property (strong, nonatomic) mcCachedRequest * contentRequest;
 @property (strong, nonatomic) NSString * targetURL;

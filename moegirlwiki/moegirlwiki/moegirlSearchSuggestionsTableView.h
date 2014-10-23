@@ -11,6 +11,7 @@
 @protocol moegirlSearchSuggestionsTableViewDelegate <NSObject>
 
 - (void)cancelKeyboard;
+- (void)newWebViewRequestFormSuggestions:(NSString *)keyword;
 
 @end
 
