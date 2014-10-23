@@ -131,6 +131,8 @@
 
 - (void)createMoeWebView:(NSString *)target
 {
+    
+    [_SearchTextField setText:[target stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     moegirlWebView * webView = [moegirlWebView new];
     [webView setFrame:CGRectMake(_MasterInitial.frame.origin.x + _MasterInitial.frame.size.width,
                                  _MasterInitial.frame.origin.y,
@@ -181,7 +183,6 @@
 - (void)newWebViewRequestFormSuggestions:(NSString *)keyword
 {
     [self createMoeWebView:keyword];
-    [_SearchTextField setText:[keyword stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     [_MainView sendSubviewToBack:_searchSuggestionsTableView];
     [self cancelKeyboard];
 }

@@ -88,6 +88,107 @@
     return content;
 }
 
+- (NSString *)prepareContentOld:(NSData *)data
+{
+    NSString * content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString * htmlDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"] stringByAppendingPathComponent:@"setting"];
+    
+    NSString * oldcss = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"oldcustomize"] encoding:NSUTF8StringEncoding error:nil];
+    
+    NSString *regexstr = @"<div id=\"siteSub\">.*?</div>";
+    NSRange range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    regexstr = @"<div id=\"mw-page-base\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    regexstr = @"<div id=\"mw-head-base\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    regexstr = @"<div id=\"jump-to-nav\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    regexstr = @"<div id=\'mw-data-after-content\'>[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    regexstr = @"<div id=\"mw-navigation\">[\\s\\S]*?<div style=\"clear:both\"></div>[\\s\\S]*?</div>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    regexstr = @" id=\"content\"";
+    range = [content rangeOfString:regexstr];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    regexstr = @"<div id=\"siteNotice\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    //banner修正
+    content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:80%;" withString:@"<table class=\"common-box\" style=\""];
+    content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:350px;" withString:@"<table class=\"common-box\" style=\""];
+    
+    //搜索结果修正
+    regexstr = @"<form id=\"search\" [\\s\\S]*?</form>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    if (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+    }
+    
+    //flashmp3 插件修正，针对音频
+    regexstr = @"<script language=\"JavaScript\" src=\"/extensions/FlashMP3/audio-player\\.js\".*soundFile=";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"<audio src=\""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    regexstr = @"\"><param name=\"quality\" value=\"high\"><param name=\"menu\" value=\"false\"><param name=\"wmode\" value=\"transparent\"></object>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"\" controls=\"controls\"></audio>"];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
+    //添加定制样式
+    regexstr = @"</body>";
+    range = [content rangeOfString:regexstr];
+    if (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:oldcss];
+    }
+    
+    
+    return content;
+}
+
 - (void)loadContentWithEncodedKeyWord:(NSString *)keywordAfterEncode useCache:(BOOL)useCache
 {
     _keyword = [keywordAfterEncode stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -103,11 +204,24 @@
     }else{
         NSLog(@"new content");
     }
+    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,_keyword];
     if (success) {
-        NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,_keyword];
-        [self loadHTMLString:[self prepareContent:data]
-                     baseURL:[NSURL URLWithString:baseURL]];
+        if ([_keyword hasPrefix:@"Special:"]) {
+            [self loadHTMLString:[self prepareContentOld:data]
+                         baseURL:[NSURL URLWithString:baseURL]];
+        }else{
+            [self loadHTMLString:[self prepareContent:data]
+                         baseURL:[NSURL URLWithString:baseURL]];
+        }
     } else {
+        NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString * htmlDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"] stringByAppendingPathComponent:@"setting"];
+        
+        NSString * defaultPage = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"errordefault"] encoding:NSUTF8StringEncoding error:nil];
+        
+        [self loadHTMLString:[NSString stringWithFormat:defaultPage,error,error]
+                     baseURL:[NSURL URLWithString:baseURL]];
+        
         NSLog(@"Error: %@",error);
     }
 }
