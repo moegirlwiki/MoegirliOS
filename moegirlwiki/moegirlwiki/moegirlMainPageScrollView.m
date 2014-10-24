@@ -365,7 +365,7 @@
         requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
                                                            delegate:self
                                                    startImmediately:YES];
-        [self.hook progressAndStatusSetToValue:38 info:@"请求数据"];
+        [self.hook progressAndStatusSetToValue:38 info:@"接收数据"];
     }
 }
 

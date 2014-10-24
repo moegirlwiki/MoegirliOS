@@ -10,6 +10,7 @@
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
 		AF4308FB19F9C1BF0099AFC8 /* moegirlSideControlTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */; };
+		AF49AFC119FA189900F21956 /* mcSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF49AFC019FA189900F21956 /* mcSettingsController.m */; };
 		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
 		AF8CE77119FA0EB200FFF359 /* initdata in Resources */ = {isa = PBXBuildFile; fileRef = AF8CE77019FA0EB200FFF359 /* initdata */; };
 		AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053719F8987F00EC5DFD /* mcLeftDrag.m */; };
@@ -51,6 +52,8 @@
 		AF40D72019F855530043F74A /* mcInitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcInitial.m; sourceTree = "<group>"; };
 		AF4308F919F9C1BF0099AFC8 /* moegirlSideControlTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSideControlTableView.h; sourceTree = "<group>"; };
 		AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSideControlTableView.m; sourceTree = "<group>"; };
+		AF49AFBF19FA189900F21956 /* mcSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcSettingsController.h; sourceTree = "<group>"; };
+		AF49AFC019FA189900F21956 /* mcSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcSettingsController.m; sourceTree = "<group>"; };
 		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
 		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
 		AF8CE77019FA0EB200FFF359 /* initdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = initdata; path = ../initdata; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 				AFB650C319F6C42400C73E81 /* mcAppDelegate.m */,
 				AFB650C819F6C42400C73E81 /* mcViewController.h */,
 				AFB650C919F6C42400C73E81 /* mcViewController.m */,
+				AF49AFBF19FA189900F21956 /* mcSettingsController.h */,
+				AF49AFC019FA189900F21956 /* mcSettingsController.m */,
 				AFB650CB19F6C42400C73E81 /* Images.xcassets */,
 				AF91053519F892F000EC5DFD /* moegirlSpecify */,
 				AF91053419F892C300EC5DFD /* Functions */,
@@ -327,6 +332,7 @@
 				AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */,
 				AF40D72119F855530043F74A /* mcInitial.m in Sources */,
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
+				AF49AFC119FA189900F21956 /* mcSettingsController.m in Sources */,
 				AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */,
 				AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */,
 				AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */,
