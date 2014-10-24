@@ -63,6 +63,38 @@
     [_searchSuggestionsTableView setTargetURL:@"http://zh.moegirl.org"];
     [_MainView addSubview:_searchSuggestionsTableView];
 
+    // 菜单栏
+    menuSituation = NO;
+    
+    
+    _resetButton = [UIButton new];
+    [_resetButton setFrame:CGRectMake(_NavigationBar.frame.origin.x,
+                                      _NavigationBar.frame.origin.y - 20,
+                                      _NavigationBar.frame.size.width,
+                                      _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+    [_resetButton setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.4]];
+    [_resetButton addTarget:self action:@selector(resetMenu) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_resetButton];
+    [_resetButton setAlpha:0];
+    
+    
+    _sideControlTableView = [moegirlSideControlTableView new];
+    [_sideControlTableView setFrame:CGRectMake(_NavigationBar.frame.origin.x + _NavigationBar.frame.size.width,
+                                               _NavigationBar.frame.origin.y - 20,
+                                               200,
+                                               _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+    [_sideControlTableView setDataSource:_sideControlTableView];
+    [_sideControlTableView setDelegate:_sideControlTableView];
+    [_sideControlTableView setHook:self];
+    [_sideControlTableView setBounces:NO];
+    [_sideControlTableView setScrollsToTop:NO];
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1){
+        [_sideControlTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    [self.view addSubview:_sideControlTableView];
+    [_sideControlTableView setAlpha:0];
+    
+    
     
     // 首页
     _mainPageScrollView = [moegirlMainPageScrollView new];
@@ -90,6 +122,18 @@
 {
     [_leftPanel setFrame:_LeftPanelInitialPosition.frame];
     [_rightPanel setFrame:_RightPanelInitialPosition.frame];
+    menuSituation = NO;
+    [_resetButton setFrame:CGRectMake(_NavigationBar.frame.origin.x,
+                                      _NavigationBar.frame.origin.y - 20,
+                                      _NavigationBar.frame.size.width,
+                                      _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+    [_sideControlTableView setFrame:CGRectMake(_NavigationBar.frame.origin.x + _NavigationBar.frame.size.width,
+                                               _NavigationBar.frame.origin.y - 20,
+                                               200,
+                                               _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+    [_sideControlTableView reloadData];
+    [_resetButton setAlpha:0];
+    [_sideControlTableView setAlpha:0];
     
     [_mainPageScrollView setFrame:_MasterInitial.frame];
     [_mainPageScrollView refreshScrollView];
@@ -105,7 +149,27 @@
 {
     [UIView animateWithDuration:0.2
                           delay:0
-                        options: UIViewAnimationOptionCurveLinear
+                        options:    UIViewAnimationOptionOverrideInheritedCurve|
+                                    UIViewAnimationOptionAllowAnimatedContent
+                     animations:^{
+                         /*----------------------*/
+                         [self resetSizes];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         
+                         /*----------------------*/
+                     }];
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve|
+     UIViewAnimationOptionAllowAnimatedContent
                      animations:^{
                          /*----------------------*/
                          [self resetSizes];
@@ -452,5 +516,198 @@
 }
 
 
+#pragma mark SideMenuControl
+
+- (void)presentMenu
+{
+    [self cancelKeyboard];
+    menuSituation = YES;
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_resetButton setAlpha:1];
+                         [_sideControlTableView setAlpha:1];
+                         [_sideControlTableView setFrame:CGRectMake(_NavigationBar.frame.origin.x + _NavigationBar.frame.size.width - 200,
+                                                                    _NavigationBar.frame.origin.y - 20,
+                                                                    200,
+                                                                    _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+                         [_MainView setFrame:CGRectMake(_MainView.frame.origin.x - 200,
+                                                        _MainView.frame.origin.y,
+                                                        _MainView.frame.size.width,
+                                                        _MainView.frame.size.height)];
+                         [_NavigationBar setFrame:CGRectMake(_NavigationBar.frame.origin.x - 200,
+                                                             _NavigationBar.frame.origin.y,
+                                                             _NavigationBar.frame.size.width,
+                                                             _NavigationBar.frame.size.height)];
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+- (void)resetMenu
+{
+    menuSituation = NO;
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_resetButton setAlpha:0];
+                         [_sideControlTableView setAlpha:0];
+                         [_MainView setFrame:CGRectMake(_MainView.frame.origin.x + 200,
+                                                        _MainView.frame.origin.y,
+                                                        _MainView.frame.size.width,
+                                                        _MainView.frame.size.height)];
+                         [_NavigationBar setFrame:CGRectMake(_NavigationBar.frame.origin.x + 200,
+                                                             _NavigationBar.frame.origin.y,
+                                                             _NavigationBar.frame.size.width,
+                                                             _NavigationBar.frame.size.height)];
+                         [_sideControlTableView setFrame:CGRectMake(_NavigationBar.frame.origin.x + _NavigationBar.frame.size.width,
+                                                                    _NavigationBar.frame.origin.y - 20,
+                                                                    200,
+                                                                    _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+                         
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (IBAction)menuButtonClick:(id)sender {
+    if (menuSituation) {
+        [self resetMenu];
+    }else{
+        [self presentMenu];
+    }
+}
+
+
+- (void)ctrlPanelCallMainpage
+{
+    [self resetMenu];
+    [_MainView bringSubviewToFront:_mainPageScrollView];    
+    [_mainPageScrollView setFrame:CGRectMake(_MasterInitial.frame.origin.x - _MasterInitial.frame.size.width,
+                                             _MasterInitial.frame.origin.y,
+                                             _MasterInitial.frame.size.width,
+                                             _MasterInitial.frame.size.height)];
+    if (webViewListPosition != 0) {
+        moegirlWebView * tmpWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+        [tmpWebView.scrollView setScrollsToTop:NO];
+        webViewListPosition = 0;
+    }
+    [UIView animateWithDuration:0.1
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                                    [_mainPageScrollView setFrame:_MasterInitial.frame];
+                                 }
+                                 completion:^(BOOL finished){
+                                     [_MainView bringSubviewToFront:_leftPanel];
+                                     [_MainView bringSubviewToFront:_rightPanel];
+                                     [_mainPageScrollView setScrollsToTop:YES];
+                                     [_SearchTextField setText:@""];
+                                 }];
+    
+}
+
+- (void)ctrlPanelCallRefresh
+{
+    [self resetMenu];
+    if (webViewListPosition == 0) {
+        [_mainPageScrollView loadMainPage:NO];
+    } else {
+        moegirlWebView * tmpWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+        [tmpWebView loadContentWithEncodedKeyWord:[[_webViewTitles objectAtIndex:webViewListPosition -1] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                         useCache:NO];
+    }
+}
+
+- (void)ctrlPanelCallShare
+{
+    [self resetMenu];
+    if (webViewListPosition == 0) {
+        UIImage * shareImage = [self getImageFromView:self.view];
+        NSURL * shareURL = [NSURL URLWithString:@"https://itunes.apple.com/cn/app/meng-niang-bai-ke/id892053828"];
+        NSString * shareText = @"我正在使用萌娘百科iOS客户端浏览万物皆可萌的百科全书——萌娘百科！你也快来试试吧！";
+        [self shareText:shareText andImage:shareImage andUrl:shareURL];
+    }else{
+        UIImage * shareImage = [self getImageFromView:self.view];
+        NSURL * shareURL = [NSURL URLWithString:@"https://itunes.apple.com/cn/app/meng-niang-bai-ke/id892053828"];
+        NSString * keyword = [_webViewTitles objectAtIndex:webViewListPosition -1];
+        NSString * shareText = [NSString stringWithFormat:@"#萌娘百科iOS客户端#【%@】http://zh.moegirl.org/%@ ",keyword,[keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self shareText:shareText andImage:shareImage andUrl:shareURL];
+    }
+}
+
+- (void)ctrlPanelCallSettings
+{
+    [self resetMenu];
+}
+
+- (void)ctrlPanelCallAbout
+{
+    [self resetMenu];
+}
+
+- (void)shareText:(NSString *)text andImage:(UIImage *)image andUrl:(NSURL *)url
+{
+    NSMutableArray *sharingItems = [NSMutableArray new];
+    
+    if (text) {
+        [sharingItems addObject:text];
+    }
+    if (image) {
+        [sharingItems addObject:image];
+    }
+    if (url) {
+        [sharingItems addObject:url];
+    }
+    
+    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:sharingItems applicationActivities:nil];
+    [self presentViewController:activityController animated:YES completion:nil];
+}
+
+- (UIImage *)getImageFromView:(UIView *)orgView{
+        CGSize imageSize = [[UIScreen mainScreen] bounds].size;
+        if (NULL != UIGraphicsBeginImageContextWithOptions)
+            UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+        else
+            UIGraphicsBeginImageContext(imageSize);
+        
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        // Iterate over every window from back to front
+        for (UIWindow *window in [[UIApplication sharedApplication] windows])
+        {
+            if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen])
+            {
+                // -renderInContext: renders in the coordinate space of the layer,
+                // so we must first apply the layer's geometry to the graphics context
+                CGContextSaveGState(context);
+                // Center the context around the window's anchor point
+                CGContextTranslateCTM(context, [window center].x, [window center].y);
+                // Apply the window's transform about the anchor point
+                CGContextConcatCTM(context, [window transform]);
+                // Offset by the portion of the bounds left of and above the anchor point
+                CGContextTranslateCTM(context,
+                                      -[window bounds].size.width * [[window layer] anchorPoint].x,
+                                      -[window bounds].size.height * [[window layer] anchorPoint].y);
+                
+                // Render the layer hierarchy to the current context
+                [[window layer] renderInContext:context];
+                
+                // Restore the context
+                CGContextRestoreGState(context);
+            }
+        }
+        
+        // Retrieve the screenshot image
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        return image;
+}
 
 @end

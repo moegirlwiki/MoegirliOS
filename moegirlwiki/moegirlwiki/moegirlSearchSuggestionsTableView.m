@@ -62,7 +62,7 @@
                                       reuseIdentifier:CellIdentifier];
         cell.textLabel.text = [NSString stringWithFormat:@"搜索：“%@”",lastKeyword];
         cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         
         return cell;
     }else{
@@ -72,7 +72,7 @@
                                       reuseIdentifier:CellIdentifier];
         cell.textLabel.text = [_suggestions objectAtIndex:indexPath.row - 1];
         cell.textLabel.font = [UIFont systemFontOfSize:15];
-        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         
         return cell;
     }

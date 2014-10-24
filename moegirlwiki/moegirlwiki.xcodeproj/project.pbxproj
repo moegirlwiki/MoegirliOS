@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
+		AF4308FB19F9C1BF0099AFC8 /* moegirlSideControlTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */; };
 		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
 		AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053719F8987F00EC5DFD /* mcLeftDrag.m */; };
 		AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */; };
@@ -47,6 +48,8 @@
 		AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSearchSuggestionsTableView.m; sourceTree = "<group>"; };
 		AF40D71F19F855530043F74A /* mcInitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcInitial.h; sourceTree = "<group>"; };
 		AF40D72019F855530043F74A /* mcInitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcInitial.m; sourceTree = "<group>"; };
+		AF4308F919F9C1BF0099AFC8 /* moegirlSideControlTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSideControlTableView.h; sourceTree = "<group>"; };
+		AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSideControlTableView.m; sourceTree = "<group>"; };
 		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
 		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
 		AF91053619F8987F00EC5DFD /* mcLeftDrag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcLeftDrag.h; sourceTree = "<group>"; };
@@ -132,6 +135,8 @@
 				AFAAB8F619F831D20077F893 /* moegirlWebView.m */,
 				AFC2611919F9A64000F12B37 /* moegirlSaveImageAlertView.h */,
 				AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */,
+				AF4308F919F9C1BF0099AFC8 /* moegirlSideControlTableView.h */,
+				AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */,
 			);
 			name = moegirlSpecify;
 			sourceTree = "<group>";
@@ -323,6 +328,7 @@
 				AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */,
 				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,
 				AFB650C019F6C42400C73E81 /* main.m in Sources */,
+				AF4308FB19F9C1BF0099AFC8 /* moegirlSideControlTableView.m in Sources */,
 				AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */,
 				AFC2611B19F9A64000F12B37 /* moegirlSaveImageAlertView.m in Sources */,
 				AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */,

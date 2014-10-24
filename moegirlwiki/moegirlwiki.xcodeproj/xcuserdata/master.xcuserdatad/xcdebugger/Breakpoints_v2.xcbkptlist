@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "moegirlwiki/mcViewController.m"
-            timestampString = "435795918.062942"
+            timestampString = "435807085.377099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "-createMoeWebView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "moegirlwiki/mcViewController.m"
-            timestampString = "435795572.388996"
+            timestampString = "435805678.244135"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "-resetSizes"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "moegirlwiki/mcViewController.m"
-            timestampString = "435795572.388996"
+            timestampString = "435805678.244135"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "-resetSizes"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "moegirlwiki/mcViewController.m"
-            timestampString = "435795918.062942"
+            timestampString = "435807085.377099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "-MoveMainViewByLeftEnded:"
             landmarkType = "5">
          </BreakpointContent>
@@ -208,6 +208,38 @@
             startingLineNumber = "36"
             endingLineNumber = "36"
             landmarkName = "-alertView:didDismissWithButtonIndex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "moegirlwiki/mcViewController.m"
+            timestampString = "435808100.912727"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "588"
+            endingLineNumber = "588"
+            landmarkName = "-ctrlPanelCallMainpage"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "moegirlwiki/mcViewController.m"
+            timestampString = "435808265.780129"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "-MoveMainViewByRightBegan"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

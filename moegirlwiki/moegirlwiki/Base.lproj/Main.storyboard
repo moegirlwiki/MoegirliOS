@@ -131,6 +131,9 @@
                                         <state key="normal" backgroundImage="navi_menubutton">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="menuButtonClick:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FWo-D4-QQE"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.47058823529999999" green="0.81960784310000001" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -168,6 +171,7 @@
                         <outlet property="LeftPanelInitialPosition" destination="xp8-84-GKe" id="FOA-a4-zFb"/>
                         <outlet property="MainView" destination="taZ-F5-8wQ" id="bd5-K7-PU5"/>
                         <outlet property="MasterInitial" destination="N0t-wg-dMb" id="ARt-GY-BXL"/>
+                        <outlet property="NavigationBar" destination="d4O-5G-g75" id="Jqr-49-b19"/>
                         <outlet property="ProgressBar" destination="dcY-8I-rAg" id="oFR-yT-0d2"/>
                         <outlet property="RightPanelInitialPosition" destination="jnO-P3-adA" id="lFe-SX-ejK"/>
                         <outlet property="SearchBox" destination="ipk-mp-3o5" id="uMm-XG-Zik"/>

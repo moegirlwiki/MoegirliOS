@@ -13,18 +13,22 @@
 #import "moegirlWebView.h"
 #import "mcLeftDrag.h"
 #import "mcRightDrag.h"
+#import "moegirlSideControlTableView.h"
 
-@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate,mcAppDelegate,moegirlWebViewDelegate,mcLeftDragDelegate,mcRightDragDelegate>
+@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate,mcAppDelegate,moegirlWebViewDelegate,mcLeftDragDelegate,mcRightDragDelegate,moegirlSideControlTableViewDelegate>
 {
     @private
     int webViewListPosition;
+    bool menuSituation;
 }
 //代码创建元件
 @property (strong, nonatomic) moegirlMainPageScrollView * mainPageScrollView;
 @property (strong, nonatomic) moegirlSearchSuggestionsTableView * searchSuggestionsTableView;
+@property (strong, nonatomic) moegirlSideControlTableView * sideControlTableView;
 @property (weak, nonatomic) mcAppDelegate * appDelegate;
 @property (strong, nonatomic) mcLeftDrag * leftPanel;
 @property (strong, nonatomic) mcRightDrag * rightPanel;
+@property (strong, nonatomic) UIButton * resetButton;
 
 @property (strong, nonatomic) NSMutableArray * webViewList;
 @property (strong, nonatomic) NSMutableArray * webViewTitles;
@@ -38,15 +42,19 @@
 @property (weak, nonatomic) IBOutlet UIView *RightPanelInitialPosition;
 @property (weak, nonatomic) IBOutlet UILabel *StatusLabel;
 @property (weak, nonatomic) IBOutlet UIProgressView *ProgressBar;
+@property (weak, nonatomic) IBOutlet UIView *NavigationBar;
 
 
 //过程
 - (void)visualInit;//初始化视觉效果
 - (void)resetSizes;//重置元件尺寸
 - (void)createMoeWebView:(NSString *)target;
+- (void)presentMenu;
+- (void)resetMenu;
 
 
 //xib过程
 - (IBAction)searchFieldEditChange:(id)sender;
+- (IBAction)menuButtonClick:(id)sender;
 
 @end
