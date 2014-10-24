@@ -177,11 +177,30 @@
                         <outlet property="SearchBox" destination="ipk-mp-3o5" id="uMm-XG-Zik"/>
                         <outlet property="SearchTextField" destination="inO-4j-D9D" id="gmN-PY-e9q"/>
                         <outlet property="StatusLabel" destination="SE5-08-QQt" id="0BX-9E-yel"/>
+                        <segue destination="VP3-Ii-xGR" kind="modal" identifier="GoSettings" id="keF-dq-dKy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-308" y="603"/>
+            <point key="canvasLocation" x="-233" y="613"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="0fL-0d-c6B">
+            <objects>
+                <viewController id="VP3-Ii-xGR" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wHn-fK-5WH"/>
+                        <viewControllerLayoutGuide type="bottom" id="KCa-2Y-GRZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6zp-DB-QTu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eqx-Rq-4VZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="212" y="613"/>
         </scene>
     </scenes>
     <resources>

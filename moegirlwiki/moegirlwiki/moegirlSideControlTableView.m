@@ -63,7 +63,7 @@
     } else if (indexPath.row == 1) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:CellIdentifier];
-        cell.textLabel.text = @"萌娘百科iOS app";
+        cell.textLabel.text = @"萌娘百科iOS客户端";
         cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
         cell.detailTextLabel.text = @"v2.0";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

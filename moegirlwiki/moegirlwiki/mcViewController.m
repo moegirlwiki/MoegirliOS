@@ -627,12 +627,12 @@
 {
     [self resetMenu];
     if (webViewListPosition == 0) {
-        UIImage * shareImage = [self getImageFromView:self.view];
+        UIImage * shareImage = [self getImageFromView:_mainPageScrollView];
         NSURL * shareURL = [NSURL URLWithString:@"https://itunes.apple.com/cn/app/meng-niang-bai-ke/id892053828"];
         NSString * shareText = @"我正在使用萌娘百科iOS客户端浏览万物皆可萌的百科全书——萌娘百科！你也快来试试吧！";
         [self shareText:shareText andImage:shareImage andUrl:shareURL];
     }else{
-        UIImage * shareImage = [self getImageFromView:self.view];
+        UIImage * shareImage = [self getImageFromView:[_webViewList objectAtIndex:webViewListPosition - 1]];
         NSURL * shareURL = [NSURL URLWithString:@"https://itunes.apple.com/cn/app/meng-niang-bai-ke/id892053828"];
         NSString * keyword = [_webViewTitles objectAtIndex:webViewListPosition -1];
         NSString * shareText = [NSString stringWithFormat:@"#萌娘百科iOS客户端#【%@】http://zh.moegirl.org/%@ ",keyword,[keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -643,6 +643,7 @@
 - (void)ctrlPanelCallSettings
 {
     [self resetMenu];
+    [self performSegueWithIdentifier:@"GoSettings" sender:nil];
 }
 
 - (void)ctrlPanelCallAbout

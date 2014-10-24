@@ -36,7 +36,10 @@
     /*初始化关键文件*/
     //1. 首页数据   /data/mainpage/mainpageCache
     NSString * mainpageDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"] stringByAppendingPathComponent:@"mainpage"];
-    NSString * tempFile = @"<div id=\"mainpage\"><div id=\"mainpage-a\"><div class=\"mainpage-newsbox\"><div class=\"mainpage-title\">你好~欢迎来到萌娘百科！</div><div class=\"mainpage-1stcontent\">请下拉刷新页面</div></div></div></div>";
+    NSURL * fileURL = [[NSBundle mainBundle] URLForResource:@"mainpageCache" withExtension:@"html" subdirectory:@"initdata"];
+    NSError * errorinfo;
+    NSString * tempFile = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:errorinfo];
+    
     [tempFile writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageCache"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     
