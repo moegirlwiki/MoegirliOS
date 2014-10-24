@@ -11,6 +11,7 @@
 		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
 		AF4308FB19F9C1BF0099AFC8 /* moegirlSideControlTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */; };
 		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
+		AF8CE77119FA0EB200FFF359 /* initdata in Resources */ = {isa = PBXBuildFile; fileRef = AF8CE77019FA0EB200FFF359 /* initdata */; };
 		AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053719F8987F00EC5DFD /* mcLeftDrag.m */; };
 		AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */; };
 		AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F619F831D20077F893 /* moegirlWebView.m */; };
@@ -52,6 +53,7 @@
 		AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSideControlTableView.m; sourceTree = "<group>"; };
 		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
 		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
+		AF8CE77019FA0EB200FFF359 /* initdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = initdata; path = ../initdata; sourceTree = "<group>"; };
 		AF91053619F8987F00EC5DFD /* mcLeftDrag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcLeftDrag.h; sourceTree = "<group>"; };
 		AF91053719F8987F00EC5DFD /* mcLeftDrag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcLeftDrag.m; sourceTree = "<group>"; };
 		AF91053919F8AC4D00EC5DFD /* mcRightDrag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcRightDrag.h; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		AFB650A719F6C42400C73E81 = {
 			isa = PBXGroup;
 			children = (
+				AF8CE77019FA0EB200FFF359 /* initdata */,
 				AFB650B919F6C42400C73E81 /* moegirlwiki */,
 				AFB650D819F6C42400C73E81 /* moegirlwikiTests */,
 				AFB650B219F6C42400C73E81 /* Frameworks */,
@@ -298,6 +301,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF8CE77119FA0EB200FFF359 /* initdata in Resources */,
 				AFB650CC19F6C42400C73E81 /* Images.xcassets in Resources */,
 				AFB650BE19F6C42400C73E81 /* InfoPlist.strings in Resources */,
 				AFB650C719F6C42400C73E81 /* Main.storyboard in Resources */,
