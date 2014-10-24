@@ -2,1087 +2,718 @@
 //  mcViewController.m
 //  moegirlwiki
 //
-//  Created by Chen Junlin on 14-7-15.
-//  Copyright (c) 2014年 me.masterchan. All rights reserved.
+//  Created by master on 14-10-21.
+//  Copyright (c) 2014年 masterchan.me. All rights reserved.
 //
 
 #import "mcViewController.h"
 
 @interface mcViewController ()
 
-
-@property (strong,nonatomic) NSMutableData *RecievePool;//提供给 页面加载 专用
-@property (strong,nonatomic) NSMutableData *RecievePool2;//提供给 摇一摇  专用
-@property (strong,nonatomic) NSMutableData *RecievePool3;//提供给 Mainpage  专用
-@property (strong,nonatomic) NSMutableDictionary *HistoryPool;
-@property (strong,nonatomic) NSMutableDictionary *NamePool;
-@property (strong,nonatomic) NSMutableDictionary *PositionPool;
-@property (strong,nonatomic) NSMutableDictionary *RandomPool;
-
-@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
-@property (weak, nonatomic) IBOutlet UIButton *BackwardButton;
-@property (weak, nonatomic) IBOutlet UIButton *ForwardButton;
-@property (weak, nonatomic) IBOutlet UIButton *HomepageButton;
-@property (weak, nonatomic) IBOutlet UIButton *ReportButton;
-@property (weak, nonatomic) IBOutlet UIView *popoutView;
-@property (weak, nonatomic) IBOutlet UIButton *HideMenuButton;
-@property (weak, nonatomic) IBOutlet UIButton *RefreshButton;
-@property (weak, nonatomic) IBOutlet UIView *aboutView;
-@property (weak, nonatomic) IBOutlet UIButton *RandomButton;
-@property (weak, nonatomic) IBOutlet UIButton *BackToTopButton;
-@property (weak, nonatomic) IBOutlet UIButton *versionbutton;
-@property (weak, nonatomic) IBOutlet UILabel *GoBackLabel;
-@property (weak, nonatomic) IBOutlet UILabel *ForwardLabel;
-@property (weak, nonatomic) IBOutlet UIButton *SettingButton;
-@property (weak, nonatomic) IBOutlet UIButton *MenuButton;
-
-
-- (IBAction)MenuButton:(id)sender;
-- (IBAction)BackToTop:(id)sender;
-- (IBAction)HideMenu:(id)sender;
-- (IBAction)GoBackward:(id)sender;
-- (IBAction)GoForward:(id)sender;
-- (IBAction)GoHomePage:(id)sender;
-- (IBAction)SendReport:(id)sender;
-- (IBAction)GoRandom:(id)sender;
-- (IBAction)AboutApp:(id)sender;
-- (IBAction)GoRefresh:(id)sender;
-- (IBAction)SwipeBack:(id)sender;
-- (IBAction)SwipeForward:(id)sender;
-- (IBAction)SettingButton:(id)sender;
-
-
-- (void)ProgressReset;
-- (void)ProgressGo:(float)step;
-- (void)MainMission;
-- (void)SendToInterface:(NSString *)content;
-- (NSString *)PrepareContent:(NSString *)content;
-- (void)PrepareRandomPopout:(NSString *)content;
-- (void)SendRandomRequest;
-- (void)PrepareHomepage;
-- (void)CallFromScheme;
-
 @end
 
-
 @implementation mcViewController
-
-NSString * baseID = @"moegirl-app-1.5";//用于GoogleAnalytics等统计工具识别   (15个字符)
-NSString * homepagelink = @"https://masterchan.me/moegirlwiki/index1.5.php";//主页所在的位置
-NSString * API = @"http://zh.moegirl.org/%@";//用于获取页面的主要链接
-NSString * APIrandom = @"https://masterchan.me/moegirlwiki/random1.5.php";//获取随机页面的API
-
-
-NSString * DefaultPage =@"<!DOCTYPE html><html lang='zh-CN'><head>	<!--%@-->	<meta charset='UTF-8'>	<meta name='viewport' content='width=device-width, initial-scale=1'></head><body>	<style type='text/css'>	ul{padding-left: 20px;} body{		font-size: 11px;	}	</style>	<div id='content'>		<h3>出现了点问题哎~~!</h3>		<p>错误信息: <strong>%@</strong></p>		<p>您可以做的事情有：</p>		<ul>			<li>提交此页面的错误报告，帮助我们改进程序</li>			<li>到网络环境更好的地方再试一试</li>			<li>使用黑科技保护您的手机与萌百服务器之间的连接</li>		</ul>	</div></body></html>";
-
-NSString * CustomizeHTMLContent = @"<style> body{padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;} iframe{width:292px !important; height:auto;} #mw-pages .mw-content-ltr td, #mw-subcategories .mw-content-ltr td{float: left;display: block;clear: both;width: 90% !important;} h2{clear:both;}</style> <script>$(document).ready(function(){$(\".heimu\").click(function(){$(this).css(\"background\",\"#ffffff\")});});</script><script>!function(){$(function(){function t(t){var e=$(t).attr(\"style\");if(e){var l=[];return e=e.split(\";\"),$.each(e,function(){this.length&&a.test(this)&&l.push(this)}),l.join(\";\")}}function e(l){l=$(l);var o={collapsible:!1,open:!0};if(l.is(\"table\")){o.collapsible=l.is(\".mw-collapsible\"),o.open=l.is(\".autocollapse\")||l.is(\".mw-uncollapsed\");var n=l.find(\">tbody>tr>.navbox-title\");if(n.length)if(n.find(\">.mw-collapsible-toggle\").length){var i=n.find(\">span:not(.mw-collapsible-toggle)\"),a=i.children();if(a.find(\"small\").length){var s=a.html().split(\"<br>\");o.title=s[0],o.nav=$(s[1]).find(\"small\").html()}else o.title=a.is(\"div\")&&\"text-align:center; line-height:10pt\"==a.attr(\"style\")?a.html():i.html()}else o.title=n.html();var r=[];l.find(\">tbody>tr\").filter(function(){return!$(this).find(\">.navbox-title\").length&&\"2px\"!=$(this).css(\"height\")}).each(function(){r.push(e(this))}),o.subgroup=r}else if(l.is(\"tr\")){var n=l.find(\">.navbox-group\");if(n.length){var p=t(n);p&&(o.titleStyle=p);var c=n.children();o.title=c.is(\"div\")&&\"padding:0em 0.75em;\"==c.attr(\"style\")?c.html():n.html()}var n=l.find(\">.navbox-list\");if(n.length)if(n.find(\">.navbox-subgroup\").length){var d=e(n.find(\".navbox-subgroup\"));o.subgroup=d.title?[d]:d.subgroup}else{var p=t(n);p&&(o.contentStyle=p),o.content=n.html()}var n=l.find(\">.navbox-abovebelow\");n.length&&(o.title=n.html())}return o}function l(t){t=$(t);var l={subgroup:e(t.find(\">tbody>tr>td>.mw-collapsible\"))};return l}function o(t,e){if(e.collapsible&&(t.addClass(s+\"collapsible\"),e.open&&t.addClass(s+\"open\")),e.title){var l=$('<div class=\"'+s+'title\" />');if(l.html(e.title),t.append(l),e.titleStyle&&l.attr(\"style\",e.titleStyle),e.collapsible&&l.append('<div class=\"'+s+'toggle\"><span class=\"'+s+'status-close\">[展开]</span><span class=\"'+s+'status-open\">[折叠]</span></div>'),e.nav){var n=$('<div class=\"'+s+'nav\" />');l.append(n),l.addClass(s+\"has-nav\"),n.html(e.nav)}}if(e.content||e.subgroup){var i=$('<div class=\"'+s+'content\" />');if(t.append(i),e.content)e.contentStyle&&i.attr(\"style\",e.contentStyle),i.html(e.content);else{var a=$('<div class=\"'+s+'subgroup\" />').appendTo(i);$.each(e.subgroup,function(){o(a,this)})}}}function n(t){var e=$('<div class=\"'+s+'wrapper\" />'),l=$('<div class=\"'+s+'subgroup\" />');return e.append(l),o(l,t.subgroup),e}function i(t){var t=t||\".navbox\";$(t).each(function(){var t=$(this),e=l(t),o=n(e);o.bind(\"click\",function(t){var e=$(t.target);e.parent().hasClass(s+\"toggle\")&&(e.closest(\".\"+s+\"collapsible\").toggleClass(s+\"open\"),t.stopPropagation())}),t.after(o).hide()})}var a=/^\\s*(background|color|font)/i,s=\"moegirl-flatten-navbox-\";window.setTimeout(i,200),$(\"body\").append(\"<style>._wrapper{position:relative;margin-top:10px;line-height:1.7;border:1px solid #aaa;padding:3px;clear:both}._subgroup{border:0 solid #e6e6ff;border-left-width:3px}._title{font-weight:700;background:#e6e6ff;margin-bottom:2px;padding-left:1em}._nav{font-size:80%;word-spacing:.8em;border-top:1px solid #aaa}._content{padding-left:1em;margin-bottom:2px}._content:last-child{margin-bottom:0}._wrapper>._subgroup{border-color:#ccf;border-width:0 3px 3px}._wrapper>._subgroup>._title{background:#ccf}._wrapper>._subgroup>._content>._subgroup{border-color:#ddf}._wrapper>._subgroup>._content>._subgroup>._title{background:#ddf}._collapsible>._title{position:relative}._collapsible>._content{display:none}._open>._content{display:block}._collapsible>._title{padding-left:3em;margin-bottom:0;min-height:20px}._open>._title{margin-bottom:2px}._toggle{position:absolute;left:0;top:0;bottom:0;font-family:monospace;color:#ba0000;font-size:90%;width:3.5em}._toggle>span{position:absolute;left:0;right:0;top:50%;text-align:center;transform:translateY(-50%);-webkit-transform:translateY(-50%)}._collapsible>._title>._toggle>._status-open{display:none}._collapsible>._title>._toggle>._status-close,._open>._title>._toggle>._status-open{display:inline}._open>._title>._toggle>._status-close{display:none}</style>\".replace(/_/g,s))})}();</script></body>";
-NSString * CustomizeDate = @"2014-09-24";
-
-NSString * tempError = @"";
-NSString * r18l = @"OFF";
-NSURL * tempURL;
-NSString * tempTitle;
-
-CGPoint PagePosition;
-
-NSTimeInterval RequestTimeOutSec = 20;
-
-NSInteger jumptotarget = 0;
-NSInteger pointer_max = 0;
-NSInteger pointer_current = 0;
-NSInteger isRefresh = 0;
-
-NSInteger InstanceLock = 0; //进程同步锁
-
-NSURLConnection * RequestConnection;
-NSURLConnection * RequestConnectionForRandom;
-NSURLConnection * RequestConnectionForMainpage;
-
-
-
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    //监听UIWebView 的事件
-    [_MasterWebView setDelegate:self];
+    _webViewList = [NSMutableArray new];
+    _webViewTitles = [NSMutableArray new];
     
+    _appDelegate = [[UIApplication sharedApplication] delegate];
+    [_appDelegate setHook:self];
     
-    //监听UISearchBar 的事件
-    [_SearchBox setDelegate:self];
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue]>= 7.0) {
-    
-    //调整进度条的大小
-    CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 20.0f);
-    [_progressBar setTransform:transform];
-    
-    //圆角设置
-    _BackwardButton.layer.cornerRadius = 3;
-    _ForwardButton.layer.cornerRadius = 3;
-    _HomepageButton.layer.cornerRadius = 3;
-    _ReportButton.layer.cornerRadius = 3;
-    _RefreshButton.layer.cornerRadius = 3;
-    _RandomButton.layer.cornerRadius = 3;
-    _SettingButton.layer.cornerRadius = 3;
-    _GoBackLabel.layer.cornerRadius = 3;
-    _popoutView.layer.cornerRadius = 5;
-    _aboutView.layer.cornerRadius = 5;
-    _BackwardButton.layer.masksToBounds = YES;
-    _ForwardButton.layer.masksToBounds = YES;
-    _HomepageButton.layer.masksToBounds = YES;
-    _ReportButton.layer.masksToBounds = YES;
-    _RefreshButton.layer.masksToBounds = YES;
-    _RandomButton.layer.masksToBounds = YES;
-    _SettingButton.layer.masksToBounds = YES;
-    _GoBackLabel.layer.masksToBounds = YES;
-    _popoutView.layer.masksToBounds = YES;
-    _aboutView.layer.masksToBounds = YES;
-    
-    }else{
-        //[_progressBar setHidden:YES];
-        CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 8.0f);
-        [_progressBar setTransform:transform];
-        [_BackToTopButton setHidden:YES];
-        [_versionbutton setHidden:YES];
-        
-    }
-    
-    [self CheckImg];
-    
-    //初始化历史记录
-    _NamePool = [[NSMutableDictionary alloc] init];
-    _HistoryPool = [[NSMutableDictionary alloc] init];
-    _PositionPool = [[NSMutableDictionary alloc] init];
-    _RandomPool = [[NSMutableDictionary alloc] init];
-    pointer_current = 0;
-    pointer_max = 0;
-    
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([[defaultdata objectForKey:@"version"] isEqualToString:baseID]) {
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran0"] forKey:@"0"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran1"] forKey:@"1"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran2"] forKey:@"2"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran3"] forKey:@"3"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran4"] forKey:@"4"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran5"] forKey:@"5"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran6"] forKey:@"6"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran7"] forKey:@"7"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran8"] forKey:@"8"];
-        [_RandomPool setObject:[defaultdata objectForKey:@"ran9"] forKey:@"9"];
-        r18l = [defaultdata objectForKey:@"retl"];
-    }else{
-        NSLog(@"init UserDefaultData Begin");
-        [self SendRandomRequest];
-        [defaultdata setObject:@"OFF" forKey:@"retl"];
-        [defaultdata setObject:@"ON" forKey:@"SwipeMode"];
-        [defaultdata setObject:@"OFF" forKey:@"NoImgMode"];
-        [defaultdata setObject:@"ON" forKey:@"HeXieMode"];
-        [defaultdata removeObjectForKey:@"homepage"];
-        [defaultdata setObject:CustomizeHTMLContent forKey:@"CustomizeHTMLContent"];
-        [defaultdata setObject:CustomizeDate forKey:@"CustomizeDate"];
-        [defaultdata synchronize];
-        NSLog(@"init UserDefaultData End");
-    }
-    
-    //初始化页面
-    [self MainMission];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(CallFromScheme)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
+    webViewListPosition = 0;
+    firstLaunch = YES;
+    NSLog(@"1st");
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    NSLog(@"viewDidAppear");
-    NSLog(@"Refresh Customize Data Begin");
-    [self CheckImg];
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    CustomizeHTMLContent = [defaultdata objectForKey:@"CustomizeHTMLContent"];
-    CustomizeDate = [defaultdata objectForKey:@"CustomizeDate"];
-    NSLog(@"Refresh Customize Data Finished");
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (firstLaunch) {
+        [self visualInit];
+        firstLaunch = NO;
+    }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self resetSizes];
+}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    [_NamePool removeAllObjects];
-    [_HistoryPool removeAllObjects];
-    [_PositionPool removeAllObjects];
-    pointer_current = 0;
-    pointer_max = 0;
 }
 
-//得到服务器的响应
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    if (connection==RequestConnection) {
-        _RecievePool = [NSMutableData data];
-        NSLog(@"[Request] 得到服务器的响应");
-    }else if (connection==RequestConnectionForRandom){
-        _RecievePool2 = [NSMutableData data];
-        NSLog(@"[Random] 得到服务器的响应");
-    }else if (connection==RequestConnectionForMainpage){
-        _RecievePool3 = [NSMutableData data];
-        NSLog(@"[Mainpage] 得到服务器的响应");
+#pragma mark MainMethods
+
+- (void)visualInit
+{
+    // 搜索框的圆角
+    _SearchBox.layer.cornerRadius = 5;
+    _SearchBox.layer.masksToBounds = YES;
+    
+    // 搜索建议框
+    _searchSuggestionsTableView = [moegirlSearchSuggestionsTableView new];
+    [_searchSuggestionsTableView setFrame:_MasterInitial.frame];
+    [_searchSuggestionsTableView setDataSource:_searchSuggestionsTableView];
+    [_searchSuggestionsTableView setDelegate:_searchSuggestionsTableView];
+    [_searchSuggestionsTableView setHook:self];
+    [_searchSuggestionsTableView setRowHeight:40];
+    [_searchSuggestionsTableView setScrollsToTop:NO];
+    [_searchSuggestionsTableView setTargetURL:@"http://zh.moegirl.org"];
+    [_MainView addSubview:_searchSuggestionsTableView];
+
+    // 菜单栏
+    menuSituation = NO;
+    
+    
+    _resetButton = [UIButton new];
+    [_resetButton setFrame:CGRectMake(_NavigationBar.frame.origin.x,
+                                      _NavigationBar.frame.origin.y - 20,
+                                      _NavigationBar.frame.size.width,
+                                      _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+    [_resetButton setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.4]];
+    [_resetButton addTarget:self action:@selector(resetMenu) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_resetButton];
+    [_resetButton setAlpha:0];
+    
+    
+    _sideControlTableView = [moegirlSideControlTableView new];
+    [_sideControlTableView setFrame:CGRectMake(_NavigationBar.frame.origin.x + _NavigationBar.frame.size.width,
+                                               _NavigationBar.frame.origin.y - 20,
+                                               200,
+                                               _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+    [_sideControlTableView setDataSource:_sideControlTableView];
+    [_sideControlTableView setDelegate:_sideControlTableView];
+    [_sideControlTableView setHook:self];
+    [_sideControlTableView setBounces:NO];
+    [_sideControlTableView setScrollsToTop:NO];
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1){
+        [_sideControlTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    [self.view addSubview:_sideControlTableView];
+    [_sideControlTableView setAlpha:0];
+    
+    
+    
+    // 首页
+    _mainPageScrollView = [moegirlMainPageScrollView new];
+    [_mainPageScrollView setFrame:_MasterInitial.frame];
+    [_mainPageScrollView setDelegate:_mainPageScrollView];
+    [_mainPageScrollView setHook:self];
+    [_mainPageScrollView setTargetURL:@"http://zh.moegirl.org"];
+    [_mainPageScrollView loadMainPage:YES];
+    [_MainView addSubview:_mainPageScrollView];
+    
+    
+    _leftPanel = [mcLeftDrag new];
+    [_leftPanel setHook:self];
+    [_leftPanel setBackgroundColor:[UIColor clearColor]];
+    [_MainView addSubview:_leftPanel];
+    
+    _rightPanel = [mcRightDrag new];
+    [_rightPanel setHook:self];
+    [_rightPanel setBackgroundColor:[UIColor clearColor]];
+    [_MainView addSubview:_rightPanel];
+    
+}
+
+- (void)resetSizes
+{
+    [_leftPanel setFrame:_LeftPanelInitialPosition.frame];
+    [_rightPanel setFrame:_RightPanelInitialPosition.frame];
+    menuSituation = NO;
+    [_resetButton setFrame:CGRectMake(_NavigationBar.frame.origin.x,
+                                      _NavigationBar.frame.origin.y - 20,
+                                      _NavigationBar.frame.size.width,
+                                      _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+    [_sideControlTableView setFrame:CGRectMake(_NavigationBar.frame.origin.x + _NavigationBar.frame.size.width,
+                                               _NavigationBar.frame.origin.y - 20,
+                                               200,
+                                               _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+    [_sideControlTableView reloadData];
+    [_resetButton setAlpha:0];
+    [_sideControlTableView setAlpha:0];
+    
+    [_mainPageScrollView setFrame:_MasterInitial.frame];
+    [_mainPageScrollView refreshScrollView];
+    
+    [_searchSuggestionsTableView setFrame:_MasterInitial.frame];
+    
+    for (int i = 0 ; i < _webViewList.count; i++) {
+        [[_webViewList objectAtIndex:i] setFrame:_MasterInitial.frame];
     }
 }
 
-//开始接收数据
--(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    if (connection==RequestConnection) {
-        [_RecievePool appendData:data];
-        NSLog(@"[Request] 接收到了服务器传回的数据");
-        [self ProgressGo:0.038];
-    }else if (connection==RequestConnectionForRandom){
-        [_RecievePool2 appendData:data];
-        NSLog(@"[Random] 接收到了服务器传回的数据");
-    }else if (connection==RequestConnectionForMainpage){
-        [_RecievePool3 appendData:data];
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve|
+                                    UIViewAnimationOptionAllowAnimatedContent
+                     animations:^{
+                         /*----------------------*/
+                         [self resetSizes];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         
+                         /*----------------------*/
+                     }];
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve|
+     UIViewAnimationOptionAllowAnimatedContent
+                     animations:^{
+                         /*----------------------*/
+                         [self resetSizes];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         
+                         /*----------------------*/
+                     }];
+}
+
+- (void)cancelKeyboard
+{
+    [_SearchTextField resignFirstResponder];
+}
+
+#pragma mark CreateNewWebView
+
+- (void)urlSchemeCall:(NSString *)target
+{
+    NSLog(@"%@",target);
+    NSRange rangeA = [target rangeOfString:@"?w="];
+    if (rangeA.location != NSNotFound) {
+        target = [target substringFromIndex:rangeA.location + 3];
+        [self createMoeWebView:target];
     }
 }
 
-//错误处理
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSString * errorinfo;
-    if (connection==RequestConnection) {
-        NSLog(@"[Request] 发生错误！");
-        errorinfo = [NSString stringWithFormat:@"\n%@\n%@\n",
-                                [error localizedDescription],
-                                [[error userInfo] objectForKey:NSURLErrorFailingURLErrorKey]
-                                ];
-        [self SendToInterface:[NSString stringWithFormat:DefaultPage,errorinfo,[error localizedDescription]]];
-    }else if (connection==RequestConnectionForMainpage){
-        NSLog(@"[Mainpage] 发生错误！");
-        //NSLog(@"%@",error);
-        if ([error code]!=-1009) {
-            //如果萌百服务器处于某种原因不能够打开则弹出错误提示
-            NSString *Title = @"萌百服务器似乎无法连接?!?!";
-            UIAlertView *PageWarning=[[UIAlertView alloc] initWithTitle:Title message:@"服务器可能暂时下线了，请留意各媒体上更新姬发布的消息，为您带来的不便敬请谅解" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
-            PageWarning.alertViewStyle=UIAlertViewStyleDefault;
-            [PageWarning show];
-        }
-        _RecievePool3 = nil;
-        InstanceLock ++;
-        [self PrepareHomepage];
+- (void)createMoeWebView:(NSString *)target
+{
+    if (webViewListPosition == 0) {
+        [_mainPageScrollView setScrollsToTop:NO];
+    } else {
+        moegirlWebView * currentView = [_webViewList objectAtIndex:webViewListPosition - 1];
+        [currentView.scrollView setScrollsToTop:NO];
     }
-    //NSLog(@"%@",errorinfo);
-    tempError = [error localizedDescription];
+    
+    [_SearchTextField setText:[target stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    moegirlWebView * webView = [moegirlWebView new];
+    [webView setFrame:CGRectMake(_MasterInitial.frame.origin.x + _MasterInitial.frame.size.width,
+                                 _MasterInitial.frame.origin.y,
+                                 _MasterInitial.frame.size.width,
+                                 _MasterInitial.frame.size.height)];
+    [webView setTargetURL:@"http://zh.moegirl.org"];
+    [webView setDelegate:webView];
+    [webView setHook:self];
+    [webView loadContentWithEncodedKeyWord:target useCache:YES];
+    [webView.scrollView setScrollsToTop:YES];
+    [_MainView addSubview:webView];
+    [_webViewList insertObject:webView atIndex:webViewListPosition];
+    [_webViewTitles insertObject:_SearchTextField.text atIndex:webViewListPosition];
+    webViewListPosition ++;
+    for (int i = webViewListPosition; i < _webViewList.count ; i++) {
+        [[_webViewList objectAtIndex:i] removeFromSuperview];
+    }
+    [_webViewList removeObjectsInRange:NSMakeRange(webViewListPosition, _webViewList.count - webViewListPosition)];
+    [_webViewTitles removeObjectsInRange:NSMakeRange(webViewListPosition, _webViewList.count - webViewListPosition)];
+    [UIView animateWithDuration:0.5
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [webView setFrame:_MasterInitial.frame];
+                     }
+                     completion:^(BOOL finished){
+                         [_MainView bringSubviewToFront:_leftPanel];
+                         [_MainView bringSubviewToFront:_rightPanel];
+                     }];
 }
 
-//结束接收数据
--(void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    if (connection==RequestConnection) {
-        NSLog(@"[Request] 数据接收完成！");
-        if ([_SearchBox.text isEqualToString:@"首页"]) {
-            InstanceLock ++;
-            [self PrepareHomepage];
+- (void)newWebViewRequestFormWebView:(NSString *)decodedKeyword
+{
+    [self createMoeWebView:decodedKeyword];
+}
+
+- (void)newWebViewRequestFormSuggestions:(NSString *)keyword
+{
+
+    [self createMoeWebView:keyword];
+    [_MainView sendSubviewToBack:_searchSuggestionsTableView];
+    [self cancelKeyboard];
+}
+
+
+#pragma mark SearchSuggestion
+
+- (IBAction)searchFieldEditChange:(id)sender
+{
+    if ([_SearchTextField.text isEqual:@""]) {
+        [_MainView sendSubviewToBack:_searchSuggestionsTableView];
+        return;
+    }
+    NSString * Keyword = _SearchTextField.text;
+    NSRange rangeA = [Keyword rangeOfString:@" "];
+    if (rangeA.location != NSNotFound) {
+        Keyword = [Keyword substringToIndex:rangeA.location];
+    }
+    [_searchSuggestionsTableView checkSuggestions:Keyword];
+    [_MainView bringSubviewToFront:_searchSuggestionsTableView];
+}
+
+#pragma mark MainViewSwitcher
+
+
+- (void)MoveMainViewByLeftBegan
+{
+    if (webViewListPosition == 1) {
+        [_MainView insertSubview:_mainPageScrollView belowSubview:[_webViewList objectAtIndex:webViewListPosition - 1]];
+    }else if (webViewListPosition > 1){
+        [_MainView insertSubview:[_webViewList objectAtIndex:webViewListPosition - 2] belowSubview:[_webViewList objectAtIndex:webViewListPosition - 1]];
+    }
+}
+
+- (void)MoveMainViewByRightBegan
+{
+    if (_webViewList.count > webViewListPosition) {
+        if (webViewListPosition == 0) {
+            [_MainView insertSubview:[_webViewList objectAtIndex:webViewListPosition] belowSubview:_mainPageScrollView];
         }else{
-            [self SendToInterface:[[NSString alloc] initWithData:_RecievePool encoding:NSUTF8StringEncoding]];
+            [_MainView insertSubview:[_webViewList objectAtIndex:webViewListPosition] belowSubview:[_webViewList objectAtIndex:webViewListPosition - 1]];
         }
-    }else if (connection==RequestConnectionForRandom) {
-        NSLog(@"[Random] 数据接收完成！");
-        //NSLog(@"%@",[[NSString alloc] initWithData:_RecievePool2 encoding:NSUTF8StringEncoding]);
-        [self PrepareRandomPopout:[[NSString alloc] initWithData:_RecievePool2 encoding:NSUTF8StringEncoding]];
-        
-    }else if (connection==RequestConnectionForMainpage) {
-        NSLog(@"[Mainpage] 数据接收完成！");
-        InstanceLock ++;
-        [self PrepareHomepage];
     }
 }
 
-//完成绘制标识事件
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    NSLog(@"页面完成绘制！");
-    [self ProgressReset];
-    if (jumptotarget != 0) {
-        jumptotarget = 0;
-        UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-        [scrollView setContentOffset:PagePosition animated:YES];
-    }
-}
-
-//页面绘制错误
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    NSLog(@"页面绘制出错！");
-}
-
-//页面绘制事件
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
- navigationType:(UIWebViewNavigationType)navigationType
+- (void)MoveMainViewByLeft:(float)Position
 {
-    if ( navigationType == UIWebViewNavigationTypeLinkClicked ) {
-        NSString *link = [[request URL] absoluteString];
-        if ([link hasPrefix:[NSString stringWithFormat:@"https://masterchan.me/%@/",baseID]]) {
-            link = [link substringFromIndex:38];
-            [_SearchBox setText:[link stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            [self MainMission];
-            return NO;
-        } else if ([link hasPrefix:@"http://zh.moegirl.org/"]){
-            link = [link substringFromIndex:22];
-            if ([link hasPrefix:baseID]) {//如果带有统计标签的，需要将其移除
-                link = [link substringFromIndex:16];
-            }
-            if ([link hasPrefix:@"index.php"]) {
-                //提示用户该页面无法渲染，是否打开浏览器
-                NSString *Title = @"本程序无法渲染该页面，是否在Safari中打开 ？";
-                UIAlertView *PageWarning=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消",nil];
-                PageWarning.alertViewStyle=UIAlertViewStyleDefault;
-                [PageWarning show];
-                tempURL = [request URL];
-                return NO;
-            }else if([link hasPrefix:[NSString stringWithFormat:@"%@#",[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){//如果是目录的页面内部链接 则直接交给WebView
-                return YES;
-            }else{
-                [_SearchBox setText:[link stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                [self MainMission];
-                return NO;
-            }
-        } else if ([link hasSuffix:@"png"] || [link hasSuffix:@"gif"] || [link hasSuffix:@"jpg"]) {
-            // 检测图片URL
-            NSLog(@"Open an image");
-            
-            mcImageViewController *imageViewController = [[mcImageViewController alloc] init];
-            [imageViewController loadImageWithURL:[NSURL URLWithString:link]];
-            [self presentViewController:imageViewController animated:YES completion:nil];
-            
-            return NO;
+    if (webViewListPosition > 0) {
+        moegirlWebView * tempWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+        [tempWebView setFrame:CGRectMake(tempWebView.frame.origin.x + Position,
+                                         tempWebView.frame.origin.y,
+                                         tempWebView.frame.size.width,
+                                         tempWebView.frame.size.height)];
+    }
+}
+
+- (void)MoveMainViewByRight:(float)Position
+{
+    if (_webViewList.count > webViewListPosition) {
+        if (webViewListPosition == 0) {
+            [_mainPageScrollView setFrame:CGRectMake(_mainPageScrollView.frame.origin.x + Position,
+                                                     _mainPageScrollView.frame.origin.y,
+                                                     _mainPageScrollView.frame.size.width,
+                                                     _mainPageScrollView.frame.size.height)];
         }else{
-            //提示用户该连接是外链，是否打开浏览器
-            NSString *Title = @"这是一个外链，您确定要打开这个链接吗？";
-            UIAlertView *OutlinkWarning=[[UIAlertView alloc] initWithTitle:Title message:[[request URL] absoluteString] delegate:self cancelButtonTitle:@"打开链接" otherButtonTitles:@"取消",nil];
-            OutlinkWarning.alertViewStyle=UIAlertViewStyleDefault;
-            tempURL = [request URL];
-            [OutlinkWarning show];
-            return NO;
+            moegirlWebView * tempWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+            [tempWebView setFrame:CGRectMake(tempWebView.frame.origin.x + Position,
+                                             tempWebView.frame.origin.y,
+                                             tempWebView.frame.size.width,
+                                             tempWebView.frame.size.height)];
         }
     }
-    return YES;
 }
 
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+- (void)MoveMainViewByLeftEnded:(BOOL)Dismiss
 {
-    NSString * tmpstring=[alertView buttonTitleAtIndex:buttonIndex];
-    if ([tmpstring isEqualToString:@"确定"]) {//你是否在Safari里面看网页
-        [[UIApplication sharedApplication] openURL:tempURL];
-    }else if ([tmpstring isEqualToString:@"打开链接"]){//你是否打开外链
-        [[UIApplication sharedApplication] openURL:tempURL];
-    }else if ([tmpstring isEqualToString:@"查看"]){//你摇到了 xxx
-        [_SearchBox setText:tempTitle];
-        [self MainMission];
-    }else if ([tmpstring isEqualToString:@"否"]){//你是否已经年满18周岁
-
-            [self ProgressGo:0.45];
-            UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-            [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
-            pointer_current --;
-            [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
-            NSString *baselink;
-            if (![_SearchBox.text isEqualToString:@"首页"]) {
-                baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            } else {
-                baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/",baseID];
-            }
-            [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-            PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
-            jumptotarget = 1;
-            if (pointer_current == 1) {
-                [_BackwardButton setEnabled:NO];
-            }
-            pointer_max --;
-            if (pointer_current < pointer_max) {
-                [_ForwardButton setEnabled:YES];
-            }
-
-    }
-}
-
-- (IBAction)MenuButton:(id)sender
-{
-    if ([_popoutView isHidden]) {
-        [_popoutView setHidden:NO];
-        [_aboutView setHidden:YES];
-        if ([[[UIDevice currentDevice] systemVersion] floatValue]>= 7.0) {
-            [_HideMenuButton setHidden:NO];
-        }
-    } else {
-        [_popoutView setHidden:YES];
-        [_HideMenuButton setHidden:YES];
-        [_aboutView setHidden:YES];
-    }
-}
-
-- (IBAction)BackToTop:(id)sender
-{
-    if ([_MasterWebView subviews]) {
-        UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-        [scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-    }
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-    [_aboutView setHidden:YES];
-}
-
-- (IBAction)HideMenu:(id)sender {
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-    [_aboutView setHidden:YES];
-}
-
-- (IBAction)GoBackward:(id)sender {
-    NSLog(@"往后");
-    if (pointer_current > 1) {
-        [self ProgressGo:0.45];
-        UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
-        pointer_current --;
-        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
-        NSString *baselink;
-        if (![_SearchBox.text isEqualToString:@"首页"]) {
-            baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        } else {
-            baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/",baseID];
-        }
-        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
-        jumptotarget = 1;
-        if (pointer_current == 1) {
-            [_BackwardButton setEnabled:NO];
-        }
-        if (pointer_current < pointer_max) {
-            [_ForwardButton setEnabled:YES];
-        }
-    }
-    
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-}
-
-- (IBAction)GoForward:(id)sender {
-    NSLog(@"往前");
-    if (pointer_current < pointer_max) {
-        [self ProgressGo:0.45];
-        UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-        [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
-        pointer_current ++;
-        [_SearchBox setText:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]];
-        NSString *baselink;
-        if (![_SearchBox.text isEqualToString:@"首页"]) {
-            baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        } else {
-            baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/",baseID];
-        }
-        [_MasterWebView loadHTMLString:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]] baseURL:[NSURL URLWithString:baselink]];
-        PagePosition = CGPointFromString([_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]]);
-        jumptotarget = 1;
-        if (pointer_current == pointer_max) {
-            [_ForwardButton setEnabled:NO];
-        }
-        if (pointer_current > 1) {
-            [_BackwardButton setEnabled:YES];
-        }
-    }
-    
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-}
-
-- (IBAction)GoHomePage:(id)sender {
-    [_SearchBox setText:@"首页"];
-    [self MainMission];
-    
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-
-    UIViewController * theview = segue.destinationViewController;
-    
-    NSString * reportTitle = _SearchBox.text;
-    NSString * reportContent = [_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
-    NSString * reportErrorInfo = tempError;
-    
-    if (reportContent.length > 200) {
-        reportContent = [reportContent substringToIndex:200];
-    }
-    
-    [theview setValue:reportTitle forKeyPath:@"rtitle"];
-    [theview setValue:reportContent forKeyPath:@"rcontent"];
-    [theview setValue:reportErrorInfo forKeyPath:@"rerror"];
-    
-    //将第一个 view的参数准备给下一个view
-
-}
-
-- (IBAction)SendReport:(id)sender {
-    
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-    
-    [self performSegueWithIdentifier:@"sendReport" sender:nil];
-    //将到mcReportController.m处理
-}
-
-- (IBAction)GoRandom:(id)sender {
-    NSInteger k = (int)(arc4random()%10);
-    NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%ld",(long)k]];
-    [_SearchBox setText:theTitle];
-    [self MainMission];
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-    [self SendRandomRequest];
-}
-
-- (IBAction)AboutApp:(id)sender {
-    [_aboutView setHidden:NO];
-    [_popoutView setHidden:YES];
-}
-
-- (IBAction)GoRefresh:(id)sender {
-    isRefresh = 1;
-    pointer_current --;
-    [self MainMission];
-    
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-}
-
-//向右滑动－退后
-- (IBAction)SwipeBack:(id)sender {
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([[defaultdata objectForKey:@"SwipeMode"]isEqualToString:@"ON"]) {
-        NSLog(@"检测到向后滑动");
-        if (pointer_current > 1) {
-            NSLog(@"传递参数");
-            [_ForwardLabel setHidden:YES];
-            [_GoBackLabel setHidden:NO];
-            [self GoBackward:nil];
-            [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
-        }
-    }
-}
-
-
-//向左滑动－向前
-- (IBAction)SwipeForward:(id)sender {
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([[defaultdata objectForKey:@"SwipeMode"]isEqualToString:@"ON"]) {
-        NSLog(@"检测到向前滑动");
-        if (pointer_current < pointer_max) {
-            NSLog(@"传递参数");
-            [_GoBackLabel setHidden:YES];
-            [_ForwardLabel setHidden:NO];
-            [self GoForward:nil];
-            [self performSelector:@selector(resetLabel:) withObject:nil afterDelay:1.2];
-        }
-    }
-}
-
-- (IBAction)SettingButton:(id)sender {
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-    
-    [self performSegueWithIdentifier:@"showSettings" sender:nil];
-    //将到mcSettingsController.m处理
-}
-
-- (void)resetLabel:(NSObject *)theobj {
-    [_GoBackLabel setHidden:YES];
-    [_ForwardLabel setHidden:YES];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar resignFirstResponder];
-    [_popoutView setHidden:YES];
-    [_HideMenuButton setHidden:YES];
-    [self MainMission];
-}
-
--(void)ProgressReset
-{
-    [_progressBar setProgress:0];
-}
-
-- (void)ProgressGo:(float)step
-{
-    float t = step + _progressBar.progress;
-    if (t > 1) {
-        [_progressBar setProgress:1];
-    } else {
-        [_progressBar setProgress:t];
-    }
-}
-
-- (void)MainMission
-{
-    NSLog(@"开始任务");
-    
-    NSString *ItemName = [_SearchBox text];
-    
-    [self ProgressReset];
-    
-    [RequestConnection cancel];
-    [RequestConnectionForMainpage cancel];
-    
-    
-    if ([[ItemName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
-        //空白字符串不执行任务
-        NSLog(@"空白字符串不进行工作");
-    } else {
-        if ([ItemName isEqualToString:@"Mainpage"]) {
-            [_SearchBox setText:@"首页"];
-            ItemName = @"首页";
-        }
-        
-        if ([ItemName isEqualToString:@"首页"]) {
-            //开始加载首页
-            NSLog(@"检索 首页");
+    if (webViewListPosition > 0) {
+        float deviation = _leftPanel.frame.origin.x - _LeftPanelInitialPosition.frame.origin.x;
+        moegirlWebView * tempWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+        if ((Dismiss&&(deviation > 20))||(deviation>150)) {
+            //移除View
+            [_MainView sendSubviewToBack:_leftPanel];
+            [_MainView sendSubviewToBack:_rightPanel];
+            webViewListPosition --;
+            [UIView animateWithDuration:0.2
+                                  delay:0
+                                options: UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 [tempWebView setFrame:CGRectMake(_MasterInitial.frame.origin.x + _MasterInitial.frame.size.width + 10,
+                                                                  _MasterInitial.frame.origin.y,
+                                                                  _MasterInitial.frame.size.width,
+                                                                  _MasterInitial.frame.size.height)];
+                                 if (webViewListPosition == 0) {
+                                     [_SearchTextField setText:@""];
+                                 }else{
+                                     [_SearchTextField setText:[_webViewTitles objectAtIndex:webViewListPosition -1]];
+                                 }
+                             }
+                             completion:^(BOOL finished){
+                                 [_MainView sendSubviewToBack:tempWebView];
+                                 [tempWebView setFrame:_MasterInitial.frame];
+                                 [_MainView bringSubviewToFront:_leftPanel];
+                                 [_MainView bringSubviewToFront:_rightPanel];
+                                 
+                                 [tempWebView.scrollView setScrollsToTop:NO];
+                                 if (webViewListPosition == 0) {
+                                     [_mainPageScrollView setScrollsToTop:YES];
+                                 }else{
+                                     moegirlWebView * currentWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+                                     [currentWebView.scrollView setScrollsToTop:YES];
+                                 }
+                             }];
             
-            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-            if (([defaultdata objectForKey:@"homepage"] == nil)||(isRefresh == 1)) {
-                //如果缓存中没有首页的数据或者是刷新请求，则向网络请求首页的数据
-                [self ProgressGo:0.35];
-                
-                InstanceLock = 0;
-                
-                //向masterchan.me请求框架
-                NSString *RequestURL = homepagelink;
-                NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
-                [TheRequest setHTTPMethod:@"GET"];
-                RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
-                
-                //向zh.moegirl.org请求内容
-                
-                NSMutableURLRequest * TheRequest2 = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:API,@"Mainpage"]] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:RequestTimeOutSec];
-                [TheRequest2 setHTTPMethod:@"POST"];
-                RequestConnectionForMainpage = [[NSURLConnection alloc]initWithRequest:TheRequest2 delegate:self];
-                
-                //======================
-                
-                isRefresh = 0;
-            } else {
-                //如果缓存中有首页的数据，这直接SendToInterface
-                [self SendToInterface:[defaultdata objectForKey:@"homepage"]];
-                //----------------------------------------
-            }
-            
-            
-        } else {
-            //开始加载词条
-            NSLog(@"检索 %@",ItemName);
-            
-            [self ProgressGo:0.1];
-            
-            NSURLRequestCachePolicy loadType = NSURLRequestReturnCacheDataElseLoad;
-            if (isRefresh == 1) {
-                loadType = NSURLRequestReloadIgnoringLocalCacheData;
-                isRefresh = 0;
-            }
-            
-            NSString *RequestURL = [NSString stringWithFormat:API,[ItemName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            
-            NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL] cachePolicy:loadType timeoutInterval:RequestTimeOutSec];
-            
-            [TheRequest setHTTPMethod:@"GET"];
-            RequestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
+        }else{
+            //保留View
+            [UIView animateWithDuration:0.2
+                                  delay:0
+                                options: UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 [tempWebView setFrame:_MasterInitial.frame];
+                             }
+                             completion:^(BOOL finished){
+                             }];
         }
-        NSLog(@"程序已经发送请求，等待响应中");
     }
+    [_leftPanel setFrame:_LeftPanelInitialPosition.frame];
 }
 
-- (void)SendToInterface:(NSString *)content
+- (void)MoveMainViewByRightEnded:(BOOL)Dismiss
 {
-    NSString *baselink;
-    if (![_SearchBox.text isEqualToString:@"首页"]) {
-        
-        //如果这个页面是没有结果的页面，将地址栏修改成查询模式然后重新加载
-        
-        NSString * regexstr = @"此页目前没有内容，您可以在其它页";
-        NSRange range = [content rangeOfString:regexstr];
-        if (range.location != NSNotFound) {
-            NSLog(@"==无结果！==");
-            _SearchBox.text = [NSString stringWithFormat:@"Special:搜索/%@",_SearchBox.text];
-            [self MainMission];
-            return;
-        }
-        //return;
-        
-        
-        NSLog(@"开始处理页面");
-        content = [self PrepareContent:content];
-        baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/%@",baseID,[_SearchBox.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    } else {
-        baselink = [NSString stringWithFormat:@"http://zh.moegirl.org/%@/",baseID];
-    }
-    
-    //取得页面阅读到的位置
-    UIScrollView* scrollView = [[_MasterWebView subviews] objectAtIndex:0];
-    [_PositionPool setObject:NSStringFromCGPoint(scrollView.contentOffset) forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
-    
-    
-    if (pointer_current< 10) {
-        pointer_current ++;
-        [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
-        [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%ld",(long)pointer_current]];
-        
-        [_ForwardButton setEnabled:NO];
-        if (pointer_current != 1) {
-            [_BackwardButton setEnabled:YES];
-        }
-    }else{
-        NSInteger i;
-        for (i=2; i<=10; i++) {
-            [_HistoryPool setObject:[_HistoryPool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
-            [_NamePool setObject:[_NamePool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
-            [_PositionPool setObject:[_PositionPool objectForKey:[NSString stringWithFormat:@"%ld",(long)i]] forKey:[NSString stringWithFormat:@"%ld",(long)(i-1)]];
-        }
-        [_HistoryPool setObject:content forKey:[NSString stringWithFormat:@"%d",10]];
-        [_NamePool setObject:_SearchBox.text forKey:[NSString stringWithFormat:@"%d",10]];
-        
-        [_ForwardButton setEnabled:NO];
-        [_BackwardButton setEnabled:YES];
-    }
-    pointer_max = pointer_current;
-    [_MasterWebView loadHTMLString:content baseURL:[NSURL URLWithString:baselink]];
-    NSLog(@"发送页面到界面");
-}
-
-
-- (NSString *)PrepareContent:(NSString *)content
-{
-    
-    [self ProgressGo:0.05];
-    NSString *regexstr = @"<div id=\"siteSub\">.*?</div>";
-    NSRange range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    [self ProgressGo:0.05];
-    regexstr = @"<div id=\"mw-page-base\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    [self ProgressGo:0.05];
-    regexstr = @"<div id=\"mw-head-base\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    [self ProgressGo:0.05];
-    regexstr = @"<div id=\"jump-to-nav\"[\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)?</div>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    [self ProgressGo:0.05];
-    regexstr = @"<div id=\'mw-data-after-content\'>[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    [self ProgressGo:0.05];
-    regexstr = @"<div id=\"mw-navigation\">[\\s\\S]*?<div style=\"clear:both\"></div>[\\s\\S]*?</div>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    [self ProgressGo:0.05];
-    regexstr = @" id=\"content\"";
-    range = [content rangeOfString:regexstr];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    [self ProgressGo:0.05];
-    regexstr = @"<div id=\"siteNotice\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    //无图模式
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([[defaultdata objectForKey:@"NoImgMode"]isEqualToString:@"ON"]) {
-        NSLog(@"无图模式开启");
-        [self ProgressGo:0.05];
-        regexstr = @"<img .*?>";
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-        while (range.location != NSNotFound) {
-            content = [content stringByReplacingCharactersInRange:range withString:@""];
-            range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-        }
-    }
-    
-    //Template:Vocaloid Songbox
-    [self ProgressGo:0.05];
-    regexstr = @"align=\"center\" width=\"450px\" style=\"border:0px; text-align:center; line-height:1.3em;\" class=\"infotemplate\"";
-    range = [content rangeOfString:regexstr];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@"align=\"center\" style=\"border:0px; text-align:center; line-height:1.3em;width:100%;margin-left:-5px;\" class=\"infotemplate\""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    
-    //banner修正
-    [self ProgressGo:0.05];
-    content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:80%;" withString:@"<table class=\"common-box\" style=\""];
-    content = [content stringByReplacingOccurrencesOfString:@"<table class=\"common-box\" style=\"margin: 0px 10%; width:350px;" withString:@"<table class=\"common-box\" style=\""];
-    
-    
-    
-    //R18修正
-    [self ProgressGo:0.05];
-    regexstr = @"<script language=\"javascript\"[\\s\\S]*?<div id=x18[\\s\\S]*?</div>[\\s\\S]*?</script>[\\s\\S]*<span style=\"position:fixed;top: 0px;[\\s\\S]*width=\"227\" height=\"83\" /></a></span>[\\s\\S]*?</p>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    if (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        NSLog(@"此词条为 R18 限制");
-        if ([r18l isEqualToString:@"xxoo"]) {
-            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-            if ([[defaultdata objectForKey:@"HeXieMode"] isEqualToString:@"OFF"]) {
-                //和谐模式关闭，其实和谐模式就是一个没有用的冗余功能。
+    if (_webViewList.count > webViewListPosition) {
+        if (webViewListPosition == 0) {
+            float deviation = _RightPanelInitialPosition.frame.origin.x - _rightPanel.frame.origin.x;
+            if ((Dismiss&&(deviation > 20))||(deviation>150)) {
+                //移除View
+                [_MainView sendSubviewToBack:_leftPanel];
+                [_MainView sendSubviewToBack:_rightPanel];
+                webViewListPosition ++;
+                [UIView animateWithDuration:0.2
+                                      delay:0
+                                    options: UIViewAnimationOptionCurveLinear
+                                 animations:^{
+                                     [_mainPageScrollView setFrame:CGRectMake(_MasterInitial.frame.origin.x - _MasterInitial.frame.size.width - 10,
+                                                                              _MasterInitial.frame.origin.y,
+                                                                              _MasterInitial.frame.size.width,
+                                                                              _MasterInitial.frame.size.height)];
+                                     [_SearchTextField setText:[_webViewTitles objectAtIndex:webViewListPosition -1]];
+                                 }
+                                 completion:^(BOOL finished){
+                                     [_MainView sendSubviewToBack:_mainPageScrollView];
+                                     [_mainPageScrollView setFrame:_MasterInitial.frame];
+                                     [_MainView bringSubviewToFront:_leftPanel];
+                                     [_MainView bringSubviewToFront:_rightPanel];
+                                     
+                                     [_mainPageScrollView setScrollsToTop:NO];
+                                     moegirlWebView * currentWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+                                     [currentWebView.scrollView setScrollsToTop:YES];
+                                 }];
             }else{
-                NSString *Title = @"R-18 限制";
-                UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"你是否年满18周岁？" delegate:self cancelButtonTitle:@"是" otherButtonTitles:@"否",nil];
-                R18Warning.alertViewStyle=UIAlertViewStyleDefault;
-                [R18Warning show];
+                //保留View
+                [UIView animateWithDuration:0.2
+                                      delay:0
+                                    options: UIViewAnimationOptionCurveLinear
+                                 animations:^{
+                                     [_mainPageScrollView setFrame:_MasterInitial.frame];
+                                 }
+                                 completion:^(BOOL finished){
+                                 }];
             }
-        } else {
-            NSString *Title = @"R-18 限制";
-            UIAlertView *R18Warning=[[UIAlertView alloc] initWithTitle:Title message:@"根据相关法律法规，该词条被屏蔽。" delegate:self cancelButtonTitle:@"是" otherButtonTitles:nil];
-            R18Warning.alertViewStyle=UIAlertViewStyleDefault;
-            [R18Warning show];
-            return @"根据相关法律法规，该词条被屏蔽。";
-        }
-        
-    }
-    
-    //搜索结果修正
-    if ([_SearchBox.text hasPrefix:@"Special:搜索"]) {
-        regexstr = @"<form id=\"search\" [\\s\\S]*?</form>";
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-        if (range.location != NSNotFound) {
-            content = [content stringByReplacingCharactersInRange:range withString:@""];
-        }
-    }
-    
-    //flashmp3 插件修正，针对音频
-    [self ProgressGo:0.05];
-    regexstr = @"<script language=\"JavaScript\" src=\"/extensions/FlashMP3/audio-player\\.js\".*soundFile=";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@"<audio src=\""];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    regexstr = @"\"><param name=\"quality\" value=\"high\"><param name=\"menu\" value=\"false\"><param name=\"wmode\" value=\"transparent\"></object>";
-    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@"\" controls=\"controls\"></audio>"];
-        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
-    }
-    
-    //添加定制样式
-    [self ProgressGo:0.05];
-    regexstr = @"</body>";
-    range = [content rangeOfString:regexstr];
-    if (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@""];
-        content = [NSString stringWithFormat:@"%@%@%@",[content substringWithRange:NSMakeRange(0, range.location)],CustomizeHTMLContent,[content substringWithRange:NSMakeRange(range.location, (content.length - range.location))]];
-    }
-    
-    
-
-    return content;
-}
-
-
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    
-    if (motion == UIEventSubtypeMotionShake)
-    {
-        NSLog(@"检测到摇晃！");
-        //if ((arc4random()%10)>8) {//只有20％的概率会刷新概率池
-            [self SendRandomRequest];
-        //}
-        NSString *theTitle = [_RandomPool objectForKey:[NSString stringWithFormat:@"%d",(int)(arc4random()%10)]];
-        if (theTitle == nil) {
-            [self SendRandomRequest];
-            return;
-        }
-        NSString *Title = [NSString stringWithFormat:@"你摇到了「 %@ 」",theTitle];
-        UIAlertView *RanPage=[[UIAlertView alloc] initWithTitle:Title message:nil delegate:self cancelButtonTitle:@"查看" otherButtonTitles:@"取消",nil];
-        RanPage.alertViewStyle=UIAlertViewStyleDefault;
-        [RanPage show];
-        tempTitle = theTitle;
-    }
-    
-}
-
-- (void)PrepareRandomPopout:(NSString *)content{
-    NSInteger i;
-    NSString * thetext;
-    NSRange therange;
-    for (i=0; i<10; i++) {
-        therange = [content rangeOfString:@"title=\"" options:NSLiteralSearch];
-        content = [content substringFromIndex:therange.location+7];
-        therange = [content rangeOfString:@"\" />" options:NSLiteralSearch];
-        thetext = [content substringToIndex:therange.location];
-        content = [content substringFromIndex:therange.location+4];
-        [_RandomPool setObject:thetext forKey:[NSString stringWithFormat:@"%ld",(long)i]];
-    }
-    
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    [defaultdata setObject:[_RandomPool objectForKey:@"0"] forKey:@"ran0"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"1"] forKey:@"ran1"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"2"] forKey:@"ran2"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"3"] forKey:@"ran3"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"4"] forKey:@"ran4"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"5"] forKey:@"ran5"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"6"] forKey:@"ran6"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"7"] forKey:@"ran7"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"8"] forKey:@"ran8"];
-    [defaultdata setObject:[_RandomPool objectForKey:@"9"] forKey:@"ran9"];
-    //===================================================================
-    [defaultdata setObject:baseID forKey:@"version"];
-    NSLog(@"加入版本号");
-    //===================================================================
-    [defaultdata synchronize];
-}
-
-- (void)SendRandomRequest{
-    NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:APIrandom] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:RequestTimeOutSec];
-    [TheRequest setHTTPMethod:@"POST"];
-    RequestConnectionForRandom = [[NSURLConnection alloc]initWithRequest:TheRequest delegate:self];
-}
-
-
-- (void)PrepareHomepage{
-    if (InstanceLock >= 2) {
-        NSString * TheStructure = [[NSString alloc] initWithData:_RecievePool encoding:NSUTF8StringEncoding];
-        NSString * TheContent = [[NSString alloc] initWithData:_RecievePool3 encoding:NSUTF8StringEncoding];
-       
-        NSString *regexstr = @"<div id=\"mainpage\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
-        NSRange range = [TheContent rangeOfString:regexstr options:NSRegularExpressionSearch];
-        NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-        if (range.location != NSNotFound) {
-            TheContent = [TheContent substringWithRange:range];
-            
-            //清除图标
-            regexstr =@"<div class=\"floatleft\">[\\s\\S]*?</div>";
-            range = [TheContent rangeOfString:regexstr options:NSRegularExpressionSearch];
-            if (range.location != NSNotFound) {
-                TheContent = [TheContent stringByReplacingCharactersInRange:range withString:@""];
-            }
-            
-            //清除最后一个栏目
-            
-            TheContent = [TheContent stringByReplacingOccurrencesOfString:@"<div class=\"mainpage-title\">萌娘网姊妹项目</div>" withString:@""];
-            
-            regexstr = @"<div class=\"mainpage-content nomobile\">[\\s\\S]*?</div>";
-            range = [TheContent rangeOfString:regexstr options:NSRegularExpressionSearch];
-            if (range.location != NSNotFound) {
-                TheContent = [TheContent stringByReplacingCharactersInRange:range withString:@""];
-            }
-            
-            //汇报到主页面
-            regexstr = @"<!--MainpageContent-->";
-            range = [TheStructure rangeOfString:regexstr];
-            if (range.location != NSNotFound) {
-                NSString* timestamp;
-                NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
-                [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
-                timestamp = [formatter stringFromDate:[NSDate date]];
-                TheContent = [TheContent stringByAppendingString:[NSString stringWithFormat:@"<p id='update'>更新时间 %@</p>",timestamp]];
-                TheStructure = [TheStructure stringByReplacingCharactersInRange:range withString:TheContent];
-                [defaultdata setObject:@"xxoo" forKey:@"retl"];
-                r18l = @"xxoo";
+        }else{
+            float deviation = _RightPanelInitialPosition.frame.origin.x - _rightPanel.frame.origin.x;
+            moegirlWebView * tempWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+            if ((Dismiss&&(deviation > 20))||(deviation>150)) {
+                [_MainView sendSubviewToBack:_leftPanel];
+                [_MainView sendSubviewToBack:_rightPanel];
+                webViewListPosition ++;
+                [UIView animateWithDuration:0.2
+                                      delay:0
+                                    options: UIViewAnimationOptionCurveLinear
+                                 animations:^{
+                                     [tempWebView setFrame:CGRectMake(_MasterInitial.frame.origin.x - _MasterInitial.frame.size.width - 10,
+                                                                      _MasterInitial.frame.origin.y,
+                                                                      _MasterInitial.frame.size.width,
+                                                                      _MasterInitial.frame.size.height)];
+                                     [_SearchTextField setText:[_webViewTitles objectAtIndex:webViewListPosition -1]];
+                                 }
+                                 completion:^(BOOL finished){
+                                     [_MainView sendSubviewToBack:tempWebView];
+                                     [tempWebView setFrame:_MasterInitial.frame];
+                                     [_MainView bringSubviewToFront:_leftPanel];
+                                     [_MainView bringSubviewToFront:_rightPanel];
+                                     
+                                     [tempWebView.scrollView setScrollsToTop:NO];
+                                     moegirlWebView * currentWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+                                     [currentWebView.scrollView setScrollsToTop:YES];
+                                 }];
             }else{
-                [defaultdata setObject:@"OFF" forKey:@"retl"];
-                r18l = @"OFF";
+                //保留View
+                [UIView animateWithDuration:0.2
+                                      delay:0
+                                    options: UIViewAnimationOptionCurveLinear
+                                 animations:^{
+                                     [tempWebView setFrame:_MasterInitial.frame];
+                                 }
+                                 completion:^(BOOL finished){
+                                 }];
+                
+            }
+        }
+    }
+    [_rightPanel setFrame:_RightPanelInitialPosition.frame];
+}
+
+#pragma mark ProgressBarAndStatusLabel
+
+- (void)progressAndStatusShowUp
+{
+    [_StatusLabel setText:@"开始加载"];
+    [_ProgressBar setProgress:0];
+    [UIView animateWithDuration:0.1
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_StatusLabel setAlpha:1];
+                         [_ProgressBar setAlpha:1];
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void)progressAndStatusHide
+{
+    [_StatusLabel setText:@"加载完成 !"];
+    [_ProgressBar setProgress:1 animated:YES];
+    [UIView animateWithDuration:0.2
+                          delay:0.2
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_StatusLabel setAlpha:0];
+                         [_ProgressBar setAlpha:0];
+                     }
+                     completion:^(BOOL finished){
+                         [_ProgressBar setProgress:0];
+                         
+                     }];
+}
+
+- (void)progressAndStatusMakeStep:(float)step info:(NSString *)info
+{
+    step = (step / 100) + _ProgressBar.progress;
+    [_ProgressBar setProgress:step animated:YES];
+    if (info != nil) {
+        [_StatusLabel setText:info];
+    }
+}
+
+- (void)progressAndStatusSetToValue:(float)step info:(NSString *)info
+{
+    step = (step / 100);
+    [_ProgressBar setProgress:step animated:YES];
+    if (info != nil) {
+        [_StatusLabel setText:info];
+    }
+}
+
+
+#pragma mark SideMenuControl
+
+- (void)presentMenu
+{
+    [self cancelKeyboard];
+    menuSituation = YES;
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_resetButton setAlpha:1];
+                         [_sideControlTableView setAlpha:1];
+                         [_sideControlTableView setFrame:CGRectMake(_NavigationBar.frame.origin.x + _NavigationBar.frame.size.width - 200,
+                                                                    _NavigationBar.frame.origin.y - 20,
+                                                                    200,
+                                                                    _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+                         [_MainView setFrame:CGRectMake(_MainView.frame.origin.x - 200,
+                                                        _MainView.frame.origin.y,
+                                                        _MainView.frame.size.width,
+                                                        _MainView.frame.size.height)];
+                         [_NavigationBar setFrame:CGRectMake(_NavigationBar.frame.origin.x - 200,
+                                                             _NavigationBar.frame.origin.y,
+                                                             _NavigationBar.frame.size.width,
+                                                             _NavigationBar.frame.size.height)];
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+- (void)resetMenu
+{
+    menuSituation = NO;
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_resetButton setAlpha:0];
+                         [_sideControlTableView setAlpha:0];
+                         [_MainView setFrame:CGRectMake(0,
+                                                        _MainView.frame.origin.y,
+                                                        _MainView.frame.size.width,
+                                                        _MainView.frame.size.height)];
+                         [_NavigationBar setFrame:CGRectMake(0,
+                                                             _NavigationBar.frame.origin.y,
+                                                             _NavigationBar.frame.size.width,
+                                                             _NavigationBar.frame.size.height)];
+                         [_sideControlTableView setFrame:CGRectMake(_NavigationBar.frame.origin.x + _NavigationBar.frame.size.width,
+                                                                    _NavigationBar.frame.origin.y - 20,
+                                                                    200,
+                                                                    _NavigationBar.frame.size.height + _MainView.frame.size.height + 20)];
+                         
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (IBAction)menuButtonClick:(id)sender {
+    if (menuSituation) {
+        [self resetMenu];
+    }else{
+        [self presentMenu];
+    }
+}
+
+
+- (void)ctrlPanelCallMainpage
+{
+    [self resetMenu];
+    [_MainView bringSubviewToFront:_mainPageScrollView];    
+    [_mainPageScrollView setFrame:CGRectMake(_MasterInitial.frame.origin.x - _MasterInitial.frame.size.width,
+                                             _MasterInitial.frame.origin.y,
+                                             _MasterInitial.frame.size.width,
+                                             _MasterInitial.frame.size.height)];
+    if (webViewListPosition != 0) {
+        moegirlWebView * tmpWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+        [tmpWebView.scrollView setScrollsToTop:NO];
+        webViewListPosition = 0;
+    }
+    [UIView animateWithDuration:0.1
+                          delay:0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                                    [_mainPageScrollView setFrame:_MasterInitial.frame];
+                                 }
+                                 completion:^(BOOL finished){
+                                     [_MainView bringSubviewToFront:_leftPanel];
+                                     [_MainView bringSubviewToFront:_rightPanel];
+                                     [_mainPageScrollView setScrollsToTop:YES];
+                                     [_SearchTextField setText:@""];
+                                 }];
+    
+}
+
+- (void)ctrlPanelCallRefresh
+{
+    [self resetMenu];
+    if (webViewListPosition == 0) {
+        [_mainPageScrollView loadMainPage:NO];
+    } else {
+        moegirlWebView * tmpWebView = [_webViewList objectAtIndex:webViewListPosition - 1];
+        [tmpWebView loadContentWithEncodedKeyWord:[[_webViewTitles objectAtIndex:webViewListPosition -1] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                         useCache:NO];
+    }
+}
+
+- (void)ctrlPanelCallShare
+{
+    [self resetMenu];
+    if (webViewListPosition == 0) {
+        UIImage * shareImage = [self getImageFromView:_mainPageScrollView];
+        NSURL * shareURL = [NSURL URLWithString:@"https://itunes.apple.com/cn/app/meng-niang-bai-ke/id892053828"];
+        NSString * shareText = @"我正在使用萌娘百科iOS客户端浏览万物皆可萌的百科全书——萌娘百科！你也快来试试吧！";
+        [self shareText:shareText andImage:shareImage andUrl:shareURL];
+    }else{
+        UIImage * shareImage = [self getImageFromView:[_webViewList objectAtIndex:webViewListPosition - 1]];
+        NSURL * shareURL = [NSURL URLWithString:@"https://itunes.apple.com/cn/app/meng-niang-bai-ke/id892053828"];
+        NSString * keyword = [_webViewTitles objectAtIndex:webViewListPosition -1];
+        NSString * shareText = [NSString stringWithFormat:@"#萌娘百科iOS客户端#【%@】http://zh.moegirl.org/%@ ",keyword,[keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self shareText:shareText andImage:shareImage andUrl:shareURL];
+    }
+}
+
+- (void)ctrlPanelCallSettings
+{
+    [self resetMenu];
+    [self performSegueWithIdentifier:@"GoSettings" sender:nil];
+}
+
+- (void)ctrlPanelCallAbout
+{
+    [self resetMenu];
+}
+
+- (void)shareText:(NSString *)text andImage:(UIImage *)image andUrl:(NSURL *)url
+{
+    NSMutableArray *sharingItems = [NSMutableArray new];
+    
+    if (text) {
+        [sharingItems addObject:text];
+    }
+    if (image) {
+        [sharingItems addObject:image];
+    }
+    if (url) {
+        [sharingItems addObject:url];
+    }
+    
+    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:sharingItems applicationActivities:nil];
+    [self presentViewController:activityController animated:YES completion:nil];
+}
+
+- (UIImage *)getImageFromView:(UIView *)orgView{
+        CGSize imageSize = [[UIScreen mainScreen] bounds].size;
+        if (NULL != UIGraphicsBeginImageContextWithOptions)
+            UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+        else
+            UIGraphicsBeginImageContext(imageSize);
+        
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        // Iterate over every window from back to front
+        for (UIWindow *window in [[UIApplication sharedApplication] windows])
+        {
+            if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen])
+            {
+                // -renderInContext: renders in the coordinate space of the layer,
+                // so we must first apply the layer's geometry to the graphics context
+                CGContextSaveGState(context);
+                // Center the context around the window's anchor point
+                CGContextTranslateCTM(context, [window center].x, [window center].y);
+                // Apply the window's transform about the anchor point
+                CGContextConcatCTM(context, [window transform]);
+                // Offset by the portion of the bounds left of and above the anchor point
+                CGContextTranslateCTM(context,
+                                      -[window bounds].size.width * [[window layer] anchorPoint].x,
+                                      -[window bounds].size.height * [[window layer] anchorPoint].y);
+                
+                // Render the layer hierarchy to the current context
+                [[window layer] renderInContext:context];
+                
+                // Restore the context
+                CGContextRestoreGState(context);
             }
         }
         
+        // Retrieve the screenshot image
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         
-        [self SendToInterface:TheStructure];
+        UIGraphicsEndImageContext();
         
-        [defaultdata setObject:TheStructure forKey:@"homepage"];
-        [defaultdata synchronize];
-    }
-}
-
-- (void)CallFromScheme{
-    NSLog(@"检查是否由URL Scheme调用");
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if ([defaultdata objectForKey:@"target"] != nil) {
-        NSLog(@"是由URL Scheme调用");
-        NSString * TheTarget = [defaultdata objectForKey:@"target"];
-        if ([TheTarget hasPrefix:@"moegirl://?w="]) {
-            TheTarget = [TheTarget substringFromIndex:13];
-            [_SearchBox setText:[TheTarget stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            [self MainMission];
-        }
-        [defaultdata removeObjectForKey:@"target"];
-        [defaultdata synchronize];
-    }
-}
-
-
-
-/* Img处理=========================开始
- ============================================================*/
-//根据图片名将图片保存到ImageFile文件夹中
--(NSString *)imageSavedPath:(NSString *) imageName
-{
-    //获取Documents文件夹目录
-    NSArray *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentPath = [path objectAtIndex:0];
-    //获取文件管理器
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    //指定新建文件夹路径
-    NSString *imageDocPath = [documentPath stringByAppendingPathComponent:@"img"];
-    //创建ImageFile文件夹
-    [fileManager createDirectoryAtPath:imageDocPath withIntermediateDirectories:YES attributes:nil error:nil];
-    //返回保存图片的路径（图片保存在ImageFile文件夹下）
-    NSString * imagePath = [imageDocPath stringByAppendingPathComponent:imageName];
-    return imagePath;
-}
-/* Img处理=========================结束
- ============================================================*/
-
--(void)CheckImg{
-    NSString *imagePath = [self imageSavedPath:@"menu.png"];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    //判断文件是否存在
-    if ([fileManager fileExistsAtPath:imagePath]) {
-        UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
-        [_MenuButton setBackgroundImage:image forState:UIControlStateNormal];
-        NSLog(@"菜单图标存在");
-    }else{
-        [_MenuButton setBackgroundImage:[UIImage imageNamed:@"MenuImage"] forState:UIControlStateNormal];
-        NSLog(@"菜单图标不存在");
-    }
+        return image;
 }
 
 @end

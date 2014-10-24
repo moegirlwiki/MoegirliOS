@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0610"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,20 +17,6 @@
                BlueprintIdentifier = "AFB650AF19F6C42400C73E81"
                BuildableName = "moegirlwiki.app"
                BlueprintName = "moegirlwiki"
-               ReferencedContainer = "container:moegirlwiki.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AFB650D019F6C42400C73E81"
-               BuildableName = "moegirlwikiTests.xctest"
-               BlueprintName = "moegirlwikiTests"
                ReferencedContainer = "container:moegirlwiki.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

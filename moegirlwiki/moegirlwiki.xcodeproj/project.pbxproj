@@ -7,156 +7,221 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B73EC4619ED09E1004E557B /* mcImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B73EC4519ED09E1004E557B /* mcImageViewController.m */; };
-		6FC41FD719B15200005D7634 /* mcSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC41FD619B15200005D7634 /* mcSettingsController.m */; };
-		78210DC319892CD80063AC44 /* mcReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78210DC219892CD80063AC44 /* mcReportController.m */; };
-		789CAC9B1975B46D003A3D2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9A1975B46D003A3D2F /* Foundation.framework */; };
-		789CAC9D1975B46D003A3D2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */; };
-		789CAC9F1975B46D003A3D2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9E1975B46D003A3D2F /* UIKit.framework */; };
-		789CACA71975B46D003A3D2F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 789CACA61975B46D003A3D2F /* main.m */; };
-		789CACAB1975B46D003A3D2F /* mcAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 789CACAA1975B46D003A3D2F /* mcAppDelegate.m */; };
-		789CACAE1975B46D003A3D2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 789CACAC1975B46D003A3D2F /* Main.storyboard */; };
-		789CACB11975B46D003A3D2F /* mcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 789CACB01975B46D003A3D2F /* mcViewController.m */; };
-		789CACB31975B46D003A3D2F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 789CACB21975B46D003A3D2F /* Images.xcassets */; };
-		789CACBA1975B46D003A3D2F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CACB91975B46D003A3D2F /* XCTest.framework */; };
-		789CACBB1975B46D003A3D2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9A1975B46D003A3D2F /* Foundation.framework */; };
-		789CACBC1975B46D003A3D2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789CAC9E1975B46D003A3D2F /* UIKit.framework */; };
-		789CACC61975B46D003A3D2F /* moegirlwikiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 789CACC51975B46D003A3D2F /* moegirlwikiTests.m */; };
+		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
+		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
+		AF4308FB19F9C1BF0099AFC8 /* moegirlSideControlTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */; };
+		AF49AFC119FA189900F21956 /* mcSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF49AFC019FA189900F21956 /* mcSettingsController.m */; };
+		AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */; };
+		AF8CE77119FA0EB200FFF359 /* initdata in Resources */ = {isa = PBXBuildFile; fileRef = AF8CE77019FA0EB200FFF359 /* initdata */; };
+		AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053719F8987F00EC5DFD /* mcLeftDrag.m */; };
+		AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */ = {isa = PBXBuildFile; fileRef = AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */; };
+		AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F619F831D20077F893 /* moegirlWebView.m */; };
+		AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAAB8F919F834600077F893 /* mcCachedRequest.m */; };
+		AFB650B419F6C42400C73E81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B319F6C42400C73E81 /* Foundation.framework */; };
+		AFB650B619F6C42400C73E81 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B519F6C42400C73E81 /* CoreGraphics.framework */; };
+		AFB650B819F6C42400C73E81 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B719F6C42400C73E81 /* UIKit.framework */; };
+		AFB650BE19F6C42400C73E81 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AFB650BC19F6C42400C73E81 /* InfoPlist.strings */; };
+		AFB650C019F6C42400C73E81 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB650BF19F6C42400C73E81 /* main.m */; };
+		AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB650C319F6C42400C73E81 /* mcAppDelegate.m */; };
+		AFB650C719F6C42400C73E81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFB650C519F6C42400C73E81 /* Main.storyboard */; };
+		AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB650C919F6C42400C73E81 /* mcViewController.m */; };
+		AFB650CC19F6C42400C73E81 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB650CB19F6C42400C73E81 /* Images.xcassets */; };
+		AFB650D319F6C42400C73E81 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650D219F6C42400C73E81 /* XCTest.framework */; };
+		AFB650D419F6C42400C73E81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B319F6C42400C73E81 /* Foundation.framework */; };
+		AFB650D519F6C42400C73E81 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B719F6C42400C73E81 /* UIKit.framework */; };
+		AFB650DD19F6C42400C73E81 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AFB650DB19F6C42400C73E81 /* InfoPlist.strings */; };
+		AFB650DF19F6C42400C73E81 /* moegirlwikiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB650DE19F6C42400C73E81 /* moegirlwikiTests.m */; };
+		AFC2611819F9A31C00F12B37 /* mcCachedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC2611719F9A31C00F12B37 /* mcCachedImage.m */; };
+		AFC2611B19F9A64000F12B37 /* moegirlSaveImageAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		789CACBD1975B46D003A3D2F /* PBXContainerItemProxy */ = {
+		AFB650D619F6C42400C73E81 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 789CAC8F1975B46D003A3D2F /* Project object */;
+			containerPortal = AFB650A819F6C42400C73E81 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 789CAC961975B46D003A3D2F;
+			remoteGlobalIDString = AFB650AF19F6C42400C73E81;
 			remoteInfo = moegirlwiki;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5B73EC4419ED09E1004E557B /* mcImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcImageViewController.h; sourceTree = "<group>"; };
-		5B73EC4519ED09E1004E557B /* mcImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcImageViewController.m; sourceTree = "<group>"; };
-		6FC41FD519B15200005D7634 /* mcSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcSettingsController.h; sourceTree = "<group>"; };
-		6FC41FD619B15200005D7634 /* mcSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcSettingsController.m; sourceTree = "<group>"; };
-		78210DC119892CD00063AC44 /* mcReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcReportController.h; sourceTree = "<group>"; };
-		78210DC219892CD80063AC44 /* mcReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcReportController.m; sourceTree = "<group>"; };
-		789CAC971975B46D003A3D2F /* moegirlwiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moegirlwiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		789CAC9A1975B46D003A3D2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		789CAC9E1975B46D003A3D2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		789CACA21975B46D003A3D2F /* moegirlwiki-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwiki-Info.plist"; sourceTree = "<group>"; };
-		789CACA61975B46D003A3D2F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		789CACA81975B46D003A3D2F /* moegirlwiki-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "moegirlwiki-Prefix.pch"; sourceTree = "<group>"; };
-		789CACA91975B46D003A3D2F /* mcAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mcAppDelegate.h; sourceTree = "<group>"; };
-		789CACAA1975B46D003A3D2F /* mcAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mcAppDelegate.m; sourceTree = "<group>"; };
-		789CACAD1975B46D003A3D2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		789CACAF1975B46D003A3D2F /* mcViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mcViewController.h; sourceTree = "<group>"; };
-		789CACB01975B46D003A3D2F /* mcViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mcViewController.m; sourceTree = "<group>"; };
-		789CACB21975B46D003A3D2F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		789CACB81975B46D003A3D2F /* moegirlwikiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = moegirlwikiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		789CACB91975B46D003A3D2F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		789CACC11975B46D003A3D2F /* moegirlwikiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwikiTests-Info.plist"; sourceTree = "<group>"; };
-		789CACC51975B46D003A3D2F /* moegirlwikiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = moegirlwikiTests.m; sourceTree = "<group>"; };
+		AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSearchSuggestionsTableView.h; sourceTree = "<group>"; };
+		AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSearchSuggestionsTableView.m; sourceTree = "<group>"; };
+		AF40D71F19F855530043F74A /* mcInitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcInitial.h; sourceTree = "<group>"; };
+		AF40D72019F855530043F74A /* mcInitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcInitial.m; sourceTree = "<group>"; };
+		AF4308F919F9C1BF0099AFC8 /* moegirlSideControlTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSideControlTableView.h; sourceTree = "<group>"; };
+		AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSideControlTableView.m; sourceTree = "<group>"; };
+		AF49AFBF19FA189900F21956 /* mcSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcSettingsController.h; sourceTree = "<group>"; };
+		AF49AFC019FA189900F21956 /* mcSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcSettingsController.m; sourceTree = "<group>"; };
+		AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlMainPageScrollView.h; sourceTree = "<group>"; };
+		AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlMainPageScrollView.m; sourceTree = "<group>"; };
+		AF8CE77019FA0EB200FFF359 /* initdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = initdata; path = ../initdata; sourceTree = "<group>"; };
+		AF91053619F8987F00EC5DFD /* mcLeftDrag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcLeftDrag.h; sourceTree = "<group>"; };
+		AF91053719F8987F00EC5DFD /* mcLeftDrag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcLeftDrag.m; sourceTree = "<group>"; };
+		AF91053919F8AC4D00EC5DFD /* mcRightDrag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcRightDrag.h; sourceTree = "<group>"; };
+		AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcRightDrag.m; sourceTree = "<group>"; };
+		AFAAB8F519F831D20077F893 /* moegirlWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlWebView.h; sourceTree = "<group>"; };
+		AFAAB8F619F831D20077F893 /* moegirlWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlWebView.m; sourceTree = "<group>"; };
+		AFAAB8F819F834600077F893 /* mcCachedRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcCachedRequest.h; sourceTree = "<group>"; };
+		AFAAB8F919F834600077F893 /* mcCachedRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcCachedRequest.m; sourceTree = "<group>"; };
+		AFB650B019F6C42400C73E81 /* moegirlwiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moegirlwiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFB650B319F6C42400C73E81 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AFB650B519F6C42400C73E81 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		AFB650B719F6C42400C73E81 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AFB650BB19F6C42400C73E81 /* moegirlwiki-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwiki-Info.plist"; sourceTree = "<group>"; };
+		AFB650BD19F6C42400C73E81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AFB650BF19F6C42400C73E81 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AFB650C119F6C42400C73E81 /* moegirlwiki-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "moegirlwiki-Prefix.pch"; sourceTree = "<group>"; };
+		AFB650C219F6C42400C73E81 /* mcAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mcAppDelegate.h; sourceTree = "<group>"; };
+		AFB650C319F6C42400C73E81 /* mcAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mcAppDelegate.m; sourceTree = "<group>"; };
+		AFB650C619F6C42400C73E81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AFB650C819F6C42400C73E81 /* mcViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mcViewController.h; sourceTree = "<group>"; };
+		AFB650C919F6C42400C73E81 /* mcViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mcViewController.m; sourceTree = "<group>"; };
+		AFB650CB19F6C42400C73E81 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		AFB650D119F6C42400C73E81 /* moegirlwikiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = moegirlwikiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFB650D219F6C42400C73E81 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		AFB650DA19F6C42400C73E81 /* moegirlwikiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwikiTests-Info.plist"; sourceTree = "<group>"; };
+		AFB650DC19F6C42400C73E81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AFB650DE19F6C42400C73E81 /* moegirlwikiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = moegirlwikiTests.m; sourceTree = "<group>"; };
+		AFC2611619F9A31C00F12B37 /* mcCachedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcCachedImage.h; sourceTree = "<group>"; };
+		AFC2611719F9A31C00F12B37 /* mcCachedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcCachedImage.m; sourceTree = "<group>"; };
+		AFC2611919F9A64000F12B37 /* moegirlSaveImageAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSaveImageAlertView.h; sourceTree = "<group>"; };
+		AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSaveImageAlertView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		789CAC941975B46D003A3D2F /* Frameworks */ = {
+		AFB650AD19F6C42400C73E81 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789CAC9D1975B46D003A3D2F /* CoreGraphics.framework in Frameworks */,
-				789CAC9F1975B46D003A3D2F /* UIKit.framework in Frameworks */,
-				789CAC9B1975B46D003A3D2F /* Foundation.framework in Frameworks */,
+				AFB650B619F6C42400C73E81 /* CoreGraphics.framework in Frameworks */,
+				AFB650B819F6C42400C73E81 /* UIKit.framework in Frameworks */,
+				AFB650B419F6C42400C73E81 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		789CACB51975B46D003A3D2F /* Frameworks */ = {
+		AFB650CE19F6C42400C73E81 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789CACBA1975B46D003A3D2F /* XCTest.framework in Frameworks */,
-				789CACBC1975B46D003A3D2F /* UIKit.framework in Frameworks */,
-				789CACBB1975B46D003A3D2F /* Foundation.framework in Frameworks */,
+				AFB650D319F6C42400C73E81 /* XCTest.framework in Frameworks */,
+				AFB650D519F6C42400C73E81 /* UIKit.framework in Frameworks */,
+				AFB650D419F6C42400C73E81 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		789CAC8E1975B46D003A3D2F = {
+		AF91053419F892C300EC5DFD /* Functions */ = {
 			isa = PBXGroup;
 			children = (
-				789CACA01975B46D003A3D2F /* moegirlwiki */,
-				789CACBF1975B46D003A3D2F /* moegirlwikiTests */,
-				789CAC991975B46D003A3D2F /* Frameworks */,
-				789CAC981975B46D003A3D2F /* Products */,
+				AFC2611619F9A31C00F12B37 /* mcCachedImage.h */,
+				AFC2611719F9A31C00F12B37 /* mcCachedImage.m */,
+				AFAAB8F819F834600077F893 /* mcCachedRequest.h */,
+				AFAAB8F919F834600077F893 /* mcCachedRequest.m */,
+				AF91053619F8987F00EC5DFD /* mcLeftDrag.h */,
+				AF91053719F8987F00EC5DFD /* mcLeftDrag.m */,
+				AF91053919F8AC4D00EC5DFD /* mcRightDrag.h */,
+				AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */,
+			);
+			name = Functions;
+			sourceTree = "<group>";
+		};
+		AF91053519F892F000EC5DFD /* moegirlSpecify */ = {
+			isa = PBXGroup;
+			children = (
+				AF5F5E3E19F6F952003EB8C1 /* moegirlMainPageScrollView.h */,
+				AF5F5E3F19F6F952003EB8C1 /* moegirlMainPageScrollView.m */,
+				AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */,
+				AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */,
+				AFAAB8F519F831D20077F893 /* moegirlWebView.h */,
+				AFAAB8F619F831D20077F893 /* moegirlWebView.m */,
+				AFC2611919F9A64000F12B37 /* moegirlSaveImageAlertView.h */,
+				AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */,
+				AF4308F919F9C1BF0099AFC8 /* moegirlSideControlTableView.h */,
+				AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */,
+			);
+			name = moegirlSpecify;
+			sourceTree = "<group>";
+		};
+		AFB650A719F6C42400C73E81 = {
+			isa = PBXGroup;
+			children = (
+				AF8CE77019FA0EB200FFF359 /* initdata */,
+				AFB650B919F6C42400C73E81 /* moegirlwiki */,
+				AFB650D819F6C42400C73E81 /* moegirlwikiTests */,
+				AFB650B219F6C42400C73E81 /* Frameworks */,
+				AFB650B119F6C42400C73E81 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		789CAC981975B46D003A3D2F /* Products */ = {
+		AFB650B119F6C42400C73E81 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				789CAC971975B46D003A3D2F /* moegirlwiki.app */,
-				789CACB81975B46D003A3D2F /* moegirlwikiTests.xctest */,
+				AFB650B019F6C42400C73E81 /* moegirlwiki.app */,
+				AFB650D119F6C42400C73E81 /* moegirlwikiTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		789CAC991975B46D003A3D2F /* Frameworks */ = {
+		AFB650B219F6C42400C73E81 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				789CAC9A1975B46D003A3D2F /* Foundation.framework */,
-				789CAC9C1975B46D003A3D2F /* CoreGraphics.framework */,
-				789CAC9E1975B46D003A3D2F /* UIKit.framework */,
-				789CACB91975B46D003A3D2F /* XCTest.framework */,
+				AFB650B319F6C42400C73E81 /* Foundation.framework */,
+				AFB650B519F6C42400C73E81 /* CoreGraphics.framework */,
+				AFB650B719F6C42400C73E81 /* UIKit.framework */,
+				AFB650D219F6C42400C73E81 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		789CACA01975B46D003A3D2F /* moegirlwiki */ = {
+		AFB650B919F6C42400C73E81 /* moegirlwiki */ = {
 			isa = PBXGroup;
 			children = (
-				789CACAC1975B46D003A3D2F /* Main.storyboard */,
-				789CACA91975B46D003A3D2F /* mcAppDelegate.h */,
-				789CACAA1975B46D003A3D2F /* mcAppDelegate.m */,
-				789CACAF1975B46D003A3D2F /* mcViewController.h */,
-				789CACB01975B46D003A3D2F /* mcViewController.m */,
-				78210DC119892CD00063AC44 /* mcReportController.h */,
-				78210DC219892CD80063AC44 /* mcReportController.m */,
-				6FC41FD519B15200005D7634 /* mcSettingsController.h */,
-				6FC41FD619B15200005D7634 /* mcSettingsController.m */,
-				5B73EC4419ED09E1004E557B /* mcImageViewController.h */,
-				5B73EC4519ED09E1004E557B /* mcImageViewController.m */,
-				789CACB21975B46D003A3D2F /* Images.xcassets */,
-				789CACA11975B46D003A3D2F /* Supporting Files */,
+				AFB650C519F6C42400C73E81 /* Main.storyboard */,
+				AFB650C219F6C42400C73E81 /* mcAppDelegate.h */,
+				AFB650C319F6C42400C73E81 /* mcAppDelegate.m */,
+				AFB650C819F6C42400C73E81 /* mcViewController.h */,
+				AFB650C919F6C42400C73E81 /* mcViewController.m */,
+				AF49AFBF19FA189900F21956 /* mcSettingsController.h */,
+				AF49AFC019FA189900F21956 /* mcSettingsController.m */,
+				AFB650CB19F6C42400C73E81 /* Images.xcassets */,
+				AF91053519F892F000EC5DFD /* moegirlSpecify */,
+				AF91053419F892C300EC5DFD /* Functions */,
+				AFB650BA19F6C42400C73E81 /* Supporting Files */,
 			);
 			path = moegirlwiki;
 			sourceTree = "<group>";
 		};
-		789CACA11975B46D003A3D2F /* Supporting Files */ = {
+		AFB650BA19F6C42400C73E81 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				789CACA21975B46D003A3D2F /* moegirlwiki-Info.plist */,
-				789CACA61975B46D003A3D2F /* main.m */,
-				789CACA81975B46D003A3D2F /* moegirlwiki-Prefix.pch */,
+				AF40D71F19F855530043F74A /* mcInitial.h */,
+				AF40D72019F855530043F74A /* mcInitial.m */,
+				AFB650BB19F6C42400C73E81 /* moegirlwiki-Info.plist */,
+				AFB650BC19F6C42400C73E81 /* InfoPlist.strings */,
+				AFB650BF19F6C42400C73E81 /* main.m */,
+				AFB650C119F6C42400C73E81 /* moegirlwiki-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		789CACBF1975B46D003A3D2F /* moegirlwikiTests */ = {
+		AFB650D819F6C42400C73E81 /* moegirlwikiTests */ = {
 			isa = PBXGroup;
 			children = (
-				789CACC51975B46D003A3D2F /* moegirlwikiTests.m */,
-				789CACC01975B46D003A3D2F /* Supporting Files */,
+				AFB650DE19F6C42400C73E81 /* moegirlwikiTests.m */,
+				AFB650D919F6C42400C73E81 /* Supporting Files */,
 			);
 			path = moegirlwikiTests;
 			sourceTree = "<group>";
 		};
-		789CACC01975B46D003A3D2F /* Supporting Files */ = {
+		AFB650D919F6C42400C73E81 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				789CACC11975B46D003A3D2F /* moegirlwikiTests-Info.plist */,
+				AFB650DA19F6C42400C73E81 /* moegirlwikiTests-Info.plist */,
+				AFB650DB19F6C42400C73E81 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -164,13 +229,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		789CAC961975B46D003A3D2F /* moegirlwiki */ = {
+		AFB650AF19F6C42400C73E81 /* moegirlwiki */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 789CACC91975B46D003A3D2F /* Build configuration list for PBXNativeTarget "moegirlwiki" */;
+			buildConfigurationList = AFB650E219F6C42400C73E81 /* Build configuration list for PBXNativeTarget "moegirlwiki" */;
 			buildPhases = (
-				789CAC931975B46D003A3D2F /* Sources */,
-				789CAC941975B46D003A3D2F /* Frameworks */,
-				789CAC951975B46D003A3D2F /* Resources */,
+				AFB650AC19F6C42400C73E81 /* Sources */,
+				AFB650AD19F6C42400C73E81 /* Frameworks */,
+				AFB650AE19F6C42400C73E81 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -178,130 +243,155 @@
 			);
 			name = moegirlwiki;
 			productName = moegirlwiki;
-			productReference = 789CAC971975B46D003A3D2F /* moegirlwiki.app */;
+			productReference = AFB650B019F6C42400C73E81 /* moegirlwiki.app */;
 			productType = "com.apple.product-type.application";
 		};
-		789CACB71975B46D003A3D2F /* moegirlwikiTests */ = {
+		AFB650D019F6C42400C73E81 /* moegirlwikiTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 789CACCC1975B46D003A3D2F /* Build configuration list for PBXNativeTarget "moegirlwikiTests" */;
+			buildConfigurationList = AFB650E519F6C42400C73E81 /* Build configuration list for PBXNativeTarget "moegirlwikiTests" */;
 			buildPhases = (
-				789CACB41975B46D003A3D2F /* Sources */,
-				789CACB51975B46D003A3D2F /* Frameworks */,
-				789CACB61975B46D003A3D2F /* Resources */,
+				AFB650CD19F6C42400C73E81 /* Sources */,
+				AFB650CE19F6C42400C73E81 /* Frameworks */,
+				AFB650CF19F6C42400C73E81 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				789CACBE1975B46D003A3D2F /* PBXTargetDependency */,
+				AFB650D719F6C42400C73E81 /* PBXTargetDependency */,
 			);
 			name = moegirlwikiTests;
 			productName = moegirlwikiTests;
-			productReference = 789CACB81975B46D003A3D2F /* moegirlwikiTests.xctest */;
+			productReference = AFB650D119F6C42400C73E81 /* moegirlwikiTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		789CAC8F1975B46D003A3D2F /* Project object */ = {
+		AFB650A819F6C42400C73E81 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = mc;
-				LastUpgradeCheck = 0600;
-				ORGANIZATIONNAME = me.masterchan;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = masterchan.me;
 				TargetAttributes = {
-					789CAC961975B46D003A3D2F = {
+					AFB650AF19F6C42400C73E81 = {
 						DevelopmentTeam = AM4V7T2443;
 					};
-					789CACB71975B46D003A3D2F = {
-						TestTargetID = 789CAC961975B46D003A3D2F;
+					AFB650D019F6C42400C73E81 = {
+						TestTargetID = AFB650AF19F6C42400C73E81;
 					};
 				};
 			};
-			buildConfigurationList = 789CAC921975B46D003A3D2F /* Build configuration list for PBXProject "moegirlwiki" */;
+			buildConfigurationList = AFB650AB19F6C42400C73E81 /* Build configuration list for PBXProject "moegirlwiki" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
-				"zh-Hans",
-				"zh-Hant",
 			);
-			mainGroup = 789CAC8E1975B46D003A3D2F;
-			productRefGroup = 789CAC981975B46D003A3D2F /* Products */;
+			mainGroup = AFB650A719F6C42400C73E81;
+			productRefGroup = AFB650B119F6C42400C73E81 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				789CAC961975B46D003A3D2F /* moegirlwiki */,
-				789CACB71975B46D003A3D2F /* moegirlwikiTests */,
+				AFB650AF19F6C42400C73E81 /* moegirlwiki */,
+				AFB650D019F6C42400C73E81 /* moegirlwikiTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		789CAC951975B46D003A3D2F /* Resources */ = {
+		AFB650AE19F6C42400C73E81 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789CACB31975B46D003A3D2F /* Images.xcassets in Resources */,
-				789CACAE1975B46D003A3D2F /* Main.storyboard in Resources */,
+				AF8CE77119FA0EB200FFF359 /* initdata in Resources */,
+				AFB650CC19F6C42400C73E81 /* Images.xcassets in Resources */,
+				AFB650BE19F6C42400C73E81 /* InfoPlist.strings in Resources */,
+				AFB650C719F6C42400C73E81 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		789CACB61975B46D003A3D2F /* Resources */ = {
+		AFB650CF19F6C42400C73E81 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFB650DD19F6C42400C73E81 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		789CAC931975B46D003A3D2F /* Sources */ = {
+		AFB650AC19F6C42400C73E81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789CACB11975B46D003A3D2F /* mcViewController.m in Sources */,
-				789CACAB1975B46D003A3D2F /* mcAppDelegate.m in Sources */,
-				6FC41FD719B15200005D7634 /* mcSettingsController.m in Sources */,
-				789CACA71975B46D003A3D2F /* main.m in Sources */,
-				5B73EC4619ED09E1004E557B /* mcImageViewController.m in Sources */,
-				78210DC319892CD80063AC44 /* mcReportController.m in Sources */,
+				AFC2611819F9A31C00F12B37 /* mcCachedImage.m in Sources */,
+				AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */,
+				AF40D72119F855530043F74A /* mcInitial.m in Sources */,
+				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
+				AF49AFC119FA189900F21956 /* mcSettingsController.m in Sources */,
+				AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */,
+				AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */,
+				AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */,
+				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,
+				AFB650C019F6C42400C73E81 /* main.m in Sources */,
+				AF4308FB19F9C1BF0099AFC8 /* moegirlSideControlTableView.m in Sources */,
+				AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */,
+				AFC2611B19F9A64000F12B37 /* moegirlSaveImageAlertView.m in Sources */,
+				AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		789CACB41975B46D003A3D2F /* Sources */ = {
+		AFB650CD19F6C42400C73E81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789CACC61975B46D003A3D2F /* moegirlwikiTests.m in Sources */,
+				AFB650DF19F6C42400C73E81 /* moegirlwikiTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		789CACBE1975B46D003A3D2F /* PBXTargetDependency */ = {
+		AFB650D719F6C42400C73E81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 789CAC961975B46D003A3D2F /* moegirlwiki */;
-			targetProxy = 789CACBD1975B46D003A3D2F /* PBXContainerItemProxy */;
+			target = AFB650AF19F6C42400C73E81 /* moegirlwiki */;
+			targetProxy = AFB650D619F6C42400C73E81 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		789CACAC1975B46D003A3D2F /* Main.storyboard */ = {
+		AFB650BC19F6C42400C73E81 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				789CACAD1975B46D003A3D2F /* Base */,
+				AFB650BD19F6C42400C73E81 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		AFB650C519F6C42400C73E81 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AFB650C619F6C42400C73E81 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AFB650DB19F6C42400C73E81 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AFB650DC19F6C42400C73E81 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		789CACC71975B46D003A3D2F /* Debug */ = {
+		AFB650E019F6C42400C73E81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -333,13 +423,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		789CACC81975B46D003A3D2F /* Release */ = {
+		AFB650E119F6C42400C73E81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -365,14 +455,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				ONLY_ACTIVE_ARCH = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		789CACCA1975B46D003A3D2F /* Debug */ = {
+		AFB650E319F6C42400C73E81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -381,14 +470,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "moegirlwiki/moegirlwiki-Prefix.pch";
 				INFOPLIST_FILE = "moegirlwiki/moegirlwiki-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
-		789CACCB1975B46D003A3D2F /* Release */ = {
+		AFB650E419F6C42400C73E81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -397,14 +485,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "moegirlwiki/moegirlwiki-Prefix.pch";
 				INFOPLIST_FILE = "moegirlwiki/moegirlwiki-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
-		789CACCD1975B46D003A3D2F /* Debug */ = {
+		AFB650E619F6C42400C73E81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/moegirlwiki.app/moegirlwiki";
@@ -426,7 +513,7 @@
 			};
 			name = Debug;
 		};
-		789CACCE1975B46D003A3D2F /* Release */ = {
+		AFB650E719F6C42400C73E81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/moegirlwiki.app/moegirlwiki";
@@ -447,34 +534,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		789CAC921975B46D003A3D2F /* Build configuration list for PBXProject "moegirlwiki" */ = {
+		AFB650AB19F6C42400C73E81 /* Build configuration list for PBXProject "moegirlwiki" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				789CACC71975B46D003A3D2F /* Debug */,
-				789CACC81975B46D003A3D2F /* Release */,
+				AFB650E019F6C42400C73E81 /* Debug */,
+				AFB650E119F6C42400C73E81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		789CACC91975B46D003A3D2F /* Build configuration list for PBXNativeTarget "moegirlwiki" */ = {
+		AFB650E219F6C42400C73E81 /* Build configuration list for PBXNativeTarget "moegirlwiki" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				789CACCA1975B46D003A3D2F /* Debug */,
-				789CACCB1975B46D003A3D2F /* Release */,
+				AFB650E319F6C42400C73E81 /* Debug */,
+				AFB650E419F6C42400C73E81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		789CACCC1975B46D003A3D2F /* Build configuration list for PBXNativeTarget "moegirlwikiTests" */ = {
+		AFB650E519F6C42400C73E81 /* Build configuration list for PBXNativeTarget "moegirlwikiTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				789CACCD1975B46D003A3D2F /* Debug */,
-				789CACCE1975B46D003A3D2F /* Release */,
+				AFB650E619F6C42400C73E81 /* Debug */,
+				AFB650E719F6C42400C73E81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 789CAC8F1975B46D003A3D2F /* Project object */;
+	rootObject = AFB650A819F6C42400C73E81 /* Project object */;
 }

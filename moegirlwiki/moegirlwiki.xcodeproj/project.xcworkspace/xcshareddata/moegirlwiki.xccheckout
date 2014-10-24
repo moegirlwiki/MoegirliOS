@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>5937DC22-0F6E-4755-B7F5-3B7AEF9A5B42</string>
+	<string>03B23575-1DA6-4970-B22E-D26D6305A527</string>
 	<key>IDESourceControlProjectName</key>
 	<string>moegirlwiki</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -14,7 +14,7 @@
 		<string>https://github.com/moegirlwiki/MoegirliOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>moegirlwiki/moegirlwiki.xcodeproj/project.xcworkspace</string>
+	<string>moegirlwiki/moegirlwiki.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>D9524C250685907A4D944C5670BE78F642297EDB</key>

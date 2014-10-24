@@ -2,29 +2,30 @@
 //  mcAppDelegate.m
 //  moegirlwiki
 //
-//  Created by Chen Junlin on 14-7-15.
-//  Copyright (c) 2014年 me.masterchan. All rights reserved.
+//  Created by master on 14-10-21.
+//  Copyright (c) 2014年 masterchan.me. All rights reserved.
 //
 
 #import "mcAppDelegate.h"
 
 @implementation mcAppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    NSLog(@"Launch!");
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if (![[defaultdata objectForKey:@"version"] isEqualToString:@"2.0"]) {
+    //首次开启程序
+        mcInitial * initialProcess = [mcInitial new];
+        [initialProcess resetFiles];
+    }
     return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    NSLog(@"%@",url);
     NSString *URLStr = [url absoluteString];
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    [defaultdata setObject:URLStr forKey:@"target"];
-    [defaultdata synchronize];
+    [self.hook urlSchemeCall:URLStr];
     return YES;
 }
 							
@@ -36,14 +37,12 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    //NSLog(@"Background");
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    //NSLog(@"FrontGround");
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
