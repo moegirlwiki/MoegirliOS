@@ -26,11 +26,16 @@
     [_appDelegate setHook:self];
     
     webViewListPosition = 0;
+    firstLaunch = YES;
+    NSLog(@"1st");
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self visualInit];
+    if (firstLaunch) {
+        [self visualInit];
+        firstLaunch = NO;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -555,11 +560,11 @@
                      animations:^{
                          [_resetButton setAlpha:0];
                          [_sideControlTableView setAlpha:0];
-                         [_MainView setFrame:CGRectMake(_MainView.frame.origin.x + 200,
+                         [_MainView setFrame:CGRectMake(0,
                                                         _MainView.frame.origin.y,
                                                         _MainView.frame.size.width,
                                                         _MainView.frame.size.height)];
-                         [_NavigationBar setFrame:CGRectMake(_NavigationBar.frame.origin.x + 200,
+                         [_NavigationBar setFrame:CGRectMake(0,
                                                              _NavigationBar.frame.origin.y,
                                                              _NavigationBar.frame.size.width,
                                                              _NavigationBar.frame.size.height)];

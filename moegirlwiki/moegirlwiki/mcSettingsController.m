@@ -37,7 +37,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    //[_SettingsTable reloadData];
+    [_SettingsTable setScrollsToTop:NO];
 }
 
 /*
@@ -112,7 +112,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
             cell.textLabel.text = @"清除本地缓存";
-            cell.detailTextLabel.text = @"估计大小：";
+            cell.detailTextLabel.text = @"已缓存了 xxx 个页面";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
@@ -158,9 +158,9 @@
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        return @"SSL中转压缩为实验性功能，可能不够稳定。\n\n定期升级排版数据可以提升浏览体验。\n\n\n";
+        return @"SSL中转压缩为实验性功能，可能不够稳定。\n升级排版数据至最新版可以提升浏览体验。\n\n\n";
     }else if (section == 1){
-        return @"缓存清除后浏览页面将需要重新从服务器下载，使用缓存可以节省大量流量\n\n\n";
+        return @"使用右侧菜单中的刷新可以更新特定页面的缓存\n\n\n";
     }else{
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }

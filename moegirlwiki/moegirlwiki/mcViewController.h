@@ -20,6 +20,8 @@
     @private
     int webViewListPosition;
     bool menuSituation;
+    bool firstLaunch;
+    
 }
 //代码创建元件
 @property (strong, nonatomic) moegirlMainPageScrollView * mainPageScrollView;
@@ -43,6 +45,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *StatusLabel;
 @property (weak, nonatomic) IBOutlet UIProgressView *ProgressBar;
 @property (weak, nonatomic) IBOutlet UIView *NavigationBar;
+@property (weak, nonatomic) IBOutlet UIView *StatusBar;
 
 
 //过程
