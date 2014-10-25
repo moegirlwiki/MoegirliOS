@@ -19,7 +19,15 @@
 #import "mcRightDrag.h"
 #import "mcAnalytics.h"
 
-@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate,mcAppDelegate,moegirlWebViewDelegate,mcLeftDragDelegate,mcRightDragDelegate,moegirlSideControlTableViewDelegate>
+@interface mcViewController : UIViewController
+<
+moegirlMainPageScrollViewDekegate,
+moegirlSearchSuggestionsTableViewDelegate,
+mcAppDelegate,
+moegirlWebViewDelegate,
+mcLeftDragDelegate,mcRightDragDelegate,
+moegirlSideControlTableViewDelegate
+>
 {
     @private
     int webViewListPosition;

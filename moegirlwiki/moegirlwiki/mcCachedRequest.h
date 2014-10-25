@@ -19,7 +19,7 @@
 
 @interface mcCachedRequest : NSObject
 {
-@private
+    @private
     NSURLConnection *requestConnection;
     NSString * documentPath;
     NSFileManager *fileManager;

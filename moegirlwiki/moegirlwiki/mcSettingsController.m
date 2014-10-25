@@ -26,6 +26,35 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    updateInProgress = NO;
+    _protectView = [UIView new];
+    [_protectView setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.3]];
+    [self.view addSubview:_protectView];
+    [_protectView setAlpha:0];
+    
+    
+    _updateView = [UIView new];
+    [_updateView setFrame:CGRectMake((self.view.frame.size.width - 100)/2, (self.view.frame.size.height - 100)/2, 100, 100)];
+    [_updateView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+    _updateView.layer.cornerRadius = 5;
+    _updateView.layer.masksToBounds = YES;
+    [self.view addSubview:_updateView];
+    [_updateView setAlpha:0];
+    
+    _updateIndicator = [UIActivityIndicatorView new];
+    [_updateIndicator setFrame:CGRectMake(40, 30, 20, 20)];
+    [_updateIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [_updateIndicator startAnimating];
+    [_updateView addSubview:_updateIndicator];
+    
+    _statueLabel = [UILabel new];
+    [_statueLabel setFrame:CGRectMake(0, 70, 100, 15)];
+    [_statueLabel setTextColor:[UIColor whiteColor]];
+    [_statueLabel setTextAlignment:NSTextAlignmentCenter];
+    [_statueLabel setText:@"正在更新"];
+    [_statueLabel setFont:[UIFont boldSystemFontOfSize:11]];
+    [_updateView addSubview:_statueLabel];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -38,6 +67,19 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [_SettingsTable setScrollsToTop:NO];
+    [self resizeViews];
+}
+
+- (void)resizeViews
+{
+    [_protectView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [_updateView setFrame:CGRectMake((self.view.frame.size.width - 100)/2, (self.view.frame.size.height - 100)/2, 100, 100)];
+    
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self resizeViews];
 }
 
 /*
@@ -194,7 +236,7 @@
             if (indexPath.row == 1) {
                 //更新排版数据
                 NSLog(@"更新排版数据");
-                
+                [self updateStarto];
             }
             
             break;
@@ -262,5 +304,50 @@
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
     [defaultdata setBool:[switchView isOn] forKey:@"NoImage"];
     [defaultdata synchronize];
+}
+
+
+#pragma mark Update
+-(void)updateStarto
+{
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                         /*----------------------*/
+                         [_protectView setAlpha:1];
+                         [_updateView setAlpha:1];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         updateThread = [mcUpdate new];
+                         [updateThread setHook:self];
+                         [updateThread launchUpdate];
+                         /*----------------------*/
+                     }];
+}
+
+-(void)mcUpdateChangeLabel:(NSString *)hint
+{
+    [_statueLabel setText:hint];
+}
+
+-(void)mcUpdatdFinished
+{
+    [UIView animateWithDuration:0.2
+                          delay:0.5
+                        options:    UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                         /*----------------------*/
+                         [_protectView setAlpha:0];
+                         [_updateView setAlpha:0];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         [_SettingsTable reloadData];
+                         /*----------------------*/
+                     }];
 }
 @end
