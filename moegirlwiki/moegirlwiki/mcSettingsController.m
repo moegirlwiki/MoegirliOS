@@ -95,7 +95,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
             cell.textLabel.text = @"更新排版数据";
-            cell.detailTextLabel.text = @"最后检查日期：2014-10-24";
+            cell.detailTextLabel.text = @"升级排版数据至最新可以提升浏览体验";
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
@@ -173,7 +173,9 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        return @"升级排版数据至最新版可以提升浏览体验\n\n\n";
+        NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+        NSString * info = [NSString stringWithFormat:@"当前版本：%@\n最新版本：%@\n\n\n\n",[defaultdata objectForKey:@"engine"],[defaultdata objectForKey:@"engine_latest"]];
+        return info;
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){

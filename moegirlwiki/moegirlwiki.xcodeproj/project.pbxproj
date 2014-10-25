@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F58551519FC2B5700F7DA50 /* mcAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F58551419FC2B5700F7DA50 /* mcAnalytics.m */; };
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
 		AF4308FB19F9C1BF0099AFC8 /* moegirlSideControlTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */; };
@@ -46,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F58551319FC2B5700F7DA50 /* mcAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcAnalytics.h; sourceTree = "<group>"; };
+		6F58551419FC2B5700F7DA50 /* mcAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcAnalytics.m; sourceTree = "<group>"; };
 		AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSearchSuggestionsTableView.h; sourceTree = "<group>"; };
 		AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlSearchSuggestionsTableView.m; sourceTree = "<group>"; };
 		AF40D71F19F855530043F74A /* mcInitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcInitial.h; sourceTree = "<group>"; };
@@ -125,6 +128,8 @@
 				AF91053719F8987F00EC5DFD /* mcLeftDrag.m */,
 				AF91053919F8AC4D00EC5DFD /* mcRightDrag.h */,
 				AF91053A19F8AC4D00EC5DFD /* mcRightDrag.m */,
+				6F58551319FC2B5700F7DA50 /* mcAnalytics.h */,
+				6F58551419FC2B5700F7DA50 /* mcAnalytics.m */,
 			);
 			name = Functions;
 			sourceTree = "<group>";
@@ -334,6 +339,7 @@
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
 				AF49AFC119FA189900F21956 /* mcSettingsController.m in Sources */,
 				AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */,
+				6F58551519FC2B5700F7DA50 /* mcAnalytics.m in Sources */,
 				AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */,
 				AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */,
 				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,

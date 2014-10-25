@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "mcAppDelegate.h"
+
 #import "moegirlMainPageScrollView.h"
 #import "moegirlSearchSuggestionsTableView.h"
 #import "moegirlWebView.h"
+#import "moegirlSideControlTableView.h"
+
 #import "mcLeftDrag.h"
 #import "mcRightDrag.h"
-#import "moegirlSideControlTableView.h"
+#import "mcAnalytics.h"
 
 @interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate,mcAppDelegate,moegirlWebViewDelegate,mcLeftDragDelegate,mcRightDragDelegate,moegirlSideControlTableViewDelegate>
 {

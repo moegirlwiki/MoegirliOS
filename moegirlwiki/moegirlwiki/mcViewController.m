@@ -67,6 +67,14 @@
     [_searchSuggestionsTableView setTargetURL:@"http://zh.moegirl.org"];
     [_MainView addSubview:_searchSuggestionsTableView];
 
+    
+    
+    //Analytic
+    mcAnalytics * analyticView = [mcAnalytics new];
+    [analyticView startRequest];
+    [self.view addSubview:analyticView];
+    
+    
     // 菜单栏
     menuSituation = NO;
     
@@ -120,7 +128,6 @@
     [_rightPanel setHook:self];
     [_rightPanel setBackgroundColor:[UIColor clearColor]];
     [_MainView addSubview:_rightPanel];
-    
 }
 
 - (void)resetSizes
