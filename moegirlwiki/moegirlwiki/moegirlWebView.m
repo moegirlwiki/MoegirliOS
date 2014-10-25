@@ -257,7 +257,7 @@
     }else{
         [self.hook progressAndStatusSetToValue:50 info:@"接收完成，正在处理"];
     }
-    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,_keyword];
+    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (success) {
         if ([_keyword hasPrefix:@"Special:"]||[_keyword hasPrefix:@"File:"]) {
             [self loadHTMLString:[self prepareContentOld:data]
@@ -337,7 +337,7 @@
 
 -(void)mcCachedRequestGotRespond
 {
-    [self.hook progressAndStatusMakeStep:4 info:@"得到响应，开始接收"];
+    [self.hook progressAndStatusMakeStep:4 info:@"得到响应"];
 }
 
 -(void)mcCachedRequestGotData

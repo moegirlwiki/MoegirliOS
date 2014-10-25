@@ -177,7 +177,7 @@
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){
-        return @"登录后可以使用编辑功能\n\n\n";
+        return @"手机端暂时无法提供注册功能，编辑器正在试验中\n\n\n";
     }else {
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
