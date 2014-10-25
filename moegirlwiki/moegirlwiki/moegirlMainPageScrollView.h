@@ -12,6 +12,7 @@
 
 - (void)progressAndStatusShowUp;
 - (void)progressAndStatusHide;
+- (void)progressAndStatusError;
 - (void)progressAndStatusMakeStep:(float)step info:(NSString *)info;
 - (void)progressAndStatusSetToValue:(float)step info:(NSString *)info;
 - (void)cancelKeyboard;

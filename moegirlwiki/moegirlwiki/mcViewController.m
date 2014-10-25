@@ -27,7 +27,6 @@
     
     webViewListPosition = 0;
     firstLaunch = YES;
-    NSLog(@"1st");
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -95,6 +94,7 @@
     [_sideControlTableView setScrollsToTop:NO];
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1){
         [_sideControlTableView setSeparatorInset:UIEdgeInsetsZero];
+        [_sideControlTableView setLayoutMargins:UIEdgeInsetsZero];
     }
     [self.view addSubview:_sideControlTableView];
     [_sideControlTableView setAlpha:0];
@@ -502,6 +502,22 @@
                      }];
 }
 
+- (void)progressAndStatusError
+{
+    [_StatusLabel setText:@"加载失败!"];
+    [_ProgressBar setProgress:1 animated:YES];
+    [UIView animateWithDuration:0.2
+                          delay:0.2
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_StatusLabel setAlpha:0];
+                         [_ProgressBar setAlpha:0];
+                     }
+                     completion:^(BOOL finished){
+                         [_ProgressBar setProgress:0];
+                         
+                     }];
+}
 - (void)progressAndStatusMakeStep:(float)step info:(NSString *)info
 {
     step = (step / 100) + _ProgressBar.progress;
@@ -654,6 +670,13 @@
 - (void)ctrlPanelCallAbout
 {
     [self resetMenu];
+    UIAlertView * aboutAlertView = [[UIAlertView alloc] initWithTitle:@"萌娘百科iOS客户端"
+                                                              message:@"version 2.0\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"确定"
+                                                    otherButtonTitles:nil];
+    
+    [aboutAlertView show];
 }
 
 - (void)shareText:(NSString *)text andImage:(UIImage *)image andUrl:(NSURL *)url

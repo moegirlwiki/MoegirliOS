@@ -154,6 +154,7 @@
 - (void)presentError:(NSString *)info
 {
     NSLog(@"错误信息:%@",info);
+    [self.hook progressAndStatusError];
 }
 
 -(NSAttributedString *)transFormat:(NSString *)initString

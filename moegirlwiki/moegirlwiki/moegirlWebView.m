@@ -79,6 +79,17 @@
             range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
         }
     
+        //无图模式
+        [self.hook progressAndStatusMakeStep:3 info:nil];
+        NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+        if ([defaultdata boolForKey:@"NoImage"]) {
+            regexstr = @"<img .*?>";
+            range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+            while (range.location != NSNotFound) {
+                content = [content stringByReplacingCharactersInRange:range withString:@""];
+                range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+            }
+        }
     
     
     NSString * header = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"pageheader"] encoding:NSUTF8StringEncoding error:nil];
@@ -205,10 +216,25 @@
         content = [content stringByReplacingCharactersInRange:range withString:oldcss];
     }
     
+    
+    //无图模式
+    [self.hook progressAndStatusMakeStep:3 info:nil];
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    if ([defaultdata boolForKey:@"NoImage"]) {
+        regexstr = @"<img .*?>";
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        while (range.location != NSNotFound) {
+            content = [content stringByReplacingCharactersInRange:range withString:@""];
+            range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        }
+    }
+    
     [self.hook progressAndStatusSetToValue:90 info:@"等待页面绘制"];
     return content;
     
 }
+
+#pragma mark Start:Dash!
 
 - (void)loadContentWithEncodedKeyWord:(NSString *)keywordAfterEncode useCache:(BOOL)useCache
 {
@@ -252,6 +278,8 @@
         NSLog(@"Error: %@",error);
     }
 }
+
+#pragma mark webViewDelegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {

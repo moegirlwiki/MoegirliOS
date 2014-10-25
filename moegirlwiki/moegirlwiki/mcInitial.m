@@ -12,9 +12,14 @@
 
 - (void)resetFiles
 {
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defaultdata dictionaryRepresentation];
+    for (id key in dict) {
+        [defaultdata removeObjectForKey:key];
+    }
+    [defaultdata synchronize];
     
-    
+    [defaultdata setBool:NO forKey:@"NoImage"];
     /*
      ------初始化目录结构------
      /cache
