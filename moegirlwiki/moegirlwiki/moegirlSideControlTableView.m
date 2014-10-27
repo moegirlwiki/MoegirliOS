@@ -106,7 +106,9 @@
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     
-    cell.layoutMargins = UIEdgeInsetsZero;
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
+        cell.layoutMargins = UIEdgeInsetsZero;
+    }
     
     return cell;
 }

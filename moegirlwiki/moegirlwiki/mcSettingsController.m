@@ -27,12 +27,15 @@
 {
     [super viewDidLoad];
     updateInProgress = NO;
+    
+    
+    //保护视图
     _protectView = [UIView new];
     [_protectView setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.3]];
     [self.view addSubview:_protectView];
     [_protectView setAlpha:0];
     
-    
+    //加载模块
     _updateView = [UIView new];
     [_updateView setFrame:CGRectMake((self.view.frame.size.width - 100)/2, (self.view.frame.size.height - 100)/2, 100, 100)];
     [_updateView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
@@ -54,6 +57,52 @@
     [_statueLabel setText:@"正在更新"];
     [_statueLabel setFont:[UIFont boldSystemFontOfSize:11]];
     [_updateView addSubview:_statueLabel];
+    
+    
+    //登录模块
+    _loginView = [UIView new];
+    [_loginView setFrame:CGRectMake(30, 100, self.view.frame.size.width - 60, 150)];
+    [_loginView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+    _loginView.layer.cornerRadius = 5;
+    _loginView.layer.masksToBounds = YES;
+    [self.view addSubview:_loginView];
+    
+    UILabel * loginLabel = [UILabel new];
+    [loginLabel setText:@"登录萌娘百科"];
+    [loginLabel setFrame:CGRectMake(14, 12, 150, 18)];
+    [loginLabel setTextColor:[UIColor whiteColor]];
+    [_loginView addSubview:loginLabel];
+    
+    _usernameField = [UITextField new];
+    [_usernameField setFrame:CGRectMake(30, 40, _loginView.frame.size.width - 60, 30)];
+    [_usernameField setPlaceholder:@"用户名"];
+    [_usernameField setBackgroundColor:[UIColor whiteColor]];
+    _usernameField.layer.cornerRadius = 3;
+    _usernameField.layer.masksToBounds = YES;
+    [_loginView addSubview:_usernameField];
+    
+    
+    
+    _passwordField = [UITextField new];
+    [_passwordField setFrame:CGRectMake(30, 75, _loginView.frame.size.width - 60, 30)];
+    [_passwordField setPlaceholder:@"密码"];
+    [_passwordField setSecureTextEntry:YES];
+    [_passwordField setBackgroundColor:[UIColor whiteColor]];
+    _passwordField.layer.cornerRadius = 3;
+    _passwordField.layer.masksToBounds = YES;
+    [_loginView addSubview:_passwordField];
+    
+    _loginButton = [UIButton new];
+    [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
+    [_loginButton setTitleColor:[UIColor colorWithRed:0.878 green:0.98 blue:0.851 alpha:1] forState:UIControlStateNormal];
+    [_loginButton setBackgroundColor:[UIColor clearColor]];
+    [_loginButton setFrame:CGRectMake(_loginView.frame.size.width - 80, 110, 50, 30)];
+    [_loginButton.titleLabel setFont:[UIFont boldSystemFontOfSize:15]];
+    _loginButton.layer.borderWidth = 1;
+    _loginButton.layer.borderColor = [[UIColor colorWithRed:0.878 green:0.98 blue:0.851 alpha:1] CGColor];
+    _loginButton.layer.cornerRadius = 3;
+    _loginButton.layer.masksToBounds = YES;
+    [_loginView addSubview:_loginButton];
     
     // Do any additional setup after loading the view.
 }
@@ -99,6 +148,11 @@
 {
     [_protectView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [_updateView setFrame:CGRectMake((self.view.frame.size.width - 100)/2, (self.view.frame.size.height - 100)/2, 100, 100)];
+    if (self.view.frame.size.height < 400) {
+        [_loginView setFrame:CGRectMake(30, 40, self.view.frame.size.width - 60, 150)];
+    }else{
+        [_loginView setFrame:CGRectMake(30, 100, self.view.frame.size.width - 60, 150)];
+    }
     
 }
 
@@ -250,7 +304,7 @@
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){
-        return @"手机端暂时无法提供注册功能，编辑器正在试验中\n\n\n";
+        return @"手机端暂时无法提供注册功能，编辑器为试验性功能，将持续更新。\n\n\n";
     }else {
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }

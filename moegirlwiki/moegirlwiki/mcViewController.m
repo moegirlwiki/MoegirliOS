@@ -102,6 +102,8 @@
     [_sideControlTableView setScrollsToTop:NO];
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1){
         [_sideControlTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
         [_sideControlTableView setLayoutMargins:UIEdgeInsetsZero];
     }
     [self.view addSubview:_sideControlTableView];

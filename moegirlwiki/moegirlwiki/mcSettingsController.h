@@ -19,6 +19,11 @@
 }
 
 @property (strong, nonatomic) UIView * updateView;
+@property (strong, nonatomic) UIView * loginView;
+@property (strong, nonatomic) UITextField * usernameField;
+@property (strong, nonatomic) UITextField * passwordField;
+@property (strong, nonatomic) UIButton *cancelButton;
+@property (strong, nonatomic) UIButton *loginButton;
 @property (strong, nonatomic) UIView * protectView;
 @property (strong, nonatomic) UILabel * statueLabel;
 @property (strong, nonatomic) UIActivityIndicatorView * updateIndicator;
