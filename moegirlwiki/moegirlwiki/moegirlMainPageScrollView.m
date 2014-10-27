@@ -172,6 +172,7 @@
     initString = [initString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     initString = [initString stringByReplacingOccurrencesOfString:@"\n " withString:@"\n"];
     initString = [initString stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"];
+    initString = [initString stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
     
     //标记现有标签
     NSString *regex = @"<[\\s\\S]*?>";
@@ -252,7 +253,7 @@
     //处理首页数据
     [self.hook progressAndStatusSetToValue:80 info:@"处理首页数据"];
     //挖出首页
-    NSString *regex = @"<div id=\"mainpage\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
+    NSString *regex = @"<div id=\"mainpage\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)</div>[\\s\\S]*?)</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
     NSRange range = [data rangeOfString:regex options:NSRegularExpressionSearch];
     if (range.location != NSNotFound) {
         data = [data substringWithRange:range];
@@ -286,6 +287,14 @@
     }
     
     
+    //首栏图片
+    regex = @"<ul class=\"gallery mw-gallery-packed-hover\">[\\s\\S]*?</ul>";
+    range = [data rangeOfString:regex options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        data = [data stringByReplacingCharactersInRange:range withString:@""];
+        range = [data rangeOfString:regex options:NSRegularExpressionSearch];
+    }
+    
     //分组内容
     _mainPageContent = [NSMutableArray new];
     _mainPageTitle = [NSMutableArray new];
@@ -318,6 +327,7 @@
     
     [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
+    //NSLog(@"%@",data);
     [self setupScrollView];
     [self setupHeadBanner];
     

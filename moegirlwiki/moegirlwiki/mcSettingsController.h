@@ -13,6 +13,8 @@
 {
     @private
     bool updateInProgress;
+    int pagecount;
+    long long folderSize;
     mcUpdate *updateThread;
 }
 
@@ -22,6 +24,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView * updateIndicator;
 @property (weak, nonatomic) IBOutlet UITableView *SettingsTable;
 
+- (long long) fileSizeAtPath:(NSString*) filePath;
 - (IBAction)goBackButtonClick:(id)sender;
 
 @end

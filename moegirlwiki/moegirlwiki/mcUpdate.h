@@ -27,7 +27,6 @@
 - (void)launchUpdate;
 
 @property (strong, nonatomic) mcCachedRequest * errordefault;
-@property (strong, nonatomic) mcCachedRequest * mainpageCache;
 @property (strong, nonatomic) mcCachedRequest * oldcustomize;
 @property (strong, nonatomic) mcCachedRequest * pagefooter;
 @property (strong, nonatomic) mcCachedRequest * pageheader;

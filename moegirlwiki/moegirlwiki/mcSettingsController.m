@@ -64,6 +64,31 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (long long) fileSizeAtPath:(NSString*) filePath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:filePath]){
+        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
+    }
+    return 0;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    pagecount = 0;
+    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString * folderPath = [[documentPath stringByAppendingPathComponent:@"cache"] stringByAppendingPathComponent:@"page"];
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
+    NSString* fileName;
+    folderSize = 0;
+    while ((fileName = [childFilesEnumerator nextObject]) != nil){
+        NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+        folderSize += [self fileSizeAtPath:fileAbsolutePath];
+        pagecount ++;
+    }
+    folderSize = folderSize/1024.0;
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [_SettingsTable setScrollsToTop:NO];
@@ -148,7 +173,11 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
             cell.textLabel.text = @"清除本地缓存";
-            cell.detailTextLabel.text = @"已缓存了 xxx 个页面";
+            if (folderSize > 1024) {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"已缓存%d个页面，共计%lldMB",pagecount,(folderSize/1024)];
+            }else{
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"已缓存%d个页面，共计%lldKB",pagecount,folderSize];
+            }
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
@@ -227,6 +256,50 @@
     }
 }
 
+#pragma mark AlertViewAction
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSString * btnText = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([btnText isEqualToString:@"确定删除"]) {
+        //删除缓存
+        
+        [_statueLabel setText:@"删除缓存"];
+        [UIView animateWithDuration:0.2
+                              delay:0
+                            options:    UIViewAnimationOptionOverrideInheritedCurve
+                         animations:^{
+                             /*----------------------*/
+                             [_protectView setAlpha:1];
+                             [_updateView setAlpha:1];
+                             /*----------------------*/
+                         }
+                         completion:^(BOOL finished){
+                             /*----------------------*/
+                             NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                             NSString * folderPath = [[documentPath stringByAppendingPathComponent:@"cache"] stringByAppendingPathComponent:@"page"];
+                             NSFileManager* manager = [NSFileManager defaultManager];
+                             NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
+                             NSString* fileName;
+                             int count = 0;
+                             while ((fileName = [childFilesEnumerator nextObject]) != nil){
+                                 NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+                                 [manager removeItemAtPath:fileAbsolutePath error:nil];
+                                 count ++;
+                                 [self mcUpdateChangeLabel:[NSString stringWithFormat:@"删除 %d/%d",count,pagecount]];
+                             }
+                             [self mcUpdatdFinished];
+                             pagecount = 0;
+                             folderSize = 0;
+                             /*----------------------*/
+                         }];
+        
+    }
+}
+
+
+#pragma mark TableViewAction
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -235,7 +308,6 @@
             
             if (indexPath.row == 1) {
                 //更新排版数据
-                NSLog(@"更新排版数据");
                 [self updateStarto];
             }
             
@@ -245,7 +317,12 @@
             if (indexPath.row == 0) {
                 //清除本地缓存
                 NSLog(@"清除本地缓存");
-                
+                UIAlertView * cleanConfirm = [[UIAlertView alloc]initWithTitle:@"确定要清除本地缓存吗？"
+                                                                       message:@"清除后将需要重新从服务器下载数据"
+                                                                      delegate:self
+                                                             cancelButtonTitle:@"取消"
+                                                             otherButtonTitles:@"确定删除", nil];
+                [cleanConfirm show];
             }
         
             break;
@@ -310,6 +387,8 @@
 #pragma mark Update
 -(void)updateStarto
 {
+    
+    [_statueLabel setText:@"开始更新"];
     [UIView animateWithDuration:0.2
                           delay:0
                         options:    UIViewAnimationOptionOverrideInheritedCurve
