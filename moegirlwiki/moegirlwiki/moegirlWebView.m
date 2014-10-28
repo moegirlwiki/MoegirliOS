@@ -31,6 +31,22 @@
 - (NSString *)prepareContent:(NSData *)data
 {
     NSString * content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    /*被屏蔽处理方式*/
+    NSString * idString = @"title=\"Special:用户登录\">登录</a>才能查看其它页面。";
+    NSRange checkRange;
+    
+    checkRange = [content rangeOfString:idString];
+    if (checkRange.location != NSNotFound) {
+        NSLog(@"权限内容");
+        
+        
+        NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString * htmlDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"] stringByAppendingPathComponent:@"setting"];
+        
+        NSString * defaultPage = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"errordefault"] encoding:NSUTF8StringEncoding error:nil];
+        
+        return [NSString stringWithFormat:defaultPage,@"需要权限",@"内容比较糟糕，需要权限"];
+    }
     
     /*处理接受的数据*/
     NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -244,9 +260,9 @@
     _contentRequest = [mcCachedRequest new];
     [_contentRequest setHook:self];
     if ([_keyword hasPrefix:@"Special:"]||[_keyword hasPrefix:@"File:"]) {
-        [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@",_targetURL,keywordAfterEncode] ignoreCache:!useCache];
+        [_contentRequest launchCookiedRequest:[NSString stringWithFormat:@"%@/%@",_targetURL,keywordAfterEncode] ignoreCache:!useCache];
     }else{
-        [_contentRequest launchRequest:[NSString stringWithFormat:@"%@/%@?action=render",_targetURL,keywordAfterEncode] ignoreCache:!useCache];
+        [_contentRequest launchCookiedRequest:[NSString stringWithFormat:@"%@/%@?action=render",_targetURL,keywordAfterEncode] ignoreCache:!useCache];
     }
 }
 
@@ -304,6 +320,11 @@
                 return  YES;// a href # 页面内部转跳
             }
             NSLog(@"%@",link);
+            if ([link hasPrefix:@"index.php?"]) {
+                //程序无法渲染，是否在其它页面中打开？
+                [self cannotOpenLink:@"本程序无法渲染该页面，是否在Safari中打开 ？" link:[[request URL] absoluteString]];
+                return NO;
+            }
             //开启新词条
             [self.hook newWebViewRequestFormWebView:link];
             return NO;
@@ -323,10 +344,23 @@
             [_saveImageAlertView show];
         }
         //站外链接
+        [self cannotOpenLink:@"这是一个外链，您确定要打开这个链接吗？" link:[[request URL] absoluteString]];
         return NO;
     }else{
         return YES;
     }
+}
+
+- (void)cannotOpenLink:(NSString *)info link:(NSString *)link
+{
+    templink = link;
+    UIAlertView * confirmAlert = [[UIAlertView alloc] initWithTitle:info
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"打开链接", nil];
+    [confirmAlert show];
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -343,6 +377,17 @@
 -(void)mcCachedRequestGotData
 {
     [self.hook progressAndStatusMakeStep:1 info:@"正在接收数据"];
+}
+
+
+#pragma mark AlertViewAction
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSString * btnText = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([btnText isEqualToString:@"打开链接"]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:templink]];
+    }
 }
 
 @end

@@ -262,10 +262,17 @@
 
 - (void)newWebViewRequestFormSuggestions:(NSString *)keyword
 {
-
     [self createMoeWebView:keyword];
     [_MainView sendSubviewToBack:_searchSuggestionsTableView];
     [self cancelKeyboard];
+}
+
+- (void)newWebViewRequestFormRandom:(NSString *)keyword
+{
+    [self createMoeWebView:[keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [_MainView sendSubviewToBack:_searchSuggestionsTableView];
+    [self cancelKeyboard];
+    [self resetSizes];
 }
 
 
@@ -619,6 +626,7 @@
 }
 
 
+#pragma mark 右侧控制菜单事件
 - (void)ctrlPanelCallMainpage
 {
     [self resetMenu];
@@ -753,5 +761,18 @@
         
         return image;
 }
+
+
+#pragma mark 手机摇一摇
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        _randomFunction = [moegirlRandom new];
+        [_randomFunction setHook:self];
+        [_randomFunction getARandom];
+    }
+}
+
 
 @end

@@ -14,6 +14,7 @@
 #import "moegirlSearchSuggestionsTableView.h"
 #import "moegirlWebView.h"
 #import "moegirlSideControlTableView.h"
+#import "moegirlRandom.h"
 
 #import "mcLeftDrag.h"
 #import "mcRightDrag.h"
@@ -26,7 +27,8 @@ moegirlSearchSuggestionsTableViewDelegate,
 mcAppDelegate,
 moegirlWebViewDelegate,
 mcLeftDragDelegate,mcRightDragDelegate,
-moegirlSideControlTableViewDelegate
+moegirlSideControlTableViewDelegate,
+moegirlRandomDelegate
 >
 {
     @private
@@ -42,6 +44,7 @@ moegirlSideControlTableViewDelegate
 @property (weak, nonatomic) mcAppDelegate * appDelegate;
 @property (strong, nonatomic) mcLeftDrag * leftPanel;
 @property (strong, nonatomic) mcRightDrag * rightPanel;
+@property (strong, nonatomic) moegirlRandom * randomFunction;
 @property (strong, nonatomic) UIButton * resetButton;
 
 @property (strong, nonatomic) NSMutableArray * webViewList;

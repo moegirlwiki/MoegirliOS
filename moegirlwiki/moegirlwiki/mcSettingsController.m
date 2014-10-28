@@ -199,7 +199,7 @@
         //return 2;
         return 1;
     }else{
-        return 2;
+        return 3;
     }
 }
 
@@ -283,7 +283,7 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
             
-        }else{
+        }else if(indexPath.row == 1){
             //给我评分
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
@@ -292,6 +292,14 @@
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
+        }else{
+            //支持
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                          reuseIdentifier:CellIdentifier];
+            cell.textLabel.text = @"技术支持";
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
         }
         
     }
@@ -321,7 +329,7 @@
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){
-        return @"手机端暂时无法提供注册功能，\n编辑器为试验性功能，目前仅支持部分用户，将持续更新。\n\n\n";
+        return @"手机端暂时无法提供注册功能，\n编辑器正试验中，目前仅支持部分用户，将持续更新。\n\n\n";
     }else {
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
@@ -370,6 +378,8 @@
         [defaultdata setObject:@"--" forKey:@"username"];
         [defaultdata setObject:@"--" forKey:@"cookie"];
         [_SettingsTable reloadData];
+    }else if ([btnText isEqualToString:@"访问Github页面"]){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/moegirlwiki/MoegirliOS/"]];
     }
 }
 
@@ -439,9 +449,17 @@
                 NSString * emaillink = [NSString stringWithFormat:@"mailto:contact@masterchan.me?subject=%@&body=%@",[subject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[body stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emaillink]];
                 
-            }else{
+            }else if (indexPath.row ==1){
                 //评分
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id892053828"]];
+            }else{
+                
+                UIAlertView * aboutConfirm = [[UIAlertView alloc]initWithTitle:@"技术支持"
+                                                                       message:@"本程序由Michairm, Illvili提供"
+                                                                      delegate:self
+                                                             cancelButtonTitle:@"确定"
+                                                             otherButtonTitles:@"访问Github页面", nil];
+                [aboutConfirm show];
             }
             
             
@@ -639,7 +657,7 @@
 
 - (void)logoutRequest
 {
-    UIAlertView * loginAlert = [[UIAlertView alloc] initWithTitle:@"您确定要注销么"
+    UIAlertView * loginAlert = [[UIAlertView alloc] initWithTitle:@"您确定要注销吗？"
                                                         message:nil
                                                        delegate:self
                                               cancelButtonTitle:@"取消"

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6F4DE28119FF51D900A93DA1 /* moegirlConnectionLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4DE28019FF51D900A93DA1 /* moegirlConnectionLogin.m */; };
+		6F56FEEB19FFCBAA00BD9713 /* moegirlRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */; };
 		6F58551519FC2B5700F7DA50 /* mcAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F58551419FC2B5700F7DA50 /* mcAnalytics.m */; };
 		6F996E8219FC3D7F00F9BC3F /* mcUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */; };
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
@@ -51,6 +52,8 @@
 /* Begin PBXFileReference section */
 		6F4DE27F19FF51D900A93DA1 /* moegirlConnectionLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlConnectionLogin.h; sourceTree = "<group>"; };
 		6F4DE28019FF51D900A93DA1 /* moegirlConnectionLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlConnectionLogin.m; sourceTree = "<group>"; };
+		6F56FEE919FFCBAA00BD9713 /* moegirlRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlRandom.h; sourceTree = "<group>"; };
+		6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlRandom.m; sourceTree = "<group>"; };
 		6F58551319FC2B5700F7DA50 /* mcAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcAnalytics.h; sourceTree = "<group>"; };
 		6F58551419FC2B5700F7DA50 /* mcAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcAnalytics.m; sourceTree = "<group>"; };
 		6F996E8019FC3D7F00F9BC3F /* mcUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcUpdate.h; sourceTree = "<group>"; };
@@ -164,6 +167,8 @@
 				AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */,
 				AF4308F919F9C1BF0099AFC8 /* moegirlSideControlTableView.h */,
 				AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */,
+				6F56FEE919FFCBAA00BD9713 /* moegirlRandom.h */,
+				6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */,
 			);
 			name = moegirlSpecify;
 			sourceTree = "<group>";
@@ -351,6 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F56FEEB19FFCBAA00BD9713 /* moegirlRandom.m in Sources */,
 				AFC2611819F9A31C00F12B37 /* mcCachedImage.m in Sources */,
 				AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */,
 				AF40D72119F855530043F74A /* mcInitial.m in Sources */,
