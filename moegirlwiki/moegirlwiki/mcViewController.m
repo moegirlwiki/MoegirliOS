@@ -72,6 +72,7 @@
     //Analytic
     mcAnalytics * analyticView = [mcAnalytics new];
     [analyticView startRequest];
+    [analyticView.scrollView setScrollsToTop:NO];
     [self.view addSubview:analyticView];
     
     
@@ -604,12 +605,17 @@
                      }];
 }
 
+#pragma mark 实体按键事件绑定
 - (IBAction)menuButtonClick:(id)sender {
     if (menuSituation) {
         [self resetMenu];
     }else{
         [self presentMenu];
     }
+}
+
+- (IBAction)TextFieldSearchButton:(id)sender {
+    [self newWebViewRequestFormSuggestions:[[NSString stringWithFormat:@"Special:搜索/%@",_SearchTextField.text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
 

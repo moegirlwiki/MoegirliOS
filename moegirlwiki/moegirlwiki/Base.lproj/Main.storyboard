@@ -96,6 +96,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="search"/>
                                                 <connections>
+                                                    <action selector="TextFieldSearchButton:" destination="vXZ-lx-hvc" eventType="editingDidEndOnExit" id="dBu-22-RHl"/>
                                                     <action selector="searchFieldEditChange:" destination="vXZ-lx-hvc" eventType="editingChanged" id="qZh-9e-bGM"/>
                                                 </connections>
                                             </textField>
@@ -185,6 +186,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pIe-T5-4r8" userLabel="InitView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fd5-Rw-ngf" userLabel="StatusBar">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
                                 <color key="backgroundColor" red="0.47058823529999999" green="0.81960784310000001" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -234,25 +239,30 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="KCa-2Y-GRZ" firstAttribute="top" secondItem="pIe-T5-4r8" secondAttribute="bottom" id="5CU-A8-3eN"/>
                             <constraint firstItem="DX8-ZM-xsP" firstAttribute="top" secondItem="xl0-ck-S2U" secondAttribute="bottom" id="Bjh-Ie-ZLj"/>
                             <constraint firstAttribute="trailing" secondItem="DX8-ZM-xsP" secondAttribute="trailing" id="NWJ-im-9uo"/>
                             <constraint firstAttribute="trailing" secondItem="xl0-ck-S2U" secondAttribute="trailing" id="RQm-4y-Q9N"/>
                             <constraint firstItem="KCa-2Y-GRZ" firstAttribute="top" secondItem="DX8-ZM-xsP" secondAttribute="bottom" id="V80-Ba-IVe"/>
                             <constraint firstItem="DX8-ZM-xsP" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="VCv-8S-2kW"/>
+                            <constraint firstItem="pIe-T5-4r8" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="a5C-gK-EGz"/>
                             <constraint firstItem="xl0-ck-S2U" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="ai3-QC-v4n"/>
                             <constraint firstItem="fd5-Rw-ngf" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="g7g-i1-JMu"/>
                             <constraint firstItem="xl0-ck-S2U" firstAttribute="top" secondItem="wHn-fK-5WH" secondAttribute="bottom" id="jPk-UB-0kU"/>
                             <constraint firstItem="fd5-Rw-ngf" firstAttribute="top" secondItem="6zp-DB-QTu" secondAttribute="top" id="p8H-q5-XbQ"/>
+                            <constraint firstAttribute="trailing" secondItem="pIe-T5-4r8" secondAttribute="trailing" id="pzl-cG-tcV"/>
+                            <constraint firstItem="pIe-T5-4r8" firstAttribute="top" secondItem="6zp-DB-QTu" secondAttribute="top" id="vnP-yU-LMG"/>
                             <constraint firstAttribute="trailing" secondItem="fd5-Rw-ngf" secondAttribute="trailing" id="zPT-dT-k7k"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="MainInitViewRuler" destination="pIe-T5-4r8" id="iBx-Ul-J5y"/>
                         <outlet property="SettingsTable" destination="DX8-ZM-xsP" id="zcT-cw-OVk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eqx-Rq-4VZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="212" y="613"/>
+            <point key="canvasLocation" x="124" y="613"/>
         </scene>
     </scenes>
     <resources>

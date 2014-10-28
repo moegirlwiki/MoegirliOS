@@ -71,5 +71,6 @@ moegirlSideControlTableViewDelegate
 //xib过程
 - (IBAction)searchFieldEditChange:(id)sender;
 - (IBAction)menuButtonClick:(id)sender;
+- (IBAction)TextFieldSearchButton:(id)sender;
 
 @end

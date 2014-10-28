@@ -8,14 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "mcUpdate.h"
+#import "moegirlConnectionLogin.h"
 
-@interface mcSettingsController : UIViewController<UITableViewDataSource,UITableViewDelegate,mcUpdateDelegate>
+@interface mcSettingsController : UIViewController<UITableViewDataSource,UITableViewDelegate,mcUpdateDelegate,moegirlConnectionLoginDelegate>
 {
     @private
     bool updateInProgress;
     int pagecount;
     long long folderSize;
     mcUpdate *updateThread;
+    moegirlConnectionLogin * moegirlLogin;
 }
 
 @property (strong, nonatomic) UIView * updateView;
@@ -27,7 +29,9 @@
 @property (strong, nonatomic) UIView * protectView;
 @property (strong, nonatomic) UILabel * statueLabel;
 @property (strong, nonatomic) UIActivityIndicatorView * updateIndicator;
+
 @property (weak, nonatomic) IBOutlet UITableView *SettingsTable;
+@property (weak, nonatomic) IBOutlet UIView *MainInitViewRuler;
 
 - (long long) fileSizeAtPath:(NSString*) filePath;
 - (IBAction)goBackButtonClick:(id)sender;

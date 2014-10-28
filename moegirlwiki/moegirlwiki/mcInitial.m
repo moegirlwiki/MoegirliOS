@@ -22,6 +22,8 @@
     [defaultdata setBool:NO forKey:@"NoImage"];
     [defaultdata setObject:@"20141024A" forKey:@"engine"];
     [defaultdata setObject:@"--" forKey:@"engine_latest"];
+    [defaultdata setObject:@"--" forKey:@"username"];
+    [defaultdata setObject:@"--" forKey:@"cookie"];
     /*
      ------初始化目录结构------
      /cache

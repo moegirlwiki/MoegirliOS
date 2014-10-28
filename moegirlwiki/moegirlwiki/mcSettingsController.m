@@ -37,8 +37,8 @@
     
     //加载模块
     _updateView = [UIView new];
-    [_updateView setFrame:CGRectMake((self.view.frame.size.width - 100)/2, (self.view.frame.size.height - 100)/2, 100, 100)];
-    [_updateView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+    [_updateView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9]];
+    [_updateView setFrame:CGRectMake((_MainInitViewRuler.frame.size.width - 100)/2, (_MainInitViewRuler.frame.size.height - 100)/2, 100, 100)];
     _updateView.layer.cornerRadius = 5;
     _updateView.layer.masksToBounds = YES;
     [self.view addSubview:_updateView];
@@ -60,12 +60,19 @@
     
     
     //登录模块
+    _cancelButton = [UIButton new];
+    [_cancelButton  setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.3]];
+    [_cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_cancelButton];
+    [_cancelButton setAlpha:0];
+    
     _loginView = [UIView new];
-    [_loginView setFrame:CGRectMake(30, 100, self.view.frame.size.width - 60, 150)];
     [_loginView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]];
+    [_loginView setFrame:CGRectMake((_MainInitViewRuler.frame.size.width - 230)/2, 20, 230, 150)];
     _loginView.layer.cornerRadius = 5;
     _loginView.layer.masksToBounds = YES;
     [self.view addSubview:_loginView];
+    [_loginView setAlpha:0];
     
     UILabel * loginLabel = [UILabel new];
     [loginLabel setText:@"登录萌娘百科"];
@@ -90,6 +97,7 @@
     [_passwordField setBackgroundColor:[UIColor whiteColor]];
     _passwordField.layer.cornerRadius = 3;
     _passwordField.layer.masksToBounds = YES;
+    [_usernameField setKeyboardType:UIKeyboardTypeAlphabet];
     [_loginView addSubview:_passwordField];
     
     _loginButton = [UIButton new];
@@ -103,7 +111,7 @@
     _loginButton.layer.cornerRadius = 3;
     _loginButton.layer.masksToBounds = YES;
     [_loginView addSubview:_loginButton];
-    
+    [_loginButton addTarget:self action:@selector(loginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     // Do any additional setup after loading the view.
 }
 
@@ -146,12 +154,13 @@
 
 - (void)resizeViews
 {
-    [_protectView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    [_updateView setFrame:CGRectMake((self.view.frame.size.width - 100)/2, (self.view.frame.size.height - 100)/2, 100, 100)];
-    if (self.view.frame.size.height < 400) {
-        [_loginView setFrame:CGRectMake(30, 40, self.view.frame.size.width - 60, 150)];
+    [_protectView setFrame:CGRectMake(0, 0, _MainInitViewRuler.frame.size.width, _MainInitViewRuler.frame.size.height)];
+    [_cancelButton setFrame:CGRectMake(0, 0, _MainInitViewRuler.frame.size.width, _MainInitViewRuler.frame.size.height)];
+    [_updateView setFrame:CGRectMake((_MainInitViewRuler.frame.size.width - 100)/2, (_MainInitViewRuler.frame.size.height - 100)/2, 100, 100)];
+    if (_MainInitViewRuler.frame.size.height < _MainInitViewRuler.frame.size.width) {
+        [_loginView setFrame:CGRectMake((_MainInitViewRuler.frame.size.width - 230)/2, 20, 230, 150)];
     }else{
-        [_loginView setFrame:CGRectMake(30, 100, self.view.frame.size.width - 60, 150)];
+        [_loginView setFrame:CGRectMake((_MainInitViewRuler.frame.size.width - 230)/2, 70, 230, 150)];
     }
     
 }
@@ -187,7 +196,8 @@
     }else if (section == 1){
         return 1;
     }else if (section == 2){
-        return 2;
+        //return 2;
+        return 1;
     }else{
         return 2;
     }
@@ -242,7 +252,14 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
             cell.textLabel.text = @"登录";
-            cell.detailTextLabel.text = @"当前你是以 游客 身份浏览萌娘百科";
+            
+            NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+            NSString * username = [defaultdata objectForKey:@"username"];
+            if ([username isEqualToString:@"--"]) {
+                cell.detailTextLabel.text = @"当前您是以 游客 身份浏览萌娘百科";
+            }else{
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"您已登录账号 %@",username];
+            }
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
@@ -271,7 +288,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
             cell.textLabel.text = @"给我评分";
-            cell.detailTextLabel.text = @"据说给5星评价可以恢复程序猿的SAN值";
+            cell.detailTextLabel.text = @"据说五星评价可以提升程序猿萌化代码的能力";
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -304,7 +321,7 @@
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){
-        return @"手机端暂时无法提供注册功能，编辑器为试验性功能，将持续更新。\n\n\n";
+        return @"手机端暂时无法提供注册功能，\n编辑器为试验性功能，目前仅支持部分用户，将持续更新。\n\n\n";
     }else {
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
@@ -348,6 +365,11 @@
                              /*----------------------*/
                          }];
         
+    }else if ([btnText isEqualToString:@"注销"]){
+        NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+        [defaultdata setObject:@"--" forKey:@"username"];
+        [defaultdata setObject:@"--" forKey:@"cookie"];
+        [_SettingsTable reloadData];
     }
 }
 
@@ -386,6 +408,14 @@
             if (indexPath.row == 0) {
                 //账户
                 NSLog(@"账户");
+                
+                NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+                NSString * username = [defaultdata objectForKey:@"username"];
+                if ([username isEqualToString:@"--"]) {
+                    [self showLoginView];
+                }else{
+                    [self logoutRequest];
+                }
                 
             }else{
                 //参数设置
@@ -441,7 +471,6 @@
 #pragma mark Update
 -(void)updateStarto
 {
-    
     [_statueLabel setText:@"开始更新"];
     [UIView animateWithDuration:0.2
                           delay:0
@@ -483,4 +512,140 @@
                          /*----------------------*/
                      }];
 }
+
+#pragma mark 登录相关
+
+- (void)showLoginView
+{
+    
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                         /*----------------------*/
+                         [_cancelButton setAlpha:1];
+                         [_loginView setAlpha:1];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         
+                         /*----------------------*/
+                     }];
+}
+
+
+- (void)dismissLoginView
+{
+    [_usernameField resignFirstResponder];
+    [_passwordField resignFirstResponder];
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                         /*----------------------*/
+                         [_cancelButton setAlpha:0];
+                         [_loginView setAlpha:0];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         [_usernameField setText:@""];
+                         [_passwordField setText:@""];
+                         /*----------------------*/
+                     }];
+}
+
+- (IBAction)loginButtonClick:(id)sender
+{
+    NSLog(@"login");
+    if (_passwordField.text.length > 6) {
+        [self startLogin:_usernameField.text pw:_passwordField.text];
+        [self dismissLoginView];
+    } else {
+        [self dismissLoginView];
+        UIAlertView*loginAlert = [[UIAlertView alloc] initWithTitle:@"警告"
+                                                            message:@"请输入符合格式的用户名和密码"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+        [loginAlert show];
+    }
+}
+
+- (IBAction)cancelButtonClick:(id)sender
+{
+    NSLog(@"cancel");
+    [self dismissLoginView];
+}
+
+- (void)startLogin:(NSString *)un pw:(NSString *)pw;
+{
+    
+    [_statueLabel setText:@"正在验证"];
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                         /*----------------------*/
+                         [_protectView setAlpha:1];
+                         [_updateView setAlpha:1];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         moegirlLogin = [moegirlConnectionLogin new];
+                         [moegirlLogin setHook:self];
+                         [moegirlLogin SetUsername:un Password:pw];
+                         [moegirlLogin StartRequest];
+                         /*----------------------*/
+                     }];
+}
+
+-(void)moegirlConnectionLogin:(bool)success info:(NSString *)info cookie:(NSString *)cookieString
+{
+    
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                         /*----------------------*/
+                         [_protectView setAlpha:0];
+                         [_updateView setAlpha:0];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         /*----------------------*/
+                     }];
+    if (success) {
+        UIAlertView*loginAlert = [[UIAlertView alloc] initWithTitle:@"登录成功"
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+        [loginAlert show];
+        [_SettingsTable reloadData];
+    }else{
+        UIAlertView*loginAlert = [[UIAlertView alloc] initWithTitle:@"错误"
+                                                            message:[NSString stringWithFormat:@"提示信息:%@",info]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"确定"
+                                                  otherButtonTitles:nil];
+        [loginAlert show];
+
+    }
+}
+
+- (void)logoutRequest
+{
+    UIAlertView * loginAlert = [[UIAlertView alloc] initWithTitle:@"您确定要注销么"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"注销", nil];
+    [loginAlert show];
+}
+
+
 @end
