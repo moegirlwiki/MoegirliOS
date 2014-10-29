@@ -86,6 +86,8 @@
     [_usernameField setBackgroundColor:[UIColor whiteColor]];
     _usernameField.layer.cornerRadius = 3;
     _usernameField.layer.masksToBounds = YES;
+    [_usernameField setReturnKeyType:UIReturnKeyNext];
+    [_usernameField addTarget:self action:@selector(switchToPasswordField:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [_loginView addSubview:_usernameField];
     
     
@@ -97,7 +99,8 @@
     [_passwordField setBackgroundColor:[UIColor whiteColor]];
     _passwordField.layer.cornerRadius = 3;
     _passwordField.layer.masksToBounds = YES;
-    [_usernameField setKeyboardType:UIKeyboardTypeAlphabet];
+    [_passwordField setReturnKeyType:UIReturnKeyDone];
+    [_passwordField addTarget:self action:@selector(loginButtonClick:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [_loginView addSubview:_passwordField];
     
     _loginButton = [UIButton new];
@@ -329,7 +332,7 @@
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){
-        return @"手机端暂时无法提供注册功能，\n编辑器正试验中，目前仅支持部分用户，将持续更新。\n\n\n";
+        return @"手机端暂时无法提供注册功能，\n编辑器正试验中，将在下一版本推出。\n\n\n";
     }else {
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
@@ -455,7 +458,7 @@
             }else{
                 
                 UIAlertView * aboutConfirm = [[UIAlertView alloc]initWithTitle:@"技术支持"
-                                                                       message:@"本程序由Michairm, Illvili提供"
+                                                                       message:@"本应用由Michairm和Illvili提供"
                                                                       delegate:self
                                                              cancelButtonTitle:@"确定"
                                                              otherButtonTitles:@"访问Github页面", nil];
@@ -572,6 +575,11 @@
                          [_passwordField setText:@""];
                          /*----------------------*/
                      }];
+}
+
+- (IBAction)switchToPasswordField:(id)sender
+{
+    [_passwordField becomeFirstResponder];
 }
 
 - (IBAction)loginButtonClick:(id)sender

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "mcImagedButton.h"
 
 @protocol moegirlMainPageScrollViewDekegate <NSObject>
 
@@ -49,6 +50,9 @@
 
 @property (strong, nonatomic) NSMutableArray * mainPageTitle;
 @property (strong, nonatomic) NSMutableArray * mainPageContent;
+
+@property (strong, nonatomic) UIScrollView * scrollImageView;
+@property (strong, nonatomic) NSMutableArray * imageButtons;
 
 @property (strong,nonatomic) NSMutableData * recievePool;
 
