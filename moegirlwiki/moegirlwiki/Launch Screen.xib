@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="544" height="623"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenImg" translatesAutoresizingMaskIntoConstraints="NO" id="hhr-vM-VgX">
+                    <rect key="frame" x="127" y="31" width="291" height="561"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v2.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pvc-Zb-aJH">
+                    <rect key="frame" x="467" y="594" width="69" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="69" id="GWF-ag-56L"/>
+                        <constraint firstAttribute="height" constant="21" id="rg7-6f-8XH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Pvc-Zb-aJH" secondAttribute="bottom" constant="8" id="7Ck-4R-ejm"/>
+                <constraint firstAttribute="centerX" secondItem="hhr-vM-VgX" secondAttribute="centerX" id="AGz-gv-bi2"/>
+                <constraint firstAttribute="centerY" secondItem="hhr-vM-VgX" secondAttribute="centerY" id="EaS-L9-6de"/>
+                <constraint firstAttribute="trailing" secondItem="Pvc-Zb-aJH" secondAttribute="trailing" constant="8" id="y8F-aC-RWh"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="483" y="557.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="launchScreenImg" width="291" height="561"/>
+    </resources>
+</document>

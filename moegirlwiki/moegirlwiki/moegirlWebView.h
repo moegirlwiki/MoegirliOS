@@ -23,7 +23,8 @@
 
 @interface moegirlWebView : UIWebView<UIWebViewDelegate,mcCachedRequestDelegate>
 {
-    
+    @private
+    NSString * templink;
 }
 
 - (NSString *)prepareContent:(NSData *)data;

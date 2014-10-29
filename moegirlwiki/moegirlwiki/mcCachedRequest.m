@@ -48,6 +48,62 @@
     }
 }
 
+- (void)launchPostRequest:(NSString *)URL ignoreCache:(bool)ignore
+{
+    NSString * hashString = [self MD5:URL];
+    
+    documentPath = [[[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+                      stringByAppendingPathComponent:@"cache"]
+                     stringByAppendingPathComponent:@"page"]
+                    stringByAppendingPathComponent:hashString];
+    
+    fileManager = [NSFileManager defaultManager];
+    if (([fileManager fileExistsAtPath:documentPath])&&(!ignore)) {
+        [self.hook mcCachedRequestFinishLoading:YES
+                                  LoadFromCache:YES
+                                          error:nil
+                                           data:[[NSMutableData alloc] initWithContentsOfFile:documentPath]];
+    }else{
+        NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]
+                                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                                    timeoutInterval:20];
+        [TheRequest setHTTPMethod:@"POST"];
+        requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
+                                                           delegate:self
+                                                   startImmediately:YES];
+    }
+}
+
+- (void)launchCookiedRequest:(NSString *)URL ignoreCache:(bool)ignore
+{
+    NSString * hashString = [self MD5:URL];
+    
+    documentPath = [[[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+                      stringByAppendingPathComponent:@"cache"]
+                     stringByAppendingPathComponent:@"page"]
+                    stringByAppendingPathComponent:hashString];
+    
+    fileManager = [NSFileManager defaultManager];
+    if (([fileManager fileExistsAtPath:documentPath])&&(!ignore)) {
+        [self.hook mcCachedRequestFinishLoading:YES
+                                  LoadFromCache:YES
+                                          error:nil
+                                           data:[[NSMutableData alloc] initWithContentsOfFile:documentPath]];
+    }else{
+        NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]
+                                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                                    timeoutInterval:20];
+        
+        NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+        if (![[defaultdata objectForKey:@"cookie"] isEqualToString:@"--"]) {
+            [TheRequest setValue:[defaultdata objectForKey:@"cookie"] forHTTPHeaderField:@"Cookie"];
+        }
+        requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
+                                                           delegate:self
+                                                   startImmediately:YES];
+    }
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     _recievePool = [NSMutableData new];

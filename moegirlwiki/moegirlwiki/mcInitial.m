@@ -12,9 +12,18 @@
 
 - (void)resetFiles
 {
-    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defaultdata dictionaryRepresentation];
+    for (id key in dict) {
+        [defaultdata removeObjectForKey:key];
+    }
+    [defaultdata synchronize];
     
-    
+    [defaultdata setBool:NO forKey:@"NoImage"];
+    [defaultdata setObject:@"20141024A" forKey:@"engine"];
+    [defaultdata setObject:@"--" forKey:@"engine_latest"];
+    [defaultdata setObject:@"--" forKey:@"username"];
+    [defaultdata setObject:@"--" forKey:@"cookie"];
     /*
      ------初始化目录结构------
      /cache
@@ -42,7 +51,7 @@
     
     
     //2.首页日期    /data/mainpage/mainpageDate
-    tempFile = @"2014-10-20 12:00:00";
+    tempFile = @"2014-10-24 00:00:00";
     [tempFile writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageDate"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     

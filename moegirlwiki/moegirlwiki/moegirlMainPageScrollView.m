@@ -36,7 +36,24 @@
     
     [self setContentSize:CGSizeMake(initWidth, 0)];
     
-    for (int i = 0; i< _mainPageTitle.count; i++) {
+    UIView *itemView = [_scrollItemsPanel objectAtIndex:0];
+    [itemView setFrame:CGRectMake(0, YPoint,initWidth, 600)];
+    
+    UILabel *itemTitle = [_scrollItemsTitle objectAtIndex:0];
+    [itemTitle setFrame:CGRectMake(20, 0, initWidth - 40, 30)];
+    
+    [_scrollImageView setFrame:CGRectMake(5, 30, initWidth - 10, 120)];
+    
+    UITextView *itemContent = [_scrollItemsContent objectAtIndex:0];
+    CGSize size = [itemContent sizeThatFits:CGSizeMake(initWidth - 10, FLT_MAX)];
+    [itemContent setFrame:CGRectMake(5, 155, initWidth - 10, size.height)];
+    
+    
+    [itemView setFrame:CGRectMake(itemView.frame.origin.x, itemView.frame.origin.y, itemView.frame.size.width, itemContent.frame.origin.y + itemContent.frame.size.height)];
+    
+    YPoint += itemView.frame.size.height + 10;
+    
+    for (int i = 1; i< _mainPageTitle.count; i++) {
         UIView *itemView = [_scrollItemsPanel objectAtIndex:i];
         [itemView setFrame:CGRectMake(0, YPoint,initWidth, 600)];
         
@@ -76,8 +93,70 @@
     [self setBackgroundColor:[UIColor colorWithRed:0.973 green:0.988 blue:1 alpha:1]];
     
     [self setContentSize:CGSizeMake(initWidth, 0)];
+    //==========================================================第一栏专设
     
-    for (int i = 0; i< _mainPageTitle.count; i++) {
+    UIView *itemView = [[UIView alloc] initWithFrame:CGRectMake(0, YPoint,initWidth, 600)];
+    [itemView setBackgroundColor:[UIColor clearColor]];
+    [self addSubview:itemView];
+    
+    UILabel *itemTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, initWidth - 40, 30)];
+    [itemTitle setText:[_mainPageTitle objectAtIndex:0]];
+    [itemTitle setNumberOfLines:0];
+    [itemTitle setBackgroundColor:[UIColor clearColor]];
+    [itemTitle setTextColor:[UIColor colorWithRed:0.133 green:0.545 blue:0.133 alpha:1]];
+    [itemTitle setFont:[UIFont boldSystemFontOfSize:16]];
+    [itemView addSubview:itemTitle];
+    
+    /*添加图像按钮*/
+    _scrollImageView = [UIScrollView new];
+    [_scrollImageView setFrame:CGRectMake(5, 30, initWidth - 10, 120)];
+    [_scrollImageView setBackgroundColor:[UIColor clearColor]];
+    [_scrollImageView setContentSize:CGSizeMake(_imageButtons.count * 92, 119)];
+    [_scrollImageView setShowsHorizontalScrollIndicator:NO];
+    [_scrollImageView setBounces:YES];
+    [itemView addSubview:_scrollImageView];
+    
+    for (int j = 0; j < _imageButtons.count; j++) {
+        mcImagedButton * imgBtn = [_imageButtons objectAtIndex:j];
+        [imgBtn setFrame:CGRectMake(j * 92, 0, 85, 120)];
+        imgBtn.layer.cornerRadius = 3;
+        imgBtn.layer.masksToBounds = YES;
+        [imgBtn addTarget:self action:@selector(imageButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_scrollImageView addSubview:imgBtn];
+    }
+    
+    
+    
+    UITextView *itemContent = [[UITextView alloc] init];
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1){
+        [itemContent setSelectable:YES];
+        [itemContent setLinkTextAttributes:@{
+                                             NSForegroundColorAttributeName: [UIColor colorWithRed:0.024 green:0.271 blue:0.678 alpha:1]
+                                             }];
+    }else{
+        [itemContent setUserInteractionEnabled:YES];
+    }
+    [itemContent setEditable:NO];
+    [itemContent setScrollEnabled:NO];
+    [itemContent setDelegate:self];
+    [itemContent setAttributedText:[_mainPageContent objectAtIndex:0]];
+    [itemContent setBackgroundColor:[UIColor whiteColor]];
+    CGSize size = [itemContent sizeThatFits:CGSizeMake(initWidth - 10, FLT_MAX)];
+    
+    [itemContent setFrame:CGRectMake(5, 155, initWidth - 10, size.height)];
+    [itemView addSubview:itemContent];
+    
+    
+    [itemView setFrame:CGRectMake(itemView.frame.origin.x, itemView.frame.origin.y, itemView.frame.size.width, itemContent.frame.origin.y + itemContent.frame.size.height)];
+    
+    YPoint += itemView.frame.size.height + 15;
+    
+    [_scrollItemsContent addObject:itemContent];
+    [_scrollItemsTitle addObject:itemTitle];
+    [_scrollItemsPanel addObject:itemView];
+    
+    //==========================================================第二栏至第N栏
+    for (int i = 1; i< _mainPageTitle.count; i++) {
         UIView *itemView = [[UIView alloc] initWithFrame:CGRectMake(0, YPoint,initWidth, 600)];
         [itemView setBackgroundColor:[UIColor clearColor]];
         [self addSubview:itemView];
@@ -105,6 +184,7 @@
         [itemContent setAttributedText:[_mainPageContent objectAtIndex:i]];
         [itemContent setBackgroundColor:[UIColor whiteColor]];
         CGSize size = [itemContent sizeThatFits:CGSizeMake(initWidth - 10, FLT_MAX)];
+
         [itemContent setFrame:CGRectMake(5, 30, initWidth - 10, size.height)];
         [itemView addSubview:itemContent];
         
@@ -122,6 +202,9 @@
     if (YPoint<self.bounds.size.height) {
         YPoint = self.bounds.size.height + 1;
     }
+    
+    
+    //=========================================
     [self setContentSize:CGSizeMake(self.bounds.size.width, YPoint)];
     
     [self.hook progressAndStatusHide];
@@ -154,6 +237,7 @@
 - (void)presentError:(NSString *)info
 {
     NSLog(@"错误信息:%@",info);
+    [self.hook progressAndStatusError];
 }
 
 -(NSAttributedString *)transFormat:(NSString *)initString
@@ -171,6 +255,7 @@
     initString = [initString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
     initString = [initString stringByReplacingOccurrencesOfString:@"\n " withString:@"\n"];
     initString = [initString stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"];
+    initString = [initString stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
     
     //标记现有标签
     NSString *regex = @"<[\\s\\S]*?>";
@@ -251,7 +336,7 @@
     //处理首页数据
     [self.hook progressAndStatusSetToValue:80 info:@"处理首页数据"];
     //挖出首页
-    NSString *regex = @"<div id=\"mainpage\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
+    NSString *regex = @"<div id=\"mainpage\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)</div>[\\s\\S]*?)</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
     NSRange range = [data rangeOfString:regex options:NSRegularExpressionSearch];
     if (range.location != NSNotFound) {
         data = [data substringWithRange:range];
@@ -279,11 +364,37 @@
     //图片内容
     regex = @"<img .*?>";
     range = [data rangeOfString:regex options:NSRegularExpressionSearch];
+    int k = 0;
+    _imageButtons = [NSMutableArray new];
     while (range.location != NSNotFound) {
+        NSString * imgTagStr = [data substringWithRange:range];
+        
+        NSRange altRange = [imgTagStr rangeOfString:@"alt=\".*?\"" options:NSRegularExpressionSearch];
+        NSRange srcRange = [imgTagStr rangeOfString:@"src=\".*?\"" options:NSRegularExpressionSearch];
+        
+        NSString * altString = [imgTagStr substringWithRange:NSMakeRange(altRange.location + 5, altRange.length - 6)];
+        NSString * srcString = [imgTagStr substringWithRange:NSMakeRange(srcRange.location + 5, srcRange.length - 6)];
+        
+        mcImagedButton * imageBtn = [mcImagedButton new];
+        [imageBtn loadFormURL:srcString target:altString ignoreCache:usingCache];
+        [_imageButtons addObject:imageBtn];
+        
+        //NSLog(@"%@-%@",altString,srcString);
+        
+        k++;
+        
         data = [data stringByReplacingCharactersInRange:range withString:@""];
         range = [data rangeOfString:regex options:NSRegularExpressionSearch];
     }
     
+    
+    //首栏图片
+    regex = @"<ul class=\"gallery mw-gallery-packed-hover\">[\\s\\S]*?</ul>";
+    range = [data rangeOfString:regex options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        data = [data stringByReplacingCharactersInRange:range withString:@""];
+        range = [data rangeOfString:regex options:NSRegularExpressionSearch];
+    }
     
     //分组内容
     _mainPageContent = [NSMutableArray new];
@@ -317,6 +428,7 @@
     
     [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
+    //NSLog(@"%@",data);
     [self setupScrollView];
     [self setupHeadBanner];
     
@@ -404,6 +516,13 @@
     }else{
         [_scrollHeadHint1 setText:@"下拉刷新 (´･_･`)"];
     }
+}
+
+- (IBAction)imageButtonClick:(id)sender {
+    mcImagedButton * imgBtn = (mcImagedButton *)sender;
+    
+    NSString * urlString = [NSString stringWithFormat:@"moegirl://?w=%@",[imgBtn.targetKeyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 }
 
 @end

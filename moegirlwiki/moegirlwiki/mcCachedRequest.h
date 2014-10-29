@@ -19,13 +19,16 @@
 
 @interface mcCachedRequest : NSObject
 {
-@private
+    @private
     NSURLConnection *requestConnection;
     NSString * documentPath;
     NSFileManager *fileManager;
 }
 
 - (void)launchRequest:(NSString *)URL ignoreCache:(bool)ignore;
+- (void)launchPostRequest:(NSString *)URL ignoreCache:(bool)ignore;
+- (void)launchCookiedRequest:(NSString *)URL ignoreCache:(bool)ignore;
+
 - (NSString *)MD5:(NSString *)targetString;
 
 @property (strong,nonatomic) NSMutableData * recievePool;

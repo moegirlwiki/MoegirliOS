@@ -27,7 +27,6 @@
     
     webViewListPosition = 0;
     firstLaunch = YES;
-    NSLog(@"1st");
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -68,6 +67,15 @@
     [_searchSuggestionsTableView setTargetURL:@"http://zh.moegirl.org"];
     [_MainView addSubview:_searchSuggestionsTableView];
 
+    
+    
+    //Analytic
+    mcAnalytics * analyticView = [mcAnalytics new];
+    [analyticView startRequest];
+    [analyticView.scrollView setScrollsToTop:NO];
+    [self.view addSubview:analyticView];
+    
+    
     // 菜单栏
     menuSituation = NO;
     
@@ -96,6 +104,9 @@
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1){
         [_sideControlTableView setSeparatorInset:UIEdgeInsetsZero];
     }
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
+        [_sideControlTableView setLayoutMargins:UIEdgeInsetsZero];
+    }
     [self.view addSubview:_sideControlTableView];
     [_sideControlTableView setAlpha:0];
     
@@ -120,7 +131,6 @@
     [_rightPanel setHook:self];
     [_rightPanel setBackgroundColor:[UIColor clearColor]];
     [_MainView addSubview:_rightPanel];
-    
 }
 
 - (void)resetSizes
@@ -252,10 +262,17 @@
 
 - (void)newWebViewRequestFormSuggestions:(NSString *)keyword
 {
-
     [self createMoeWebView:keyword];
     [_MainView sendSubviewToBack:_searchSuggestionsTableView];
     [self cancelKeyboard];
+}
+
+- (void)newWebViewRequestFormRandom:(NSString *)keyword
+{
+    [self createMoeWebView:[keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [_MainView sendSubviewToBack:_searchSuggestionsTableView];
+    [self cancelKeyboard];
+    [self resetSizes];
 }
 
 
@@ -502,6 +519,22 @@
                      }];
 }
 
+- (void)progressAndStatusError
+{
+    [_StatusLabel setText:@"加载失败!"];
+    [_ProgressBar setProgress:1 animated:YES];
+    [UIView animateWithDuration:0.2
+                          delay:0.2
+                        options: UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         [_StatusLabel setAlpha:0];
+                         [_ProgressBar setAlpha:0];
+                     }
+                     completion:^(BOOL finished){
+                         [_ProgressBar setProgress:0];
+                         
+                     }];
+}
 - (void)progressAndStatusMakeStep:(float)step info:(NSString *)info
 {
     step = (step / 100) + _ProgressBar.progress;
@@ -579,6 +612,7 @@
                      }];
 }
 
+#pragma mark 实体按键事件绑定
 - (IBAction)menuButtonClick:(id)sender {
     if (menuSituation) {
         [self resetMenu];
@@ -587,7 +621,12 @@
     }
 }
 
+- (IBAction)TextFieldSearchButton:(id)sender {
+    [self newWebViewRequestFormSuggestions:[[NSString stringWithFormat:@"Special:搜索/%@",_SearchTextField.text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+}
 
+
+#pragma mark 右侧控制菜单事件
 - (void)ctrlPanelCallMainpage
 {
     [self resetMenu];
@@ -654,6 +693,13 @@
 - (void)ctrlPanelCallAbout
 {
     [self resetMenu];
+    UIAlertView * aboutAlertView = [[UIAlertView alloc] initWithTitle:@"萌娘百科iOS客户端"
+                                                              message:@"version 2.0\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"确定"
+                                                    otherButtonTitles:nil];
+    
+    [aboutAlertView show];
 }
 
 - (void)shareText:(NSString *)text andImage:(UIImage *)image andUrl:(NSURL *)url
@@ -715,5 +761,18 @@
         
         return image;
 }
+
+
+#pragma mark 手机摇一摇
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        _randomFunction = [moegirlRandom new];
+        [_randomFunction setHook:self];
+        [_randomFunction getARandom];
+    }
+}
+
 
 @end

@@ -3,16 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "moegirlwiki_gobackbtn.png"
+      "filename" : "launch-2.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "moegirlwiki_gobackbtn@2x.png"
+      "filename" : "launch-1.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "launch.png"
     }
   ],
   "info" : {

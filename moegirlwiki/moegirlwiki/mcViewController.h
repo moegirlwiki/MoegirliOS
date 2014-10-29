@@ -7,15 +7,29 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "mcAppDelegate.h"
+
 #import "moegirlMainPageScrollView.h"
 #import "moegirlSearchSuggestionsTableView.h"
 #import "moegirlWebView.h"
+#import "moegirlSideControlTableView.h"
+#import "moegirlRandom.h"
+
 #import "mcLeftDrag.h"
 #import "mcRightDrag.h"
-#import "moegirlSideControlTableView.h"
+#import "mcAnalytics.h"
 
-@interface mcViewController : UIViewController<moegirlMainPageScrollViewDekegate,moegirlSearchSuggestionsTableViewDelegate,mcAppDelegate,moegirlWebViewDelegate,mcLeftDragDelegate,mcRightDragDelegate,moegirlSideControlTableViewDelegate>
+@interface mcViewController : UIViewController
+<
+moegirlMainPageScrollViewDekegate,
+moegirlSearchSuggestionsTableViewDelegate,
+mcAppDelegate,
+moegirlWebViewDelegate,
+mcLeftDragDelegate,mcRightDragDelegate,
+moegirlSideControlTableViewDelegate,
+moegirlRandomDelegate
+>
 {
     @private
     int webViewListPosition;
@@ -30,6 +44,7 @@
 @property (weak, nonatomic) mcAppDelegate * appDelegate;
 @property (strong, nonatomic) mcLeftDrag * leftPanel;
 @property (strong, nonatomic) mcRightDrag * rightPanel;
+@property (strong, nonatomic) moegirlRandom * randomFunction;
 @property (strong, nonatomic) UIButton * resetButton;
 
 @property (strong, nonatomic) NSMutableArray * webViewList;
@@ -59,5 +74,6 @@
 //xib过程
 - (IBAction)searchFieldEditChange:(id)sender;
 - (IBAction)menuButtonClick:(id)sender;
+- (IBAction)TextFieldSearchButton:(id)sender;
 
 @end

@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "mcImagedButton.h"
 
 @protocol moegirlMainPageScrollViewDekegate <NSObject>
 
 - (void)progressAndStatusShowUp;
 - (void)progressAndStatusHide;
+- (void)progressAndStatusError;
 - (void)progressAndStatusMakeStep:(float)step info:(NSString *)info;
 - (void)progressAndStatusSetToValue:(float)step info:(NSString *)info;
 - (void)cancelKeyboard;
@@ -48,6 +50,9 @@
 
 @property (strong, nonatomic) NSMutableArray * mainPageTitle;
 @property (strong, nonatomic) NSMutableArray * mainPageContent;
+
+@property (strong, nonatomic) UIScrollView * scrollImageView;
+@property (strong, nonatomic) NSMutableArray * imageButtons;
 
 @property (strong,nonatomic) NSMutableData * recievePool;
 
