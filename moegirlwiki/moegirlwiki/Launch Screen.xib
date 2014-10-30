@@ -11,9 +11,6 @@
             <rect key="frame" x="0.0" y="0.0" width="544" height="623"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenImg" translatesAutoresizingMaskIntoConstraints="NO" id="hhr-vM-VgX">
-                    <rect key="frame" x="127" y="31" width="291" height="561"/>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v2.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pvc-Zb-aJH">
                     <rect key="frame" x="467" y="594" width="69" height="21"/>
                     <constraints>
@@ -24,6 +21,9 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenImg" translatesAutoresizingMaskIntoConstraints="NO" id="hhr-vM-VgX">
+                    <rect key="frame" x="127" y="31" width="291" height="561"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -34,7 +34,7 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="483" y="557.5"/>
+            <point key="canvasLocation" x="564" y="620.5"/>
         </view>
     </objects>
     <resources>
