@@ -342,6 +342,7 @@
                                                  cancelButtonTitle:@"取消"
                                                  otherButtonTitles:@"保存", nil];
             [_saveImageAlertView show];
+            return NO;
         }
         //站外链接
         [self cannotOpenLink:@"这是一个外链，您确定要打开这个链接吗？" link:[[request URL] absoluteString]];
