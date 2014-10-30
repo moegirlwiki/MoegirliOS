@@ -113,6 +113,7 @@
     [_scrollImageView setBackgroundColor:[UIColor clearColor]];
     [_scrollImageView setContentSize:CGSizeMake(_imageButtons.count * 92, 119)];
     [_scrollImageView setShowsHorizontalScrollIndicator:NO];
+    [_scrollImageView setScrollsToTop:NO];
     [_scrollImageView setBounces:YES];
     [itemView addSubview:_scrollImageView];
     
