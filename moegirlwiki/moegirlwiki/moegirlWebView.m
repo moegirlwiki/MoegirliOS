@@ -380,6 +380,11 @@
     [self.hook progressAndStatusMakeStep:1 info:@"正在接收数据"];
 }
 
+- (void)cancelRequest
+{
+    [_contentRequest cancelRequest];
+    [self setHook:nil];
+}
 
 #pragma mark AlertViewAction
 

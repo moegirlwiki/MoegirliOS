@@ -23,6 +23,12 @@
     return output;
 }
 
+- (void)cancelRequest
+{
+    [requestConnection cancel];
+    [self setHook:nil];
+}
+
 - (void)launchRequest:(NSString *)URL ignoreCache:(bool)ignore
 {
     NSString * hashString = [self MD5:URL];
@@ -34,10 +40,10 @@
     
     fileManager = [NSFileManager defaultManager];
     if (([fileManager fileExistsAtPath:documentPath])&&(!ignore)) {
-        [self.hook mcCachedRequestFinishLoading:YES
-                                  LoadFromCache:YES
-                                          error:nil
-                                           data:[[NSMutableData alloc] initWithContentsOfFile:documentPath]];
+            [self.hook mcCachedRequestFinishLoading:YES
+                                      LoadFromCache:YES
+                                              error:nil
+                                               data:[[NSMutableData alloc] initWithContentsOfFile:documentPath]];
     }else{
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -48,7 +54,7 @@
     }
 }
 
-- (void)launchPostRequest:(NSString *)URL ignoreCache:(bool)ignore
+- (void)launchPostRequestForRandom:(NSString *)URL ignoreCache:(bool)ignore
 {
     NSString * hashString = [self MD5:URL];
     
@@ -66,7 +72,7 @@
     }else{
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                                    timeoutInterval:20];
+                                                                    timeoutInterval:2];
         [TheRequest setHTTPMethod:@"POST"];
         requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
                                                            delegate:self
@@ -85,10 +91,10 @@
     
     fileManager = [NSFileManager defaultManager];
     if (([fileManager fileExistsAtPath:documentPath])&&(!ignore)) {
-        [self.hook mcCachedRequestFinishLoading:YES
-                                  LoadFromCache:YES
-                                          error:nil
-                                           data:[[NSMutableData alloc] initWithContentsOfFile:documentPath]];
+            [self.hook mcCachedRequestFinishLoading:YES
+                                      LoadFromCache:YES
+                                              error:nil
+                                               data:[[NSMutableData alloc] initWithContentsOfFile:documentPath]];
     }else{
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData

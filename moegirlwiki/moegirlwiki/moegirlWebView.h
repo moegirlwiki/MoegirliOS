@@ -27,6 +27,7 @@
     NSString * templink;
 }
 
+- (void)cancelRequest;
 - (NSString *)prepareContent:(NSData *)data;
 - (void)loadContentWithEncodedKeyWord:(NSString *)keywordAfterEncode useCache:(BOOL)useCache;
 

@@ -235,6 +235,13 @@
     [webView loadContentWithEncodedKeyWord:target useCache:YES];
     [webView.scrollView setScrollsToTop:YES];
     [_MainView addSubview:webView];
+    ////////
+    //必须清除原先占有的对象
+    for (int k = webViewListPosition; k < _webViewList.count; k++) {
+        moegirlWebView * cancelView = (moegirlWebView *)[_webViewList objectAtIndex:k];
+        [cancelView cancelRequest];
+    }
+    ////////
     [_webViewList insertObject:webView atIndex:webViewListPosition];
     [_webViewTitles insertObject:_SearchTextField.text atIndex:webViewListPosition];
     webViewListPosition ++;
@@ -768,6 +775,9 @@
     
     if (motion == UIEventSubtypeMotionShake)
     {
+        if (_randomFunction != nil) {
+            [_randomFunction cancelRequest];
+        }
         _randomFunction = [moegirlRandom new];
         [_randomFunction setHook:self];
         [_randomFunction getARandom];

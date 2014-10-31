@@ -52,7 +52,7 @@
         
         randomRequest = [mcCachedRequest new];
         [randomRequest setHook:nil];
-        [randomRequest launchPostRequest:@"https://masterchan.me:1024/v20/random.php" ignoreCache:YES];
+        [randomRequest launchPostRequestForRandom:@"https://masterchan.me:1024/v20/random.php" ignoreCache:YES];
     }else{
         UIAlertView * randomAlert = [[UIAlertView alloc] initWithTitle:@"什么也没摇到~~~"
                                                                message:@"由于网络原因无法连接服务器"
@@ -64,11 +64,17 @@
     }
 }
 
+-(void)cancelRequest
+{
+    [randomRequest cancelRequest];
+    [self setHook:nil];
+}
+
 -(void)getARandom
 {
     randomRequest = [mcCachedRequest new];
     [randomRequest setHook:self];
-    [randomRequest launchPostRequest:@"https://masterchan.me:1024/v20/random.php" ignoreCache:NO];
+    [randomRequest launchPostRequestForRandom:@"https://masterchan.me:1024/v20/random.php" ignoreCache:NO];
 }
 #pragma mark AlertViewAction
 

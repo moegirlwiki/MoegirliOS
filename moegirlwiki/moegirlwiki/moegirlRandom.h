@@ -21,6 +21,7 @@
     NSString * keyWord;
 }
 
+-(void)cancelRequest;
 -(void)getARandom;
 
 @property (assign, nonatomic) id<moegirlRandomDelegate> hook;

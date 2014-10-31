@@ -25,8 +25,9 @@
     NSFileManager *fileManager;
 }
 
+- (void)cancelRequest;
 - (void)launchRequest:(NSString *)URL ignoreCache:(bool)ignore;
-- (void)launchPostRequest:(NSString *)URL ignoreCache:(bool)ignore;
+- (void)launchPostRequestForRandom:(NSString *)URL ignoreCache:(bool)ignore;
 - (void)launchCookiedRequest:(NSString *)URL ignoreCache:(bool)ignore;
 
 - (NSString *)MD5:(NSString *)targetString;
