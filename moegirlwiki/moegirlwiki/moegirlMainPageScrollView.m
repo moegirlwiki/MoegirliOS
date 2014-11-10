@@ -466,8 +466,7 @@
         [tmpBtn cancelRequest];
     }
     [_imageButtons removeAllObjects];
-    
-    NSLog(@"Start!");
+
     if (usingCache) {
         NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString * mainpageDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"]stringByAppendingPathComponent:@"mainpage"];
