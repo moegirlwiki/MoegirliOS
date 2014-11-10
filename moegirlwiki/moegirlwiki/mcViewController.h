@@ -45,6 +45,7 @@ moegirlRandomDelegate
 @property (strong, nonatomic) mcLeftDrag * leftPanel;
 @property (strong, nonatomic) mcRightDrag * rightPanel;
 @property (strong, nonatomic) moegirlRandom * randomFunction;
+@property (strong, nonatomic) mcAnalytics * analyticView;
 @property (strong, nonatomic) UIButton * resetButton;
 
 @property (strong, nonatomic) NSMutableArray * webViewList;

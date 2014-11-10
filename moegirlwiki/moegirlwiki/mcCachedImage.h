@@ -25,6 +25,7 @@
 
 - (void)loadFromURL:(NSString *)URL ignoreCache:(BOOL)ignoreCache;
 - (NSString *)MD5:(NSString *)targetString;
+- (void)cancelRequest;
 
 @property (strong,nonatomic) NSMutableData * recievePool;
 @property (assign,nonatomic) id<mcCachedImage> hook;

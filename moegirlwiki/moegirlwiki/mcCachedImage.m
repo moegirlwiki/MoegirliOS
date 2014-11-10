@@ -56,7 +56,9 @@
     if ([fileManager fileExistsAtPath:documentPath]) {
         [self setImage:[UIImage imageWithContentsOfFile:documentPath]];
         [self setContentMode:UIViewContentModeCenter];
-        [self.hook finishLoading:YES LoadFromCache:YES error:nil];
+            @try {
+                [self.hook finishLoading:YES LoadFromCache:YES error:nil];
+            }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
     }else{
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:URL]
                                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -66,6 +68,12 @@
                                                    startImmediately:YES];
     }
     
+}
+
+- (void)cancelRequest
+{
+    [requestConnection cancel];
+    [self setHook:nil];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -80,7 +88,9 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [self.hook finishLoading:NO LoadFromCache:NO error:error.localizedDescription];
+    @try {
+        [self.hook finishLoading:NO LoadFromCache:NO error:error.localizedDescription];
+    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -88,7 +98,9 @@
     [self setImage:[UIImage imageWithData:_recievePool]];
     [self setContentMode:UIViewContentModeCenter];
     [_recievePool writeToFile:documentPath atomically:YES];
-    [self.hook finishLoading:YES LoadFromCache:NO error:nil];
+    @try {
+        [self.hook finishLoading:YES LoadFromCache:NO error:nil];
+    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
 }
 
 @end

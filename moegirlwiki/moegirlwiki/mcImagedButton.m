@@ -26,6 +26,11 @@
     }
 }
 
+-(void) cancelRequest
+{
+    [btnImage cancelRequest];
+}
+
 - (void)loadFormURL:(NSString *)URL target:(NSString *)keyword ignoreCache:(bool)ignoreCache
 {
     btnImage = [mcCachedImage new];

@@ -16,6 +16,7 @@
 }
 
 - (void)loadFormURL:(NSString *)URL target:(NSString *)keyword ignoreCache:(bool)ignoreCache;
+- (void)cancelRequest;
 
 @property (strong, nonatomic) NSString * targetKeyword;
 @property (assign, nonatomic) UIImage * targetImage;

@@ -91,10 +91,13 @@
     
     fileManager = [NSFileManager defaultManager];
     if (([fileManager fileExistsAtPath:documentPath])&&(!ignore)) {
+        
+        @try{
             [self.hook mcCachedRequestFinishLoading:YES
                                       LoadFromCache:YES
                                               error:nil
                                                data:[[NSMutableData alloc] initWithContentsOfFile:documentPath]];
+        }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
     }else{
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -113,30 +116,38 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     _recievePool = [NSMutableData new];
+    @try{
     [self.hook mcCachedRequestGotRespond];
+    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [_recievePool appendData:data];
+    @try{
     [self.hook mcCachedRequestGotData];
+    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    @try{
     [self.hook mcCachedRequestFinishLoading:NO
                               LoadFromCache:NO
                                       error:error.localizedDescription
                                        data:nil];
+    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    @try{
     [self.hook mcCachedRequestFinishLoading:YES
                               LoadFromCache:NO
                                       error:nil
                                        data:_recievePool];
     [_recievePool writeToFile:documentPath atomically:YES];
+    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
 }
 
 @end

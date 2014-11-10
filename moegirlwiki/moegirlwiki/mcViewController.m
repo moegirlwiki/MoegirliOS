@@ -70,10 +70,10 @@
     
     
     //Analytic
-    mcAnalytics * analyticView = [mcAnalytics new];
-    [analyticView startRequest];
-    [analyticView.scrollView setScrollsToTop:NO];
-    [self.view addSubview:analyticView];
+    _analyticView = [mcAnalytics new];
+    [_analyticView startRequest];
+    [_analyticView.scrollView setScrollsToTop:NO];
+    [self.view addSubview:_analyticView];
     
     
     // 菜单栏
