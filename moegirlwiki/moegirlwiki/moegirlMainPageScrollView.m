@@ -157,7 +157,9 @@
     [_scrollItemsPanel addObject:itemView];
     
     //==========================================================第二栏至第N栏
-    for (int i = 1; i< _mainPageTitle.count; i++) {
+    NSUInteger max_count = _mainPageTitle.count < _mainPageContent.count ? _mainPageTitle.count : _mainPageContent.count;//bug修复
+    
+    for (int i = 1; i< max_count; i++) {
         UIView *itemView = [[UIView alloc] initWithFrame:CGRectMake(0, YPoint,initWidth, 600)];
         [itemView setBackgroundColor:[UIColor clearColor]];
         [self addSubview:itemView];
