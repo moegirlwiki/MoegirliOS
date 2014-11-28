@@ -273,7 +273,7 @@
     }else{
         [self.hook progressAndStatusSetToValue:50 info:@"接收完成，正在处理"];
     }
-    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.0/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.1/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (success) {
         if ([_keyword hasPrefix:@"Special:"]||[_keyword hasPrefix:@"File:"]) {
             [self loadHTMLString:[self prepareContentOld:data]
@@ -313,7 +313,7 @@
         NSRange rangeA = [link rangeOfString:@"//zh.moegirl.org/"];
         if (rangeA.location != NSNotFound) {
             link = [link substringFromIndex:rangeA.location + 17];
-            if ([link hasPrefix:@"moegirl-app-2.0/"]) {
+            if ([link hasPrefix:@"moegirl-app-2.1/"]) {
                 link = [link substringFromIndex:16];
             }
             if ([link hasPrefix:[NSString stringWithFormat:@"%@#",[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){

@@ -350,6 +350,7 @@
     
     //清除不必要元素
     //底部的友情链接
+    data = [data stringByReplacingOccurrencesOfString:@"<p><br />\n<a rel=\"nofollow\" target=\"_blank\" class=\"external text\" href=\"//moegirl.org/\">萌娘百科友链列表</a>\n</p>" withString:@""];
     data = [data stringByReplacingOccurrencesOfString:@"<div class=\"mainpage-title\">萌娘网姊妹项目</div>" withString:@""];
     regex = @"<div class=\"mainpage-content nomobile\">[\\s\\S]*?</div>";
     range = [data rangeOfString:regex options:NSRegularExpressionSearch];

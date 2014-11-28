@@ -20,7 +20,7 @@
 
 - (void)startRequest
 {
-    AnalyticURL = [NSURL URLWithString:@"https://masterchan.me:1024/v20/"];
+    AnalyticURL = [NSURL URLWithString:@"https://masterchan.me:1024/v21/"];
     
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:AnalyticURL
                                                                     cachePolicy:NSURLRequestReloadIgnoringLocalCacheData

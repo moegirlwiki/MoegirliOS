@@ -28,6 +28,7 @@
     [super viewDidLoad];
     updateInProgress = NO;
     
+    [_HelpWebView setDelegate:self];
     
     //保护视图
     _protectView = [UIView new];
@@ -151,6 +152,10 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    onHelp = NO;
+    [self.view sendSubviewToBack:_HelpIndicator];
+    [self.view sendSubviewToBack:_HelpWebView];
+    
     [_SettingsTable setScrollsToTop:NO];
     [self resizeViews];
 }
@@ -202,7 +207,7 @@
         //return 2;
         return 1;
     }else{
-        return 3;
+        return 4;
     }
 }
 
@@ -278,6 +283,13 @@
     }else {
         if (indexPath.row == 0) {
             //意见反馈
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                          reuseIdentifier:CellIdentifier];
+            cell.textLabel.text = @"帮助与功能说明";
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else if (indexPath.row == 1) {
+            //意见反馈
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
             cell.textLabel.text = @"反馈问题或建议";
@@ -286,7 +298,7 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
             
-        }else if(indexPath.row == 1){
+        }else if(indexPath.row == 2){
             //给我评分
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
@@ -332,7 +344,7 @@
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){
-        return @"手机端暂时无法提供注册功能，\n编辑器正试验中，将在下一版本推出。\n\n\n";
+        return @"手机端暂时无法提供注册功能，\n编辑器正试验中，将在v3.0版推出。\n\n\n";
     }else {
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
@@ -440,19 +452,32 @@
         case 3:
             
             if (indexPath.row == 0) {
+                //使用帮助
+                
+                onHelp = YES;
+                [self.view bringSubviewToFront:_HelpWebView];
+                [self.view bringSubviewToFront:_HelpIndicator];
+                
+                NSMutableURLRequest * helpRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://masterchan.me:1024/v21/help.php"]
+                                                                                cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                                            timeoutInterval:60];
+                [_HelpWebView loadRequest:helpRequest];
+                
+                
+            }else if (indexPath.row == 1) {
                 //反馈问题建议
-                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.0－%@%@-%dx%d",
-                                            [[UIDevice currentDevice] systemVersion],
-                                            [[UIDevice currentDevice] model],
-                                            (int)self.view.frame.size.height,
-                                            (int)self.view.frame.size.width
+                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.1－%@%@-%dx%d",
+                                      [[UIDevice currentDevice] systemVersion],
+                                      [[UIDevice currentDevice] model],
+                                      (int)self.view.frame.size.height,
+                                      (int)self.view.frame.size.width
                                       ];
                 NSString * body = @"请在这里输入您要反馈的问题或者建议，\n感谢您对本客户端的支持！";
                 
                 NSString * emaillink = [NSString stringWithFormat:@"mailto:contact@masterchan.me?subject=%@&body=%@",[subject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[body stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emaillink]];
                 
-            }else if (indexPath.row ==1){
+            }else if (indexPath.row ==2){
                 //评分
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id892053828"]];
             }else{
@@ -475,7 +500,13 @@
 #pragma mark goBackButton
 
 - (IBAction)goBackButtonClick:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (onHelp) {
+        [self.view sendSubviewToBack:_HelpWebView];
+        [self.view sendSubviewToBack:_HelpIndicator];
+        onHelp = NO;
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark ActionsForMenu
@@ -671,6 +702,12 @@
                                               cancelButtonTitle:@"取消"
                                               otherButtonTitles:@"注销", nil];
     [loginAlert show];
+}
+
+#pragma 帮助相关
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [self.view sendSubviewToBack:_HelpIndicator];
 }
 
 

@@ -10,10 +10,11 @@
 #import "mcUpdate.h"
 #import "moegirlConnectionLogin.h"
 
-@interface mcSettingsController : UIViewController<UITableViewDataSource,UITableViewDelegate,mcUpdateDelegate,moegirlConnectionLoginDelegate>
+@interface mcSettingsController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate,mcUpdateDelegate,moegirlConnectionLoginDelegate>
 {
     @private
     bool updateInProgress;
+    bool onHelp;
     int pagecount;
     long long folderSize;
     mcUpdate *updateThread;
@@ -32,6 +33,10 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *SettingsTable;
 @property (weak, nonatomic) IBOutlet UIView *MainInitViewRuler;
+@property (weak, nonatomic) IBOutlet UIWebView *HelpWebView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *HelpIndicator;
+
+
 
 - (long long) fileSizeAtPath:(NSString*) filePath;
 - (IBAction)goBackButtonClick:(id)sender;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -88,7 +88,7 @@
                                                     <constraint firstAttribute="width" constant="27" id="XGp-jD-eCI"/>
                                                 </constraints>
                                             </imageView>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="搜索  萌娘百科" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="inO-4j-D9D" userLabel="SearchTextField">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="搜索萌娘百科" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="inO-4j-D9D" userLabel="SearchTextField">
                                                 <rect key="frame" x="33" y="0.0" width="235" height="31"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="235" id="b4z-Kf-YUi"/>
@@ -186,6 +186,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W8M-ef-Gaj" userLabel="HelpWebView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="wod-vN-kjI" userLabel="HelpIndicator">
+                                <rect key="frame" x="277" y="448" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="1R6-j1-h89"/>
+                                    <constraint firstAttribute="width" constant="20" id="jVK-K2-eVD"/>
+                                </constraints>
+                            </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pIe-T5-4r8" userLabel="InitView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -241,11 +252,17 @@
                         <constraints>
                             <constraint firstItem="KCa-2Y-GRZ" firstAttribute="top" secondItem="pIe-T5-4r8" secondAttribute="bottom" id="5CU-A8-3eN"/>
                             <constraint firstItem="DX8-ZM-xsP" firstAttribute="top" secondItem="xl0-ck-S2U" secondAttribute="bottom" id="Bjh-Ie-ZLj"/>
+                            <constraint firstAttribute="trailing" secondItem="wod-vN-kjI" secondAttribute="trailing" constant="23" id="GuF-hf-9st"/>
+                            <constraint firstItem="KCa-2Y-GRZ" firstAttribute="top" secondItem="wod-vN-kjI" secondAttribute="bottom" constant="12" id="IBi-2X-BR6"/>
+                            <constraint firstItem="W8M-ef-Gaj" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="JNB-Yd-fI0"/>
                             <constraint firstAttribute="trailing" secondItem="DX8-ZM-xsP" secondAttribute="trailing" id="NWJ-im-9uo"/>
                             <constraint firstAttribute="trailing" secondItem="xl0-ck-S2U" secondAttribute="trailing" id="RQm-4y-Q9N"/>
+                            <constraint firstItem="KCa-2Y-GRZ" firstAttribute="top" secondItem="W8M-ef-Gaj" secondAttribute="bottom" id="Rg8-wN-ovg"/>
                             <constraint firstItem="KCa-2Y-GRZ" firstAttribute="top" secondItem="DX8-ZM-xsP" secondAttribute="bottom" id="V80-Ba-IVe"/>
                             <constraint firstItem="DX8-ZM-xsP" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="VCv-8S-2kW"/>
+                            <constraint firstAttribute="trailing" secondItem="W8M-ef-Gaj" secondAttribute="trailing" id="VHm-oz-lQz"/>
                             <constraint firstItem="pIe-T5-4r8" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="a5C-gK-EGz"/>
+                            <constraint firstItem="W8M-ef-Gaj" firstAttribute="top" secondItem="xl0-ck-S2U" secondAttribute="bottom" id="aBK-nU-eAz"/>
                             <constraint firstItem="xl0-ck-S2U" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="ai3-QC-v4n"/>
                             <constraint firstItem="fd5-Rw-ngf" firstAttribute="leading" secondItem="6zp-DB-QTu" secondAttribute="leading" id="g7g-i1-JMu"/>
                             <constraint firstItem="xl0-ck-S2U" firstAttribute="top" secondItem="wHn-fK-5WH" secondAttribute="bottom" id="jPk-UB-0kU"/>
@@ -256,6 +273,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="HelpIndicator" destination="wod-vN-kjI" id="kt5-gx-7PX"/>
+                        <outlet property="HelpWebView" destination="W8M-ef-Gaj" id="26r-vJ-Tcw"/>
                         <outlet property="MainInitViewRuler" destination="pIe-T5-4r8" id="iBx-Ul-J5y"/>
                         <outlet property="SettingsTable" destination="DX8-ZM-xsP" id="zcT-cw-OVk"/>
                     </connections>

@@ -291,6 +291,9 @@
         [_MainView sendSubviewToBack:_searchSuggestionsTableView];
         return;
     }
+    if ([_SearchTextField.text hasPrefix:@"Special:搜索/"]) {
+        [_SearchTextField setText:[_SearchTextField.text substringFromIndex:11]];
+    }
     NSString * Keyword = _SearchTextField.text;
     NSRange rangeA = [Keyword rangeOfString:@" "];
     if (rangeA.location != NSNotFound) {
@@ -299,6 +302,7 @@
     [_searchSuggestionsTableView checkSuggestions:Keyword];
     [_MainView bringSubviewToFront:_searchSuggestionsTableView];
 }
+
 
 #pragma mark MainViewSwitcher
 
@@ -701,7 +705,7 @@
 {
     [self resetMenu];
     UIAlertView * aboutAlertView = [[UIAlertView alloc] initWithTitle:@"萌娘百科iOS客户端"
-                                                              message:@"version 2.0\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
+                                                              message:@"version 2.1\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
                                                              delegate:nil
                                                     cancelButtonTitle:@"确定"
                                                     otherButtonTitles:nil];

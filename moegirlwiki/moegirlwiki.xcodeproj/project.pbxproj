@@ -11,6 +11,8 @@
 		6F4F06031A0080BB003EC881 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F4F06021A0080BB003EC881 /* Launch Screen.xib */; };
 		6F56FEEB19FFCBAA00BD9713 /* moegirlRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */; };
 		6F58551519FC2B5700F7DA50 /* mcAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F58551419FC2B5700F7DA50 /* mcAnalytics.m */; };
+		6F7FB6B01A281147008DB93B /* moegirlwikiTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F7FB6AC1A281147008DB93B /* moegirlwikiTests-Info.plist */; };
+		6F7FB6B21A281147008DB93B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F7FB6AE1A281147008DB93B /* InfoPlist.strings */; };
 		6F996E8219FC3D7F00F9BC3F /* mcUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */; };
 		6FFFD4E91A00635100732B77 /* mcImagedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFFD4E81A00635100732B77 /* mcImagedButton.m */; };
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
@@ -32,11 +34,8 @@
 		AFB650C719F6C42400C73E81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFB650C519F6C42400C73E81 /* Main.storyboard */; };
 		AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB650C919F6C42400C73E81 /* mcViewController.m */; };
 		AFB650CC19F6C42400C73E81 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB650CB19F6C42400C73E81 /* Images.xcassets */; };
-		AFB650D319F6C42400C73E81 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650D219F6C42400C73E81 /* XCTest.framework */; };
 		AFB650D419F6C42400C73E81 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B319F6C42400C73E81 /* Foundation.framework */; };
 		AFB650D519F6C42400C73E81 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB650B719F6C42400C73E81 /* UIKit.framework */; };
-		AFB650DD19F6C42400C73E81 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AFB650DB19F6C42400C73E81 /* InfoPlist.strings */; };
-		AFB650DF19F6C42400C73E81 /* moegirlwikiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB650DE19F6C42400C73E81 /* moegirlwikiTests.m */; };
 		AFC2611819F9A31C00F12B37 /* mcCachedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC2611719F9A31C00F12B37 /* mcCachedImage.m */; };
 		AFC2611B19F9A64000F12B37 /* moegirlSaveImageAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFC2611A19F9A64000F12B37 /* moegirlSaveImageAlertView.m */; };
 /* End PBXBuildFile section */
@@ -59,6 +58,11 @@
 		6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlRandom.m; sourceTree = "<group>"; };
 		6F58551319FC2B5700F7DA50 /* mcAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcAnalytics.h; sourceTree = "<group>"; };
 		6F58551419FC2B5700F7DA50 /* mcAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcAnalytics.m; sourceTree = "<group>"; };
+		6F7FB6A51A280EB1008DB93B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		6F7FB6A71A280ED1008DB93B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		6F7FB6A81A280FC5008DB93B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6F7FB6AC1A281147008DB93B /* moegirlwikiTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "moegirlwikiTests-Info.plist"; sourceTree = "<group>"; };
+		6F7FB6AF1A281147008DB93B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		6F996E8019FC3D7F00F9BC3F /* mcUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcUpdate.h; sourceTree = "<group>"; };
 		6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcUpdate.m; sourceTree = "<group>"; };
 		6FFFD4E71A00635100732B77 /* mcImagedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcImagedButton.h; sourceTree = "<group>"; };
@@ -87,20 +91,14 @@
 		AFB650B519F6C42400C73E81 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AFB650B719F6C42400C73E81 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AFB650BB19F6C42400C73E81 /* moegirlwiki-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwiki-Info.plist"; sourceTree = "<group>"; };
-		AFB650BD19F6C42400C73E81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AFB650BF19F6C42400C73E81 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AFB650C119F6C42400C73E81 /* moegirlwiki-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "moegirlwiki-Prefix.pch"; sourceTree = "<group>"; };
 		AFB650C219F6C42400C73E81 /* mcAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mcAppDelegate.h; sourceTree = "<group>"; };
 		AFB650C319F6C42400C73E81 /* mcAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mcAppDelegate.m; sourceTree = "<group>"; };
-		AFB650C619F6C42400C73E81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AFB650C819F6C42400C73E81 /* mcViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mcViewController.h; sourceTree = "<group>"; };
 		AFB650C919F6C42400C73E81 /* mcViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mcViewController.m; sourceTree = "<group>"; };
 		AFB650CB19F6C42400C73E81 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AFB650D119F6C42400C73E81 /* moegirlwikiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = moegirlwikiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AFB650D219F6C42400C73E81 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		AFB650DA19F6C42400C73E81 /* moegirlwikiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "moegirlwikiTests-Info.plist"; sourceTree = "<group>"; };
-		AFB650DC19F6C42400C73E81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AFB650DE19F6C42400C73E81 /* moegirlwikiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = moegirlwikiTests.m; sourceTree = "<group>"; };
 		AFC2611619F9A31C00F12B37 /* mcCachedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcCachedImage.h; sourceTree = "<group>"; };
 		AFC2611719F9A31C00F12B37 /* mcCachedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcCachedImage.m; sourceTree = "<group>"; };
 		AFC2611919F9A64000F12B37 /* moegirlSaveImageAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSaveImageAlertView.h; sourceTree = "<group>"; };
@@ -122,7 +120,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFB650D319F6C42400C73E81 /* XCTest.framework in Frameworks */,
 				AFB650D519F6C42400C73E81 /* UIKit.framework in Frameworks */,
 				AFB650D419F6C42400C73E81 /* Foundation.framework in Frameworks */,
 			);
@@ -139,6 +136,15 @@
 			);
 			name = UserControl;
 			sourceTree = "<group>";
+		};
+		6F7FB6AB1A281147008DB93B /* moegirlwikiTests */ = {
+			isa = PBXGroup;
+			children = (
+				6F7FB6AC1A281147008DB93B /* moegirlwikiTests-Info.plist */,
+				6F7FB6AE1A281147008DB93B /* InfoPlist.strings */,
+			);
+			path = moegirlwikiTests;
+			sourceTree = SOURCE_ROOT;
 		};
 		AF91053419F892C300EC5DFD /* Functions */ = {
 			isa = PBXGroup;
@@ -185,7 +191,7 @@
 			children = (
 				AF8CE77019FA0EB200FFF359 /* initdata */,
 				AFB650B919F6C42400C73E81 /* moegirlwiki */,
-				AFB650D819F6C42400C73E81 /* moegirlwikiTests */,
+				6F7FB6AB1A281147008DB93B /* moegirlwikiTests */,
 				AFB650B219F6C42400C73E81 /* Frameworks */,
 				AFB650B119F6C42400C73E81 /* Products */,
 			);
@@ -206,7 +212,6 @@
 				AFB650B319F6C42400C73E81 /* Foundation.framework */,
 				AFB650B519F6C42400C73E81 /* CoreGraphics.framework */,
 				AFB650B719F6C42400C73E81 /* UIKit.framework */,
-				AFB650D219F6C42400C73E81 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -240,24 +245,6 @@
 				AFB650BC19F6C42400C73E81 /* InfoPlist.strings */,
 				AFB650BF19F6C42400C73E81 /* main.m */,
 				AFB650C119F6C42400C73E81 /* moegirlwiki-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		AFB650D819F6C42400C73E81 /* moegirlwikiTests */ = {
-			isa = PBXGroup;
-			children = (
-				AFB650DE19F6C42400C73E81 /* moegirlwikiTests.m */,
-				AFB650D919F6C42400C73E81 /* Supporting Files */,
-			);
-			path = moegirlwikiTests;
-			sourceTree = "<group>";
-		};
-		AFB650D919F6C42400C73E81 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				AFB650DA19F6C42400C73E81 /* moegirlwikiTests-Info.plist */,
-				AFB650DB19F6C42400C73E81 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -323,8 +310,8 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = AFB650A719F6C42400C73E81;
 			productRefGroup = AFB650B119F6C42400C73E81 /* Products */;
@@ -343,7 +330,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF8CE77119FA0EB200FFF359 /* initdata in Resources */,
+				6F7FB6B21A281147008DB93B /* InfoPlist.strings in Resources */,
 				AFB650CC19F6C42400C73E81 /* Images.xcassets in Resources */,
+				6F7FB6B01A281147008DB93B /* moegirlwikiTests-Info.plist in Resources */,
 				AFB650BE19F6C42400C73E81 /* InfoPlist.strings in Resources */,
 				AFB650C719F6C42400C73E81 /* Main.storyboard in Resources */,
 				6F4F06031A0080BB003EC881 /* Launch Screen.xib in Resources */,
@@ -354,7 +343,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFB650DD19F6C42400C73E81 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +379,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFB650DF19F6C42400C73E81 /* moegirlwikiTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,10 +393,19 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6F7FB6AE1A281147008DB93B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F7FB6AF1A281147008DB93B /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		AFB650BC19F6C42400C73E81 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AFB650BD19F6C42400C73E81 /* en */,
+				6F7FB6A51A280EB1008DB93B /* zh-Hans */,
+				6F7FB6A81A280FC5008DB93B /* Base */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -417,17 +413,9 @@
 		AFB650C519F6C42400C73E81 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AFB650C619F6C42400C73E81 /* Base */,
+				6F7FB6A71A280ED1008DB93B /* zh-Hans */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		AFB650DB19F6C42400C73E81 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AFB650DC19F6C42400C73E81 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

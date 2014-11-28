@@ -20,7 +20,7 @@
     [defaultdata synchronize];
     
     [defaultdata setBool:NO forKey:@"NoImage"];
-    [defaultdata setObject:@"20141024A" forKey:@"engine"];
+    [defaultdata setObject:@"20141120A" forKey:@"engine"];
     [defaultdata setObject:@"--" forKey:@"engine_latest"];
     [defaultdata setObject:@"--" forKey:@"username"];
     [defaultdata setObject:@"--" forKey:@"cookie"];
@@ -51,7 +51,7 @@
     
     
     //2.首页日期    /data/mainpage/mainpageDate
-    tempFile = @"2014-10-24 00:00:00";
+    tempFile = @"2014-11-27 00:00:00";
     [tempFile writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"mainpageDate"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     
@@ -77,7 +77,7 @@
     [tempFile writeToFile:[htmlDocumentPath stringByAppendingPathComponent:@"errordefault"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     /*赋值UserDefaults*/
-    [defaultdata setObject:@"2.0" forKey:@"version"];
+    [defaultdata setObject:@"2.1" forKey:@"version"];
     [defaultdata synchronize];
     
 }
