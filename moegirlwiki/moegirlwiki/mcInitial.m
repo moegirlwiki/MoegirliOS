@@ -20,7 +20,7 @@
     [defaultdata synchronize];
     
     [defaultdata setBool:NO forKey:@"NoImage"];
-    [defaultdata setObject:@"20141120A" forKey:@"engine"];
+    [defaultdata setObject:@"20141208" forKey:@"engine"];
     [defaultdata setObject:@"--" forKey:@"engine_latest"];
     [defaultdata setObject:@"--" forKey:@"username"];
     [defaultdata setObject:@"--" forKey:@"cookie"];

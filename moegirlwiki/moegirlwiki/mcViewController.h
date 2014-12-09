@@ -50,6 +50,7 @@ moegirlRandomDelegate
 
 @property (strong, nonatomic) NSMutableArray * webViewList;
 @property (strong, nonatomic) NSMutableArray * webViewTitles;
+@property (strong, nonatomic) UIActivityViewController *activityController;
 
 //xib元件
 @property (weak, nonatomic) IBOutlet UIView *SearchBox;

@@ -727,8 +727,8 @@
         [sharingItems addObject:url];
     }
     
-    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:sharingItems applicationActivities:nil];
-    [self presentViewController:activityController animated:YES completion:nil];
+    _activityController = [[UIActivityViewController alloc] initWithActivityItems:sharingItems applicationActivities:nil];
+    [self presentViewController:_activityController animated:YES completion:nil];
 }
 
 - (UIImage *)getImageFromView:(UIView *)orgView{
