@@ -91,7 +91,7 @@
         regexstr = @"\"><param name=\"quality\" value=\"high\"><param name=\"menu\" value=\"false\"><param name=\"wmode\" value=\"transparent\"></object>";
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
         while (range.location != NSNotFound) {
-            content = [content stringByReplacingCharactersInRange:range withString:@"\" controls=\"controls\"></audio>"];
+            content = [content stringByReplacingCharactersInRange:range withString:@"\" controls=\"controls\"  preload=\"none\"></audio>"];
             range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
         }
     
@@ -220,7 +220,7 @@
     regexstr = @"\"><param name=\"quality\" value=\"high\"><param name=\"menu\" value=\"false\"><param name=\"wmode\" value=\"transparent\"></object>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     while (range.location != NSNotFound) {
-        content = [content stringByReplacingCharactersInRange:range withString:@"\" controls=\"controls\"></audio>"];
+        content = [content stringByReplacingCharactersInRange:range withString:@"\" controls=\"controls\" preload=\"none\"></audio>"];
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
