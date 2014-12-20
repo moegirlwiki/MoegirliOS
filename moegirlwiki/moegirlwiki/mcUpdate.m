@@ -96,10 +96,10 @@
     [_pagefooter setHook:self];
     [_pageheader setHook:self];
  
-    [_errordefault launchRequest:@"https://masterchan.me:1024/v21/initdata/errordefault.html" ignoreCache:YES];
-    [_oldcustomize launchRequest:@"https://masterchan.me:1024/v21/initdata/oldcustomize.html" ignoreCache:YES];
-    [_pagefooter launchRequest:@"https://masterchan.me:1024/v21/initdata/pagefooter.html" ignoreCache:YES];
-    [_pageheader launchRequest:@"https://masterchan.me:1024/v21/initdata/pageheader.html" ignoreCache:YES];
+    [_errordefault launchRequest:@"https://masterchan.me:1024/v22/initdata/errordefault.html" ignoreCache:YES];
+    [_oldcustomize launchRequest:@"https://masterchan.me:1024/v22/initdata/oldcustomize.html" ignoreCache:YES];
+    [_pagefooter launchRequest:@"https://masterchan.me:1024/v22/initdata/pagefooter.html" ignoreCache:YES];
+    [_pageheader launchRequest:@"https://masterchan.me:1024/v22/initdata/pageheader.html" ignoreCache:YES];
     
     
 }

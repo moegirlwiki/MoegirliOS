@@ -16,6 +16,7 @@
 }
 
 - (void)startRequest;
-@property (strong,nonatomic) NSMutableData * recievePool;
+@property (strong, nonatomic) NSString *viewSize;
+@property (strong, nonatomic) NSMutableData * recievePool;
 
 @end

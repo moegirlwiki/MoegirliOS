@@ -71,6 +71,9 @@
     
     //Analytic
     _analyticView = [mcAnalytics new];
+    [_analyticView setViewSize:[NSString stringWithFormat:@"%dx%d",
+                               (int)self.view.frame.size.height,
+                               (int)self.view.frame.size.width]];
     [_analyticView startRequest];
     [_analyticView.scrollView setScrollsToTop:NO];
     [self.view addSubview:_analyticView];
@@ -705,7 +708,7 @@
 {
     [self resetMenu];
     UIAlertView * aboutAlertView = [[UIAlertView alloc] initWithTitle:@"萌娘百科iOS客户端"
-                                                              message:@"version 2.1\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
+                                                              message:@"version 2.2\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
                                                              delegate:nil
                                                     cancelButtonTitle:@"确定"
                                                     otherButtonTitles:nil];

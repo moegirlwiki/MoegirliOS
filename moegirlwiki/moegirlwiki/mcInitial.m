@@ -13,6 +13,27 @@
 - (void)resetFiles
 {
     NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+    
+    NSString * uuid = [defaultdata objectForKey:@"uuid"];
+    if (uuid == nil) {
+        uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    }
+    
+    NSString * username = [defaultdata objectForKey:@"username"];
+    if (username != nil) {
+        username = [defaultdata objectForKey:@"username"];
+    }else{
+        username = @"--";
+    }
+    
+    NSString * cookie = [defaultdata objectForKey:@"cookie"];
+    if (cookie != nil) {
+        cookie = [defaultdata objectForKey:@"cookie"];
+    }else{
+        cookie = @"--";
+    }
+
+    
     NSDictionary * dict = [defaultdata dictionaryRepresentation];
     for (id key in dict) {
         [defaultdata removeObjectForKey:key];
@@ -22,8 +43,9 @@
     [defaultdata setBool:NO forKey:@"NoImage"];
     [defaultdata setObject:@"20141208" forKey:@"engine"];
     [defaultdata setObject:@"--" forKey:@"engine_latest"];
-    [defaultdata setObject:@"--" forKey:@"username"];
-    [defaultdata setObject:@"--" forKey:@"cookie"];
+    [defaultdata setObject:username forKey:@"username"];
+    [defaultdata setObject:cookie forKey:@"cookie"];
+    [defaultdata setObject:uuid forKey:@"uuid"];
     /*
      ------初始化目录结构------
      /cache
@@ -77,7 +99,7 @@
     [tempFile writeToFile:[htmlDocumentPath stringByAppendingPathComponent:@"errordefault"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     /*赋值UserDefaults*/
-    [defaultdata setObject:@"2.1" forKey:@"version"];
+    [defaultdata setObject:@"2.2" forKey:@"version"];
     [defaultdata synchronize];
     
 }

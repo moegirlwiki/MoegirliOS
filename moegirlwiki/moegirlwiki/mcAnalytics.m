@@ -20,11 +20,18 @@
 
 - (void)startRequest
 {
-    AnalyticURL = [NSURL URLWithString:@"https://masterchan.me:1024/v21/"];
-    
+    AnalyticURL = [NSURL URLWithString:@"https://masterchan.me:1024/v22/"];
+    NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+    NSString *RequestContent = [NSString stringWithFormat:@"uid=%@&os=%@&device=%@&solution=%@",
+                                [defaultdata objectForKey:@"uuid"],
+                                [[UIDevice currentDevice] systemVersion],
+                                [[UIDevice currentDevice] model],
+                                _viewSize];
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:AnalyticURL
                                                                     cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                 timeoutInterval:20];
+    [TheRequest setHTTPMethod:@"POST"];
+    [TheRequest setHTTPBody:[RequestContent dataUsingEncoding:NSUTF8StringEncoding]];
     requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
                                                        delegate:self
                                                startImmediately:YES];

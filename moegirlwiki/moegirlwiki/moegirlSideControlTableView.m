@@ -39,17 +39,6 @@
     // Drawing code
 }
 */
-- (bool)shareAble{
-    NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
-    NSString *testcode = [defaultdata objectForKey:@"engine_latest"];
-    
-    if ([testcode hasSuffix:@"A"]) {
-        return YES;
-    } else {
-        return NO;
-    }
-    
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -58,11 +47,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self shareAble]) {
-        return 8;
-    }else{
-        return 7;
-    }
+
+    return 7;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,103 +56,51 @@
     
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if ([self shareAble]) {
-        if (indexPath.row == 0) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        } else if (indexPath.row == 1) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"萌娘百科iOS客户端";
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-            cell.detailTextLabel.text = @"v2.1";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.98 blue:0.851 alpha:1];
-        } else if (indexPath.row == 2) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"首页";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        } else if (indexPath.row == 3) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"刷新";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        } else if (indexPath.row == 4) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"分享";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        } else if (indexPath.row == 5) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        } else if (indexPath.row == 6) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"设置";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        } else if (indexPath.row == 7) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"关于";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        }
-    }else{
-        if (indexPath.row == 0) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        } else if (indexPath.row == 1) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"萌娘百科iOS客户端";
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-            cell.detailTextLabel.text = @"v2.1";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.98 blue:0.851 alpha:1];
-        } else if (indexPath.row == 2) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"首页";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        } else if (indexPath.row == 3) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"刷新";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        } else if (indexPath.row == 4) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"";
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        } else if (indexPath.row == 5) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"设置";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        } else if (indexPath.row == 6) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"关于";
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        }
-        
+
+    if (indexPath.row == 0) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = @"";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    } else if (indexPath.row == 1) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = @"萌娘百科iOS客户端";
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+        cell.detailTextLabel.text = @"v2.2";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.98 blue:0.851 alpha:1];
+    } else if (indexPath.row == 2) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = @"首页";
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    } else if (indexPath.row == 3) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = @"刷新";
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    } else if (indexPath.row == 4) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = @"";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    } else if (indexPath.row == 5) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = @"设置";
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    } else if (indexPath.row == 6) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = @"关于";
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
+
     
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
         cell.layoutMargins = UIEdgeInsetsZero;
@@ -179,77 +113,38 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if ([self shareAble]) {
-        if (indexPath.row == 2) {
-            //mainpage
-            [self.hook ctrlPanelCallMainpage];
-        } else if (indexPath.row == 3) {
-            //refresh
-            [self.hook ctrlPanelCallRefresh];
-        } else if (indexPath.row == 4) {
-            //share
-            [self.hook ctrlPanelCallShare];
-        } else if (indexPath.row == 6) {
-            //Settings
-            [self.hook ctrlPanelCallSettings];
-        } else if (indexPath.row == 7) {
-            //About
-            [self.hook ctrlPanelCallAbout];
-        }
-    }else{
-        if (indexPath.row == 2) {
-            //mainpage
-            [self.hook ctrlPanelCallMainpage];
-        } else if (indexPath.row == 3) {
-            //refresh
-            [self.hook ctrlPanelCallRefresh];
-        } else if (indexPath.row == 5) {
-            //Settings
-            [self.hook ctrlPanelCallSettings];
-        } else if (indexPath.row == 6) {
-            //About
-            [self.hook ctrlPanelCallAbout];
-        }
-        
+    if (indexPath.row == 2) {
+        //mainpage
+        [self.hook ctrlPanelCallMainpage];
+    } else if (indexPath.row == 3) {
+        //refresh
+        [self.hook ctrlPanelCallRefresh];
+    } else if (indexPath.row == 5) {
+        //Settings
+        [self.hook ctrlPanelCallSettings];
+    } else if (indexPath.row == 6) {
+        //About
+        [self.hook ctrlPanelCallAbout];
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self shareAble]) {
-        if (indexPath.row == 0) {
-            return 20;
-        } else if (indexPath.row == 1) {
-            return 44;
-        } else if (indexPath.row == 2) {
-            return 40;
-        } else if (indexPath.row == 3) {
-            return 40;
-        } else if (indexPath.row == 4) {
-            return 40;
-        } else if (indexPath.row == 5) {
-            return self.frame.size.height - 275;
-        } else if (indexPath.row == 6) {
-            return 40;
-        } else {
-            return 40;
-        }
-    }else{
-        if (indexPath.row == 0) {
-            return 20;
-        } else if (indexPath.row == 1) {
-            return 44;
-        } else if (indexPath.row == 2) {
-            return 40;
-        } else if (indexPath.row == 3) {
-            return 40;
-        } else if (indexPath.row == 4) {
-            return self.frame.size.height - 235;
-        } else if (indexPath.row == 5) {
-            return 40;
-        } else {
-            return 40;
-        }
+
+    if (indexPath.row == 0) {
+        return 20;
+    } else if (indexPath.row == 1) {
+        return 44;
+    } else if (indexPath.row == 2) {
+        return 40;
+    } else if (indexPath.row == 3) {
+        return 40;
+    } else if (indexPath.row == 4) {
+        return self.frame.size.height - 235;
+    } else if (indexPath.row == 5) {
+        return 40;
+    } else {
+        return 40;
     }
 }
 

@@ -21,7 +21,6 @@
 
 @interface moegirlSideControlTableView : UITableView<UITableViewDelegate,UITableViewDataSource>
 
-- (bool)shareAble;
 @property (assign, nonatomic) id<moegirlSideControlTableViewDelegate> hook;
 
 @end

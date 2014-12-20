@@ -356,37 +356,7 @@
 {
     NSString * btnText = [alertView buttonTitleAtIndex:buttonIndex];
     if ([btnText isEqualToString:@"确定删除"]) {
-        //删除缓存
-        
-        [_statueLabel setText:@"删除缓存"];
-        [UIView animateWithDuration:0.2
-                              delay:0
-                            options:    UIViewAnimationOptionOverrideInheritedCurve
-                         animations:^{
-                             /*----------------------*/
-                             [_protectView setAlpha:1];
-                             [_updateView setAlpha:1];
-                             /*----------------------*/
-                         }
-                         completion:^(BOOL finished){
-                             /*----------------------*/
-                             NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                             NSString * folderPath = [[documentPath stringByAppendingPathComponent:@"cache"] stringByAppendingPathComponent:@"page"];
-                             NSFileManager* manager = [NSFileManager defaultManager];
-                             NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
-                             NSString* fileName;
-                             int count = 0;
-                             while ((fileName = [childFilesEnumerator nextObject]) != nil){
-                                 NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
-                                 [manager removeItemAtPath:fileAbsolutePath error:nil];
-                                 count ++;
-                                 [self mcUpdateChangeLabel:[NSString stringWithFormat:@"删除 %d/%d",count,pagecount]];
-                             }
-                             [self mcUpdatdFinished];
-                             pagecount = 0;
-                             folderSize = 0;
-                             /*----------------------*/
-                         }];
+        [self cleanCache];
         
     }else if ([btnText isEqualToString:@"注销"]){
         NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
@@ -395,7 +365,9 @@
         [_SettingsTable reloadData];
     }else if ([btnText isEqualToString:@"访问Github页面"]){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/moegirlwiki/MoegirliOS/"]];
-    }
+    }else if ([btnText isEqualToString:@"确定"]){
+        [self cleanCache];
+    };
 }
 
 
@@ -458,7 +430,7 @@
                 [self.view bringSubviewToFront:_HelpWebView];
                 [self.view bringSubviewToFront:_HelpIndicator];
                 
-                NSMutableURLRequest * helpRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://masterchan.me:1024/v21/help.php"]
+                NSMutableURLRequest * helpRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://masterchan.me:1024/v22/help.php"]
                                                                                 cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                             timeoutInterval:60];
                 [_HelpWebView loadRequest:helpRequest];
@@ -466,13 +438,16 @@
                 
             }else if (indexPath.row == 1) {
                 //反馈问题建议
-                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.1－%@%@-%dx%d",
+                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.2－%@%@-%dx%d",
                                       [[UIDevice currentDevice] systemVersion],
                                       [[UIDevice currentDevice] model],
                                       (int)self.view.frame.size.height,
                                       (int)self.view.frame.size.width
                                       ];
-                NSString * body = @"请在这里输入您要反馈的问题或者建议，\n感谢您对本客户端的支持！";
+                
+                NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+                NSString * body = [NSString stringWithFormat:@"请在这里输入您要反馈的问题或者建议，\n感谢您对本客户端的支持！\n\n识别ID:%@",
+                                   [defaultdata objectForKey:@"uuid"]];
                 
                 NSString * emaillink = [NSString stringWithFormat:@"mailto:contact@masterchan.me?subject=%@&body=%@",[subject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],[body stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emaillink]];
@@ -615,8 +590,7 @@
 
 - (IBAction)loginButtonClick:(id)sender
 {
-    NSLog(@"login");
-    if (_passwordField.text.length > 6) {
+    if (_passwordField.text.length >= 6) {
         [self startLogin:_usernameField.text pw:_passwordField.text];
         [self dismissLoginView];
     } else {
@@ -678,7 +652,7 @@
     if (success) {
         UIAlertView*loginAlert = [[UIAlertView alloc] initWithTitle:@"登录成功"
                                                             message:nil
-                                                           delegate:nil
+                                                           delegate:self
                                                   cancelButtonTitle:@"确定"
                                                   otherButtonTitles:nil];
         [loginAlert show];
@@ -710,5 +684,40 @@
     [self.view sendSubviewToBack:_HelpIndicator];
 }
 
+#pragma 清除缓存
+- (void)cleanCache
+{
+    //删除缓存
+    
+    [_statueLabel setText:@"删除缓存"];
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:    UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                         /*----------------------*/
+                         [_protectView setAlpha:1];
+                         [_updateView setAlpha:1];
+                         /*----------------------*/
+                     }
+                     completion:^(BOOL finished){
+                         /*----------------------*/
+                         NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                         NSString * folderPath = [[documentPath stringByAppendingPathComponent:@"cache"] stringByAppendingPathComponent:@"page"];
+                         NSFileManager* manager = [NSFileManager defaultManager];
+                         NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
+                         NSString* fileName;
+                         int count = 0;
+                         while ((fileName = [childFilesEnumerator nextObject]) != nil){
+                             NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+                             [manager removeItemAtPath:fileAbsolutePath error:nil];
+                             count ++;
+                             [self mcUpdateChangeLabel:[NSString stringWithFormat:@"删除 %d/%d",count,pagecount]];
+                         }
+                         [self mcUpdatdFinished];
+                         pagecount = 0;
+                         folderSize = 0;
+                         /*----------------------*/
+                     }];
+}
 
 @end
