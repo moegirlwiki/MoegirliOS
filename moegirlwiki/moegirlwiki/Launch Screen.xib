@@ -21,7 +21,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenImg" translatesAutoresizingMaskIntoConstraints="NO" id="hhr-vM-VgX">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="launchScreenImg" translatesAutoresizingMaskIntoConstraints="NO" id="hhr-vM-VgX">
                     <rect key="frame" x="127" y="31" width="291" height="561"/>
                 </imageView>
             </subviews>

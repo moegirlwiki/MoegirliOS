@@ -48,7 +48,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
-    return 7;
+    return 8;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -85,15 +85,21 @@
     } else if (indexPath.row == 4) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = @"编辑";
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    } else if (indexPath.row == 5) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
         cell.textLabel.text = @"";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    } else if (indexPath.row == 5) {
+    } else if (indexPath.row == 6) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:CellIdentifier];
         cell.textLabel.text = @"设置";
         cell.textLabel.font = [UIFont systemFontOfSize:15];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    } else if (indexPath.row == 6) {
+    } else if (indexPath.row == 7) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:CellIdentifier];
         cell.textLabel.text = @"关于";
@@ -119,10 +125,13 @@
     } else if (indexPath.row == 3) {
         //refresh
         [self.hook ctrlPanelCallRefresh];
-    } else if (indexPath.row == 5) {
+    } else if (indexPath.row == 4) {
+        //refresh
+        [self.hook ctrlPanelCallEditor];
+    } else if (indexPath.row == 6) {
         //Settings
         [self.hook ctrlPanelCallSettings];
-    } else if (indexPath.row == 6) {
+    } else if (indexPath.row == 7) {
         //About
         [self.hook ctrlPanelCallAbout];
     }
@@ -140,8 +149,10 @@
     } else if (indexPath.row == 3) {
         return 40;
     } else if (indexPath.row == 4) {
-        return self.frame.size.height - 235;
+        return 40;
     } else if (indexPath.row == 5) {
+        return self.frame.size.height - 275;
+    } else if (indexPath.row == 6) {
         return 40;
     } else {
         return 40;
