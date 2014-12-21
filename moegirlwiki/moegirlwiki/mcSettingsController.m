@@ -460,7 +460,7 @@
                 UIAlertView * aboutConfirm = [[UIAlertView alloc]initWithTitle:@"技术支持"
                                                                        message:@"本应用由Michairm和Illvili提供"
                                                                       delegate:self
-                                                             cancelButtonTitle:@"确定"
+                                                             cancelButtonTitle:@"关闭"
                                                              otherButtonTitles:@"访问Github页面", nil];
                 [aboutConfirm show];
             }
