@@ -48,6 +48,8 @@
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                     timeoutInterval:20];
+        
+        [TheRequest setHTTPShouldHandleCookies:YES];
         requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
                                                            delegate:self
                                                    startImmediately:YES];
@@ -74,6 +76,7 @@
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                     timeoutInterval:2];
         [TheRequest setHTTPMethod:@"POST"];
+        [TheRequest setHTTPShouldHandleCookies:YES];
         requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
                                                            delegate:self
                                                    startImmediately:YES];
@@ -104,6 +107,7 @@
                                                                     timeoutInterval:20];
         
         NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+        [TheRequest setHTTPShouldHandleCookies:YES];
         if (![[defaultdata objectForKey:@"cookie"] isEqualToString:@"--"]) {
             [TheRequest setValue:[defaultdata objectForKey:@"cookie"] forHTTPHeaderField:@"Cookie"];
         }

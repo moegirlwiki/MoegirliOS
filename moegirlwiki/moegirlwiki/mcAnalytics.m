@@ -29,8 +29,9 @@
                                 _viewSize];
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:AnalyticURL
                                                                     cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                                timeoutInterval:20];
+                                                                timeoutInterval:60];
     [TheRequest setHTTPMethod:@"POST"];
+    [TheRequest setHTTPShouldHandleCookies:YES];
     [TheRequest setHTTPBody:[RequestContent dataUsingEncoding:NSUTF8StringEncoding]];
     requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
                                                        delegate:self
