@@ -296,10 +296,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q44-c7-NIA" userLabel="containerView">
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ncc-5J-Evi" userLabel="prepareView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="正在加载中..." translatesAutoresizingMaskIntoConstraints="NO" id="5jJ-G0-es9">
+                                    <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="正在加载中..." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jJ-G0-es9">
                                         <rect key="frame" x="8" y="18" width="304" height="462"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -312,6 +316,19 @@
                                             <constraint firstAttribute="width" constant="69" id="s2Z-gN-8tP"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yku-tp-1jd">
+                                        <rect key="frame" x="262" y="26" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="2Gn-e8-arE"/>
+                                            <constraint firstAttribute="height" constant="30" id="3Vm-g3-0je"/>
+                                        </constraints>
+                                        <state key="normal" title="关闭">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelButtonAction:" destination="lsF-Gy-LAU" eventType="touchUpInside" id="IvX-Ft-I3T"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -319,8 +336,10 @@
                                     <constraint firstAttribute="trailing" secondItem="5jJ-G0-es9" secondAttribute="trailing" constant="8" id="A1h-iy-8Jn"/>
                                     <constraint firstAttribute="bottom" secondItem="J1Q-fo-Ee6" secondAttribute="bottom" id="Fv1-re-8ol"/>
                                     <constraint firstItem="5jJ-G0-es9" firstAttribute="leading" secondItem="ncc-5J-Evi" secondAttribute="leading" constant="8" id="LUb-c1-Zpc"/>
+                                    <constraint firstItem="yku-tp-1jd" firstAttribute="top" secondItem="ncc-5J-Evi" secondAttribute="top" constant="26" id="Vya-5A-nft"/>
                                     <constraint firstItem="5jJ-G0-es9" firstAttribute="top" secondItem="ncc-5J-Evi" secondAttribute="top" constant="18" id="c2q-o1-FgE"/>
                                     <constraint firstAttribute="bottom" secondItem="5jJ-G0-es9" secondAttribute="bottom" id="ceQ-cx-3lC"/>
+                                    <constraint firstAttribute="trailing" secondItem="yku-tp-1jd" secondAttribute="trailing" constant="12" id="hVh-P6-rb9"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -328,10 +347,21 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ncc-5J-Evi" secondAttribute="trailing" id="8Xn-Zm-E94"/>
                             <constraint firstItem="ncc-5J-Evi" firstAttribute="leading" secondItem="fal-XG-MNY" secondAttribute="leading" id="Chz-Iu-WKa"/>
+                            <constraint firstItem="7y3-t9-Sy2" firstAttribute="top" secondItem="q44-c7-NIA" secondAttribute="bottom" id="Z2G-kv-WKB"/>
+                            <constraint firstItem="q44-c7-NIA" firstAttribute="top" secondItem="FBp-YW-cAl" secondAttribute="bottom" id="dT9-p2-AbB"/>
                             <constraint firstItem="7y3-t9-Sy2" firstAttribute="top" secondItem="ncc-5J-Evi" secondAttribute="bottom" id="eIQ-5q-hat"/>
                             <constraint firstItem="ncc-5J-Evi" firstAttribute="top" secondItem="fal-XG-MNY" secondAttribute="top" id="pv3-Sn-jQd"/>
+                            <constraint firstItem="q44-c7-NIA" firstAttribute="leading" secondItem="fal-XG-MNY" secondAttribute="leading" id="pzj-FC-d1s"/>
+                            <constraint firstAttribute="trailing" secondItem="q44-c7-NIA" secondAttribute="trailing" id="tVv-nt-tjz"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="cancelButton" destination="yku-tp-1jd" id="MeX-9a-Tdz"/>
+                        <outlet property="containerView" destination="q44-c7-NIA" id="vbo-6G-N3v"/>
+                        <outlet property="prepareView" destination="ncc-5J-Evi" id="6If-C1-HED"/>
+                        <outlet property="sellMoeIndicator" destination="J1Q-fo-Ee6" id="pLJ-KL-vAw"/>
+                        <outlet property="statusText" destination="5jJ-G0-es9" id="ZWf-xa-8K0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qXK-SX-QA4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

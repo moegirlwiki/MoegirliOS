@@ -362,6 +362,14 @@
         NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
         [defaultdata setObject:@"--" forKey:@"username"];
         [defaultdata setObject:@"--" forKey:@"cookie"];
+        
+        //清除Cookies
+        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+        for (NSHTTPCookie *cookiee in cookies)
+        {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookiee];
+        }
+        
         [_SettingsTable reloadData];
     }else if ([btnText isEqualToString:@"访问Github页面"]){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/moegirlwiki/MoegirliOS/"]];
@@ -438,7 +446,7 @@
                 
             }else if (indexPath.row == 1) {
                 //反馈问题建议
-                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.2－%@%@-%dx%d",
+                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.3－%@%@-%dx%d",
                                       [[UIDevice currentDevice] systemVersion],
                                       [[UIDevice currentDevice] model],
                                       (int)self.view.frame.size.height,

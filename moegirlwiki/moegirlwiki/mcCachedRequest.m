@@ -106,11 +106,7 @@
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                     timeoutInterval:20];
         
-        NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
         [TheRequest setHTTPShouldHandleCookies:YES];
-        if (![[defaultdata objectForKey:@"cookie"] isEqualToString:@"--"]) {
-            [TheRequest setValue:[defaultdata objectForKey:@"cookie"] forHTTPHeaderField:@"Cookie"];
-        }
         requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
                                                            delegate:self
                                                    startImmediately:YES];

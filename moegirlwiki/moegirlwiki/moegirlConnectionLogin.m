@@ -56,18 +56,28 @@
         }
     }else if (step == 2){
         if ([[TheData objectForKey:@"result"] isEqualToString:@"Success"]) {
-            NSString * CookieStr = [NSString stringWithFormat:@"%@_session=%@;%@UserName=%@;%@UserID=%@;%@Token=%@;",
-                                    cookieprefix,[TheData objectForKey:@"sessionid"],
-                                    cookieprefix,[TheData objectForKey:@"lgusername"],
-                                    cookieprefix,[TheData objectForKey:@"lguserid"],
-                                    cookieprefix,[TheData objectForKey:@"lgtoken"]
-                                    ];
-            [self.hook moegirlConnectionLogin:YES info:[TheData objectForKey:@"result"] cookie:CookieStr];
+            [self.hook moegirlConnectionLogin:YES info:[TheData objectForKey:@"result"] cookie:[TheData objectForKey:@"lgtoken"]];
+            
+            NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+            
+            [cookieProperties setObject:[NSString stringWithFormat:@"%@Token",cookieprefix] forKey:NSHTTPCookieName];
+            [cookieProperties setObject:[TheData objectForKey:@"lgtoken"] forKey:NSHTTPCookieValue];
+            [cookieProperties setObject:@".moegirl.org" forKey:NSHTTPCookieDomain];
+            [cookieProperties setObject:@".moegirl.org" forKey:NSHTTPCookieOriginURL];
+            [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
+            [cookieProperties setObject:@"0" forKey:NSHTTPCookieVersion];
+            [cookieProperties setObject:[[NSDate date] dateByAddingTimeInterval:60*60*24*30*6] forKey:NSHTTPCookieExpires];
+            
+            NSHTTPCookie *theCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:theCookie];
             
             NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
             [defaultdata setObject:savedUsername forKey:@"username"];
-            [defaultdata setObject:CookieStr forKey:@"cookie"];
+            [defaultdata setObject:[TheData objectForKey:@"lgtoken"] forKey:@"cookie"];
             [defaultdata synchronize];
+            
+            //NSLog(@"%@",[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]);
+            
         }else{
             [self.hook moegirlConnectionLogin:NO info:[TheData objectForKey:@"result"] cookie:nil];
             
