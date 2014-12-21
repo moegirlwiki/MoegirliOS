@@ -16,6 +16,7 @@
 		6F8DC99B1A473AF000DDE9A3 /* mcEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8DC99A1A473AF000DDE9A3 /* mcEditorController.m */; };
 		6F8DC99E1A47530300DDE9A3 /* moegirlEditorInit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8DC99D1A47530300DDE9A3 /* moegirlEditorInit.m */; };
 		6F996E8219FC3D7F00F9BC3F /* mcUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */; };
+		6FA491D31A478B9500F5C25E /* moegirlEditorMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FA491D21A478B9500F5C25E /* moegirlEditorMenu.m */; };
 		6FFFD4E91A00635100732B77 /* mcImagedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFFD4E81A00635100732B77 /* mcImagedButton.m */; };
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
@@ -71,6 +72,8 @@
 		6F8DC99D1A47530300DDE9A3 /* moegirlEditorInit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlEditorInit.m; sourceTree = "<group>"; };
 		6F996E8019FC3D7F00F9BC3F /* mcUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcUpdate.h; sourceTree = "<group>"; };
 		6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcUpdate.m; sourceTree = "<group>"; };
+		6FA491D11A478B9500F5C25E /* moegirlEditorMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlEditorMenu.h; sourceTree = "<group>"; };
+		6FA491D21A478B9500F5C25E /* moegirlEditorMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlEditorMenu.m; sourceTree = "<group>"; };
 		6FFFD4E71A00635100732B77 /* mcImagedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcImagedButton.h; sourceTree = "<group>"; };
 		6FFFD4E81A00635100732B77 /* mcImagedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcImagedButton.m; sourceTree = "<group>"; };
 		AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSearchSuggestionsTableView.h; sourceTree = "<group>"; };
@@ -190,6 +193,8 @@
 				6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */,
 				6F8DC99C1A47530300DDE9A3 /* moegirlEditorInit.h */,
 				6F8DC99D1A47530300DDE9A3 /* moegirlEditorInit.m */,
+				6FA491D11A478B9500F5C25E /* moegirlEditorMenu.h */,
+				6FA491D21A478B9500F5C25E /* moegirlEditorMenu.m */,
 			);
 			name = moegirlSpecify;
 			sourceTree = "<group>";
@@ -364,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F56FEEB19FFCBAA00BD9713 /* moegirlRandom.m in Sources */,
+				6FA491D31A478B9500F5C25E /* moegirlEditorMenu.m in Sources */,
 				6FFFD4E91A00635100732B77 /* mcImagedButton.m in Sources */,
 				AFC2611819F9A31C00F12B37 /* mcCachedImage.m in Sources */,
 				AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */,

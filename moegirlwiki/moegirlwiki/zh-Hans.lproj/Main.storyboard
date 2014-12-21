@@ -298,6 +298,17 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q44-c7-NIA" userLabel="containerView">
                                 <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xF3-a8-yRI" userLabel="MenuButton">
+                                        <rect key="frame" x="139" y="210" width="42" height="41"/>
+                                        <state key="normal" image="loadingImg">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="menuClick:" destination="lsF-Gy-LAU" eventType="touchUpInside" id="5qK-HT-Q6s"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ncc-5J-Evi" userLabel="prepareView">
@@ -358,6 +369,7 @@
                     <connections>
                         <outlet property="cancelButton" destination="yku-tp-1jd" id="MeX-9a-Tdz"/>
                         <outlet property="containerView" destination="q44-c7-NIA" id="vbo-6G-N3v"/>
+                        <outlet property="menuButton" destination="xF3-a8-yRI" id="YCy-gu-0aJ"/>
                         <outlet property="prepareView" destination="ncc-5J-Evi" id="6If-C1-HED"/>
                         <outlet property="sellMoeIndicator" destination="J1Q-fo-Ee6" id="pLJ-KL-vAw"/>
                         <outlet property="statusText" destination="5jJ-G0-es9" id="ZWf-xa-8K0"/>

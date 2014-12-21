@@ -12,11 +12,12 @@
 @interface mcEditorController : UIViewController<moegirlEditorInitDelegate>
 {
     @private
+    float keyboardHeight;
     NSTimer *timerForIndicator;
     moegirlEditorInit *initProcess;
 }
 //自创建元件
-
+@property (strong, nonatomic) UITextView * contentEditor;
 
 //xib 元件
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
@@ -24,7 +25,9 @@
 @property (weak, nonatomic) IBOutlet UITextView *statusText;
 @property (weak, nonatomic) IBOutlet UIImageView *sellMoeIndicator;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIButton *menuButton;
 
 - (IBAction)cancelButtonAction:(id)sender;
+- (IBAction)menuClick:(id)sender;
 
 @end

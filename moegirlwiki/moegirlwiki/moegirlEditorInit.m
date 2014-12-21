@@ -100,16 +100,20 @@
         _edit_touchedTime = [theData objectForKey:@"touched"];
         _edit_token = [theData objectForKey:@"edittoken"];
         
-        NSArray *revision = [theData objectForKey:@"revisions"];
-        _targetContent = [[revision objectAtIndex:0] objectForKey:@"*"];
-        
-        [self.hook addStatus:[NSString stringWithFormat:@"页面名称：%@（ID:%@）\n",_edit_title,_edit_pageid]];
-        [self.hook addStatus:[NSString stringWithFormat:@"页面最后更新时间：%@\n",_edit_touchedTime]];
-        [self.hook addStatus:[NSString stringWithFormat:@"编辑令牌申请时间：%@\n",_edit_startTime]];
-        [self.hook addStatus:[NSString stringWithFormat:@"编辑令牌：%@\n",_edit_token]];
-        
-        [self.hook addStatus:[NSString stringWithFormat:@"准备完成！！！"]];
-        [self.hook initSuccess];
+        if (_edit_token == nil) {
+            [self.hook addStatus:@"哎呀呀，出错了！找不到编辑令牌！\n"];
+        }else{
+            NSArray *revision = [theData objectForKey:@"revisions"];
+            _targetContent = [[revision objectAtIndex:0] objectForKey:@"*"];
+            
+            [self.hook addStatus:[NSString stringWithFormat:@"页面名称：%@（ID:%@）\n",_edit_title,_edit_pageid]];
+            [self.hook addStatus:[NSString stringWithFormat:@"页面最后更新时间：%@\n",_edit_touchedTime]];
+            [self.hook addStatus:[NSString stringWithFormat:@"编辑令牌申请时间：%@\n",_edit_startTime]];
+            [self.hook addStatus:[NSString stringWithFormat:@"编辑令牌：%@\n",_edit_token]];
+            
+            [self.hook addStatus:[NSString stringWithFormat:@"准备完成！！！"]];
+            [self.hook initSuccess];
+        }
     }
 }
 
