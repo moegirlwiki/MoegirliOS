@@ -35,8 +35,6 @@
     [_containerView sendSubviewToBack:_contentEditor];
     
     [self installMenu];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(KeyboardChanged:) name:UIKeyboardDidShowNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,7 +44,7 @@
 
 - (void)KeyboardChanged:(NSNotification *)notification
 {
-    NSLog(@"Keyboard");
+    //NSLog(@"Keyboard");
     NSDictionary *info = [notification userInfo];
     
     //获取高度
@@ -71,12 +69,19 @@
     [_prepareView setAlpha:1];
     [_menuButton setAlpha:0];
     [_statusText setText:@"正在准备编辑器......\n"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(KeyboardChanged:) name:UIKeyboardDidShowNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     initProcess = [moegirlEditorInit new];
     [initProcess setHook:self];
-    [initProcess setTargetTitle:@"User:Maverick"];
+    NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+    [initProcess setTargetTitle:[defaultdata objectForKey:@"lastmotification"]];
     [initProcess fetchToken];
 }
 
@@ -156,34 +161,35 @@
 #pragma  菜单相关
 - (void)installMenu
 {
-    _popoutMenu = [UIMenuController new];
-    
-    _itemCancelEdit = [[UIMenuItem alloc] initWithTitle:@"退出编辑❗️" action:@selector(menuCancelEdit)];
-    _itemHeadline = [[UIMenuItem alloc] initWithTitle:@"==" action:@selector(menuHeadline)];
-    _itemColon = [[UIMenuItem alloc] initWithTitle:@":" action:@selector(menuColon)];
-    _itemSeprater = [[UIMenuItem alloc] initWithTitle:@"|" action:@selector(menuSeprater)];
-    _itemBracket1 = [[UIMenuItem alloc] initWithTitle:@"{{}}" action:@selector(menuBracket1)];
-    _itemBracket2 = [[UIMenuItem alloc] initWithTitle:@"[[]]" action:@selector(menuBracket2)];
-    _itemBracket3 = [[UIMenuItem alloc] initWithTitle:@"()" action:@selector(menuBracket3)];
-    _itemSubmitEdit = [[UIMenuItem alloc] initWithTitle:@"  ☑️提交   " action:@selector(menuSubmitEdit)];
-    
-    [_popoutMenu setMenuItems:[NSArray arrayWithObjects:
-                               _itemSubmitEdit,
-                               _itemHeadline,
-                               _itemColon,
-                               _itemSeprater,
-                               _itemBracket1,
-                               _itemBracket2,
-                               _itemBracket3,
-                               _itemCancelEdit, nil]];
-
+        _popoutMenu = [UIMenuController new];
+        
+        _itemCancelEdit = [[UIMenuItem alloc] initWithTitle:@"退出编辑❗️" action:@selector(menuCancelEdit)];
+        _itemHeadline = [[UIMenuItem alloc] initWithTitle:@"==" action:@selector(menuHeadline)];
+        _itemColon = [[UIMenuItem alloc] initWithTitle:@":" action:@selector(menuColon)];
+        _itemSeprater = [[UIMenuItem alloc] initWithTitle:@"|" action:@selector(menuSeprater)];
+        _itemBracket1 = [[UIMenuItem alloc] initWithTitle:@"{{}}" action:@selector(menuBracket1)];
+        _itemBracket2 = [[UIMenuItem alloc] initWithTitle:@"[[]]" action:@selector(menuBracket2)];
+        _itemBracket3 = [[UIMenuItem alloc] initWithTitle:@"()" action:@selector(menuBracket3)];
+        _itemStrong  = [[UIMenuItem alloc] initWithTitle:@"'''" action:@selector(menuStrong)];
+        _itemSubmitEdit = [[UIMenuItem alloc] initWithTitle:@"  ☑️提交   " action:@selector(menuSubmitEdit)];
+        
+        [_popoutMenu setMenuItems:[NSArray arrayWithObjects:
+                                   _itemSubmitEdit,
+                                   _itemHeadline,
+                                   _itemColon,
+                                   _itemSeprater,
+                                   _itemBracket1,
+                                   _itemBracket2,
+                                   _itemStrong,
+                                   _itemBracket3,
+                                   _itemCancelEdit, nil]];
 }
 
 -(void)menuCancelEdit
 {
     NSLog(@"CancelEdit");
     UIAlertView * cancelConfirm = [[UIAlertView alloc]initWithTitle:@"确定要退出编辑吗？"
-                                                           message:@"注意！你将丢失文本框中的所有内容！"
+                                                           message:@"你将丢失你当前编辑过的所有内容！"
                                                           delegate:self
                                                  cancelButtonTitle:@"返回编辑"
                                                  otherButtonTitles:@"退出", nil];
@@ -194,20 +200,34 @@
 -(void)menuSubmitEdit
 {
     NSLog(@"SubmitEdit");
-    
-    
+    UIAlertView * submitConfirm = [[UIAlertView alloc]initWithTitle:@"确定要提交编辑吗？"
+                                                            message:@"当前仅支持[自动确认用户]提交编辑"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"返回编辑"
+                                                  otherButtonTitles:@"提交", nil];
+    [submitConfirm show];
 }
 
 -(void)menuHeadline
 {
     NSRange selectRange = [_contentEditor selectedRange];
-    [_contentEditor setText:[NSString stringWithFormat:@"%@====%@",
-                            [_contentEditor.text substringToIndex:selectRange.location],
-                            [_contentEditor.text substringFromIndex:selectRange.location]]];
-    selectRange.location += 2;
-    selectRange.length = 0;
-    [_contentEditor setSelectedRange:selectRange];
-    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    if (selectRange.length == 0) {
+        [_contentEditor setText:[NSString stringWithFormat:@"%@====%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringFromIndex:selectRange.location]]];
+        selectRange.location += 2;
+        selectRange.length = 0;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    } else {
+        [_contentEditor setText:[NSString stringWithFormat:@"%@\n==%@==\n%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringWithRange:selectRange],
+                                 [_contentEditor.text substringFromIndex:selectRange.location+selectRange.length]]];
+        selectRange.location += 3;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }
 }
 
 -(void)menuColon
@@ -237,37 +257,92 @@
 -(void)menuBracket1
 {
     NSRange selectRange = [_contentEditor selectedRange];
-    [_contentEditor setText:[NSString stringWithFormat:@"%@{{黑幕|}}%@",
-                             [_contentEditor.text substringToIndex:selectRange.location],
-                             [_contentEditor.text substringFromIndex:selectRange.location]]];
-    selectRange.location += 2;
-    selectRange.length = 3;
-    [_contentEditor setSelectedRange:selectRange];
-    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    if (selectRange.length == 0) {
+        [_contentEditor setText:[NSString stringWithFormat:@"%@{{黑幕|}}%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringFromIndex:selectRange.location]]];
+        selectRange.location += 2;
+        selectRange.length = 3;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }else{
+        [_contentEditor setText:[NSString stringWithFormat:@"%@{{黑幕|%@}}%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringWithRange:selectRange],
+                                 [_contentEditor.text substringFromIndex:selectRange.location+selectRange.length]]];
+        selectRange.location += 2;
+        selectRange.length = 3;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }
 }
 
 -(void)menuBracket2
 {
     NSRange selectRange = [_contentEditor selectedRange];
-    [_contentEditor setText:[NSString stringWithFormat:@"%@[[分类:]]%@",
-                             [_contentEditor.text substringToIndex:selectRange.location],
-                             [_contentEditor.text substringFromIndex:selectRange.location]]];
-    selectRange.location += 2;
-    selectRange.length = 3;
-    [_contentEditor setSelectedRange:selectRange];
-    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    if (selectRange.length == 0) {
+        [_contentEditor setText:[NSString stringWithFormat:@"%@[[分类:]]%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringFromIndex:selectRange.location]]];
+        selectRange.location += 2;
+        selectRange.length = 3;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }else{
+        [_contentEditor setText:[NSString stringWithFormat:@"%@[[分类:%@]]%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringWithRange:selectRange],
+                                 [_contentEditor.text substringFromIndex:selectRange.location+selectRange.length]]];
+        selectRange.location += 2;
+        selectRange.length = 3;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }
 }
 
 -(void)menuBracket3
 {
     NSRange selectRange = [_contentEditor selectedRange];
-    [_contentEditor setText:[NSString stringWithFormat:@"%@()%@",
-                             [_contentEditor.text substringToIndex:selectRange.location],
-                             [_contentEditor.text substringFromIndex:selectRange.location]]];
-    selectRange.location += 1;
-    selectRange.length = 0;
-    [_contentEditor setSelectedRange:selectRange];
-    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    if (selectRange.length == 0) {
+        [_contentEditor setText:[NSString stringWithFormat:@"%@()%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringFromIndex:selectRange.location]]];
+        selectRange.location += 1;
+        selectRange.length = 0;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }else{
+        [_contentEditor setText:[NSString stringWithFormat:@"%@(%@)%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringWithRange:selectRange],
+                                 [_contentEditor.text substringFromIndex:selectRange.location+selectRange.length]]];
+        selectRange.location += 1;
+        selectRange.length = 0;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }
+}
+
+-(void)menuStrong
+{
+    NSRange selectRange = [_contentEditor selectedRange];
+    if (selectRange.length == 0) {
+        [_contentEditor setText:[NSString stringWithFormat:@"%@'''粗体字'''%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringFromIndex:selectRange.location]]];
+        selectRange.location += 3;
+        selectRange.length = 3;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }else{
+        [_contentEditor setText:[NSString stringWithFormat:@"%@'''%@'''%@",
+                                 [_contentEditor.text substringToIndex:selectRange.location],
+                                 [_contentEditor.text substringWithRange:selectRange],
+                                 [_contentEditor.text substringFromIndex:selectRange.location+selectRange.length]]];
+        selectRange.location += 3;
+        [_contentEditor setSelectedRange:selectRange];
+        [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+    }
 }
 
 #pragma mark AlertViewAction
@@ -277,8 +352,41 @@
     NSString * btnText = [alertView buttonTitleAtIndex:buttonIndex];
     if ([btnText isEqualToString:@"退出"]) {
         [self dismissViewControllerAnimated:YES completion:nil];
+    }else if ([btnText isEqualToString:@"提交"]) {
+        [UIView animateWithDuration:0.8
+                              delay:0
+                            options:    UIViewAnimationOptionOverrideInheritedCurve
+                         animations:^{
+                             /*----------------------*/
+                             [_contentEditor resignFirstResponder];
+                             [_menuButton resignFirstResponder];
+                             [_statusText setText:@""];
+                             [_prepareView setAlpha:1];
+                             /*----------------------*/
+                         }
+                         completion:^(BOOL finished){
+                             /*----------------------*/
+                             [self addStatus:@"正在准备数据\n"];
+                             if (submitProcess != nil) {
+                                 [submitProcess cancelRequest];
+                             }
+                             submitProcess = [moegirlEditorSubmit new];
+                             
+                             [submitProcess setHook:self];
+                             [submitProcess setWikiTextString:_contentEditor.text];
+                             [submitProcess setEdit_pageid:initProcess.edit_pageid];
+                             [submitProcess setEdit_startTime:initProcess.edit_startTime];
+                             [submitProcess setEdit_title:initProcess.edit_title];
+                             [submitProcess setEdit_token:initProcess.edit_token];
+                             [submitProcess setEdit_touchedTime:initProcess.edit_touchedTime];
+                             
+                             [submitProcess submitRequest];
+                             /*----------------------*/
+                         }];
+        
     }
 }
+
 
 
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F1EDA371A48800C00A51A06 /* moegirlEditorSubmit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1EDA361A48800C00A51A06 /* moegirlEditorSubmit.m */; };
 		6F4DE28119FF51D900A93DA1 /* moegirlConnectionLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4DE28019FF51D900A93DA1 /* moegirlConnectionLogin.m */; };
 		6F4F06031A0080BB003EC881 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F4F06021A0080BB003EC881 /* Launch Screen.xib */; };
 		6F56FEEB19FFCBAA00BD9713 /* moegirlRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */; };
@@ -54,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F1EDA351A48800C00A51A06 /* moegirlEditorSubmit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlEditorSubmit.h; sourceTree = "<group>"; };
+		6F1EDA361A48800C00A51A06 /* moegirlEditorSubmit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlEditorSubmit.m; sourceTree = "<group>"; };
 		6F4DE27F19FF51D900A93DA1 /* moegirlConnectionLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlConnectionLogin.h; sourceTree = "<group>"; };
 		6F4DE28019FF51D900A93DA1 /* moegirlConnectionLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlConnectionLogin.m; sourceTree = "<group>"; };
 		6F4F06021A0080BB003EC881 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
@@ -193,6 +196,8 @@
 				6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */,
 				6F8DC99C1A47530300DDE9A3 /* moegirlEditorInit.h */,
 				6F8DC99D1A47530300DDE9A3 /* moegirlEditorInit.m */,
+				6F1EDA351A48800C00A51A06 /* moegirlEditorSubmit.h */,
+				6F1EDA361A48800C00A51A06 /* moegirlEditorSubmit.m */,
 				6F9ADA811A47BB3400EA75C2 /* moegirlEditorSpecialBtn.h */,
 				6F9ADA821A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m */,
 			);
@@ -374,6 +379,7 @@
 				AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */,
 				AF40D72119F855530043F74A /* mcInitial.m in Sources */,
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
+				6F1EDA371A48800C00A51A06 /* moegirlEditorSubmit.m in Sources */,
 				6F4DE28119FF51D900A93DA1 /* moegirlConnectionLogin.m in Sources */,
 				AF49AFC119FA189900F21956 /* mcSettingsController.m in Sources */,
 				AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */,

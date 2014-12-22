@@ -36,6 +36,11 @@
     [self.hook addStatus:@"."];
 }
 
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [self.hook addStatus:[NSString stringWithFormat:@"连接错误:%@",[error localizedDescription]]];
+}
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [self.hook addStatus:@"\n数据接收完毕！\n"];
@@ -82,7 +87,7 @@
     NSString *warningInfo =[warningData objectForKey:@"*"];
     
     if (warningInfo != nil) {
-        [self.hook addStatus:[NSString stringWithFormat:@"哎呀呀，出错了! %@",warningInfo]];
+        [self.hook addStatus:[NSString stringWithFormat:@"哎呀呀，出错了!\n提示：%@",warningInfo]];
     }else{
         NSDictionary *unwarpData = [[[NSJSONSerialization JSONObjectWithData:_recievePool
                                                                   options:NSJSONReadingMutableLeaves

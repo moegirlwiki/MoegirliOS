@@ -684,7 +684,20 @@
 - (void)ctrlPanelCallEditor
 {
     [self resetMenu];
-    [self performSegueWithIdentifier:@"GoEditor" sender:nil];
+    if (webViewListPosition == 0) {
+        UIAlertView * editorConfirm = [[UIAlertView alloc]initWithTitle:@"欢迎编辑萌娘百科！"
+                                                                message:@"请打开你想要更改的页面再点击[编辑]\n目前仅支持[自动确认用户]提交更新"
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"我知道了", nil];
+        [editorConfirm show];
+    }else{
+        //NSLog(@"Title：%@",[_webViewTitles objectAtIndex:webViewListPosition -1]);
+        NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+        [defaultdata setObject:[_webViewTitles objectAtIndex:webViewListPosition -1] forKey:@"lastmotification"];
+        [defaultdata synchronize];
+        [self performSegueWithIdentifier:@"GoEditor" sender:nil];
+    }
 }
 
 - (void)ctrlPanelCallSettings

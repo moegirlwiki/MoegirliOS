@@ -8,17 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "moegirlEditorInit.h"
+#import "moegirlEditorSubmit.h"
 
-@interface mcEditorController : UIViewController<moegirlEditorInitDelegate>
+@interface mcEditorController : UIViewController<moegirlEditorInitDelegate,moegirlEditorSubmitDelegate>
 {
     @private
     float keyboardHeight;
     NSTimer *timerForIndicator;
     moegirlEditorInit *initProcess;
+    moegirlEditorSubmit *submitProcess;
 }
 //自创建元件
 @property (strong, nonatomic) UITextView * contentEditor;
 @property (strong, nonatomic) UIMenuController * popoutMenu;
+
 
 
 //菜单元件
@@ -29,6 +32,7 @@
 @property (strong, nonatomic) UIMenuItem * itemBracket1;
 @property (strong, nonatomic) UIMenuItem * itemBracket2;
 @property (strong, nonatomic) UIMenuItem * itemBracket3;
+@property (strong, nonatomic) UIMenuItem * itemStrong;
 @property (strong, nonatomic) UIMenuItem * itemSubmitEdit;
 
 //xib 元件

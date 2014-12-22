@@ -85,7 +85,7 @@
     } else if (indexPath.row == 4) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:CellIdentifier];
-        cell.textLabel.text = @"编辑";
+        cell.textLabel.text = @"编辑本页";
         cell.textLabel.font = [UIFont systemFontOfSize:15];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     } else if (indexPath.row == 5) {

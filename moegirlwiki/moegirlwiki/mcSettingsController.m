@@ -116,6 +116,7 @@
     _loginButton.layer.masksToBounds = YES;
     [_loginView addSubview:_loginButton];
     [_loginButton addTarget:self action:@selector(loginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -344,7 +345,7 @@
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){
-        return @"手机端暂时无法提供注册功能，\n编辑器正试验中，将在v3.0版推出。\n\n\n";
+        return @"手机端暂时无法提供注册功能，\n编辑器目前仅支持[自动确认用户]。\n\n\n";
     }else {
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
