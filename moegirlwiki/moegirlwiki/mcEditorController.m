@@ -158,7 +158,7 @@
 {
     _popoutMenu = [UIMenuController new];
     
-    _itemCancelEdit = [[UIMenuItem alloc] initWithTitle:@"取消编辑❗️" action:@selector(menuCancelEdit)];
+    _itemCancelEdit = [[UIMenuItem alloc] initWithTitle:@"退出编辑❗️" action:@selector(menuCancelEdit)];
     _itemHeadline = [[UIMenuItem alloc] initWithTitle:@"==" action:@selector(menuHeadline)];
     _itemColon = [[UIMenuItem alloc] initWithTitle:@":" action:@selector(menuColon)];
     _itemSeprater = [[UIMenuItem alloc] initWithTitle:@"|" action:@selector(menuSeprater)];
@@ -182,11 +182,20 @@
 -(void)menuCancelEdit
 {
     NSLog(@"CancelEdit");
+    UIAlertView * cancelConfirm = [[UIAlertView alloc]initWithTitle:@"确定要退出编辑吗？"
+                                                           message:@"注意！你将丢失文本框中的所有内容！"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"返回编辑"
+                                                 otherButtonTitles:@"退出", nil];
+    [cancelConfirm show];
+    
 }
 
 -(void)menuSubmitEdit
 {
     NSLog(@"SubmitEdit");
+    
+    
 }
 
 -(void)menuHeadline
@@ -261,6 +270,15 @@
     [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
 }
 
+#pragma mark AlertViewAction
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSString * btnText = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([btnText isEqualToString:@"退出"]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
 
 
 @end
