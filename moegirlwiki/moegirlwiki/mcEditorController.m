@@ -161,7 +161,7 @@
 #pragma  菜单相关
 - (void)installMenu
 {
-        _popoutMenu = [UIMenuController new];
+        _popoutMenu = [UIMenuController sharedMenuController];
         
         _itemCancelEdit = [[UIMenuItem alloc] initWithTitle:@"退出编辑❗️" action:@selector(menuCancelEdit)];
         _itemHeadline = [[UIMenuItem alloc] initWithTitle:@"==" action:@selector(menuHeadline)];

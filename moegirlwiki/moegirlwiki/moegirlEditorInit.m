@@ -63,7 +63,7 @@
                                 ];
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL]
                                                                    cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                               timeoutInterval:20];
+                                                               timeoutInterval:60];
     [TheRequest setHTTPMethod:@"POST"];
     [TheRequest setHTTPShouldHandleCookies:YES];
     [TheRequest setHTTPBody:[RequestContent dataUsingEncoding:NSUTF8StringEncoding]];

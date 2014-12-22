@@ -75,7 +75,7 @@
                                 ];
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL]
                                                                    cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                               timeoutInterval:60];
+                                                               timeoutInterval:120];
     [TheRequest setHTTPMethod:@"POST"];
     [TheRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     [TheRequest setHTTPShouldHandleCookies:YES];
@@ -104,7 +104,7 @@
     }else{
         [self.hook addStatus:[NSString stringWithFormat:@"受理时间戳：%@\n",respondTime]];
         if ([respondResult isEqualToString:@"Success"]) {
-            [self.hook addStatus:@"更新成功！！！\n关闭本页后点击菜单中的[刷新]即可查看最新页面"];
+            [self.hook addStatus:@"更新成功！！！\n关闭本页后点击菜单中的[刷新]即可查看最新页面\n"];
         }
     }
     
