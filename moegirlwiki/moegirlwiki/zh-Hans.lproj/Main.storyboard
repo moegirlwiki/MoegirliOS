@@ -366,6 +366,7 @@
                             <constraint firstAttribute="trailing" secondItem="q44-c7-NIA" secondAttribute="trailing" id="tVv-nt-tjz"/>
                         </constraints>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="cancelButton" destination="yku-tp-1jd" id="MeX-9a-Tdz"/>
                         <outlet property="containerView" destination="q44-c7-NIA" id="vbo-6G-N3v"/>

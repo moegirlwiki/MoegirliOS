@@ -34,6 +34,7 @@
     [_containerView addSubview:_contentEditor];
     [_containerView sendSubviewToBack:_contentEditor];
     
+    [self installMenu];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(KeyboardChanged:) name:UIKeyboardDidShowNotification object:nil];
 }
@@ -146,5 +147,120 @@
 }
 
 - (IBAction)menuClick:(id)sender {
+    [_menuButton becomeFirstResponder];
+    
+    [_popoutMenu setTargetRect:CGRectMake(20, 0, 0, 0) inView:_menuButton];
+    [_popoutMenu setMenuVisible:YES animated:YES];
 }
+
+#pragma  菜单相关
+- (void)installMenu
+{
+    _popoutMenu = [UIMenuController new];
+    
+    _itemCancelEdit = [[UIMenuItem alloc] initWithTitle:@"取消编辑❗️" action:@selector(menuCancelEdit)];
+    _itemHeadline = [[UIMenuItem alloc] initWithTitle:@"==" action:@selector(menuHeadline)];
+    _itemColon = [[UIMenuItem alloc] initWithTitle:@":" action:@selector(menuColon)];
+    _itemSeprater = [[UIMenuItem alloc] initWithTitle:@"|" action:@selector(menuSeprater)];
+    _itemBracket1 = [[UIMenuItem alloc] initWithTitle:@"{{}}" action:@selector(menuBracket1)];
+    _itemBracket2 = [[UIMenuItem alloc] initWithTitle:@"[[]]" action:@selector(menuBracket2)];
+    _itemBracket3 = [[UIMenuItem alloc] initWithTitle:@"()" action:@selector(menuBracket3)];
+    _itemSubmitEdit = [[UIMenuItem alloc] initWithTitle:@"  ☑️提交   " action:@selector(menuSubmitEdit)];
+    
+    [_popoutMenu setMenuItems:[NSArray arrayWithObjects:
+                               _itemSubmitEdit,
+                               _itemHeadline,
+                               _itemColon,
+                               _itemSeprater,
+                               _itemBracket1,
+                               _itemBracket2,
+                               _itemBracket3,
+                               _itemCancelEdit, nil]];
+
+}
+
+-(void)menuCancelEdit
+{
+    NSLog(@"CancelEdit");
+}
+
+-(void)menuSubmitEdit
+{
+    NSLog(@"SubmitEdit");
+}
+
+-(void)menuHeadline
+{
+    NSRange selectRange = [_contentEditor selectedRange];
+    [_contentEditor setText:[NSString stringWithFormat:@"%@====%@",
+                            [_contentEditor.text substringToIndex:selectRange.location],
+                            [_contentEditor.text substringFromIndex:selectRange.location]]];
+    selectRange.location += 2;
+    selectRange.length = 0;
+    [_contentEditor setSelectedRange:selectRange];
+    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+}
+
+-(void)menuColon
+{
+    NSRange selectRange = [_contentEditor selectedRange];
+    [_contentEditor setText:[NSString stringWithFormat:@"%@:%@",
+                             [_contentEditor.text substringToIndex:selectRange.location],
+                             [_contentEditor.text substringFromIndex:selectRange.location]]];
+    selectRange.location += 1;
+    selectRange.length = 0;
+    [_contentEditor setSelectedRange:selectRange];
+    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+}
+
+-(void)menuSeprater
+{
+    NSRange selectRange = [_contentEditor selectedRange];
+    [_contentEditor setText:[NSString stringWithFormat:@"%@|%@",
+                             [_contentEditor.text substringToIndex:selectRange.location],
+                             [_contentEditor.text substringFromIndex:selectRange.location]]];
+    selectRange.location += 1;
+    selectRange.length = 0;
+    [_contentEditor setSelectedRange:selectRange];
+    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+}
+
+-(void)menuBracket1
+{
+    NSRange selectRange = [_contentEditor selectedRange];
+    [_contentEditor setText:[NSString stringWithFormat:@"%@{{黑幕|}}%@",
+                             [_contentEditor.text substringToIndex:selectRange.location],
+                             [_contentEditor.text substringFromIndex:selectRange.location]]];
+    selectRange.location += 2;
+    selectRange.length = 3;
+    [_contentEditor setSelectedRange:selectRange];
+    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+}
+
+-(void)menuBracket2
+{
+    NSRange selectRange = [_contentEditor selectedRange];
+    [_contentEditor setText:[NSString stringWithFormat:@"%@[[分类:]]%@",
+                             [_contentEditor.text substringToIndex:selectRange.location],
+                             [_contentEditor.text substringFromIndex:selectRange.location]]];
+    selectRange.location += 2;
+    selectRange.length = 3;
+    [_contentEditor setSelectedRange:selectRange];
+    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+}
+
+-(void)menuBracket3
+{
+    NSRange selectRange = [_contentEditor selectedRange];
+    [_contentEditor setText:[NSString stringWithFormat:@"%@()%@",
+                             [_contentEditor.text substringToIndex:selectRange.location],
+                             [_contentEditor.text substringFromIndex:selectRange.location]]];
+    selectRange.location += 1;
+    selectRange.length = 0;
+    [_contentEditor setSelectedRange:selectRange];
+    [_contentEditor scrollRangeToVisible:_contentEditor.selectedRange];
+}
+
+
+
 @end

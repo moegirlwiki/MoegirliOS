@@ -1,13 +1,13 @@
 //
-//  moegirlEditorMenu.m
+//  moegirlEditorSpecialBtn.h
 //  moegirlwiki
 //
 //  Created by Michael Chan on 14/12/21.
 //  Copyright (c) 2014年 masterchan.me. All rights reserved.
 //
 
-#import "moegirlEditorMenu.h"
+#import <UIKit/UIKit.h>
 
-@implementation moegirlEditorMenu
+@interface moegirlEditorSpecialBtn : UIButton
 
 @end
