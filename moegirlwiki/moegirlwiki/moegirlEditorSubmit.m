@@ -86,25 +86,38 @@
 
 -(void)finishRequest
 {
-    //NSLog(@"%@",_responsePool);
-    //NSLog(@"%@",[[NSString alloc]initWithData:_recievePool encoding:NSUTF8StringEncoding]);
+    NSLog(@"%@",_responsePool);
+    NSLog(@"%@",[[NSString alloc]initWithData:_recievePool encoding:NSUTF8StringEncoding]);
     
     NSDictionary *theData = [[NSJSONSerialization JSONObjectWithData:_recievePool
-                                                                 options:NSJSONReadingMutableLeaves
-                                                                   error:nil]
-                                 objectForKey:@"edit"];
-    NSString *respondResult = [theData objectForKey:@"result"];
-    NSString *respondTime = [theData objectForKey:@"newtimestamp"];
-    if ([theData objectForKey:@"captcha"]!=nil) {
-        [self.hook addStatus:@"非常抱歉，编辑功能目前仅支持[自动确认用户]。\n你编辑的内容已经备份，可以在设置中找回。\n"];
-    }
-    [self.hook addStatus:[NSString stringWithFormat:@"提交结果：%@\n",respondResult]];
-    if (respondTime == nil){
-        [self.hook addStatus:@"没有受理时间，可能是由于没有改动造成的。\n"];
+                                                             options:NSJSONReadingMutableLeaves
+                                                               error:nil]
+                             objectForKey:@"error"];
+    if (theData != nil) {
+        [self.hook addStatus:@"发生错误！"];
+        NSString * errorinfo = [theData objectForKey:@"info"];
+        [self.hook addStatus:[NSString stringWithFormat:@"错误原因：%@\n",errorinfo]];
+        if ([errorinfo isEqualToString:@"Edit conflict detected"]) {
+            [self.hook addStatus:@"遗憾，编辑冲突发生了！\n这个错误常发生在更新频繁的条目，\n有人在你更新页面之前提交了更新。\n请[刷新]页面查看最新版，\n并在[设置]中获取你曾作出的修改。\n"];
+        }
     }else{
-        [self.hook addStatus:[NSString stringWithFormat:@"受理时间戳：%@\n",respondTime]];
-        if ([respondResult isEqualToString:@"Success"]) {
-            [self.hook addStatus:@"更新成功！！！\n关闭本页后点击菜单中的[刷新]即可查看最新页面\n"];
+        NSDictionary *theData = [[NSJSONSerialization JSONObjectWithData:_recievePool
+                                                                     options:NSJSONReadingMutableLeaves
+                                                                       error:nil]
+                                     objectForKey:@"edit"];
+        NSString *respondResult = [theData objectForKey:@"result"];
+        NSString *respondTime = [theData objectForKey:@"newtimestamp"];
+        if ([theData objectForKey:@"captcha"]!=nil) {
+            [self.hook addStatus:@"非常抱歉，编辑功能目前仅支持[自动确认用户]。\n你编辑的内容已经备份，可以在设置中找回。\n"];
+        }
+        [self.hook addStatus:[NSString stringWithFormat:@"提交结果：%@\n",respondResult]];
+        if (respondTime == nil){
+            [self.hook addStatus:@"没有受理时间，可能是由于没有改动造成的。\n"];
+        }else{
+            [self.hook addStatus:[NSString stringWithFormat:@"受理时间戳：%@\n",respondTime]];
+            if ([respondResult isEqualToString:@"Success"]) {
+                [self.hook addStatus:@"更新成功！！！\n关闭本页后点击菜单中的[刷新]即可查看最新页面\n"];
+            }
         }
     }
     
