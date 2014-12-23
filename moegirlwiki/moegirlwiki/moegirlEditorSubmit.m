@@ -58,8 +58,8 @@
 {
     [self.hook addStatus:@"正在备份到本地.\n"];
     NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString * mainpageDocumentPath = [documentPath stringByAppendingPathComponent:@"data"];
-    [_wikiTextString writeToFile:[mainpageDocumentPath stringByAppendingPathComponent:@"editorBackup"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    NSString * wikitextDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"]  stringByAppendingPathComponent:@"editorBackup"];
+    [_wikiTextString writeToFile:wikitextDocumentPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     [self.hook addStatus:@"备份成功！\n编辑的内容可以在[设置]->[恢复编辑数据]中找回\n"];
     [self.hook addStatus:@"正在连接萌娘百科服务器.\n这个过程可能需要数秒时间\n"];
     NSString *RequestURL = @"http://zh.moegirl.org/api.php";
