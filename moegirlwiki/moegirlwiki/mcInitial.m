@@ -19,6 +19,9 @@
         uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     }
     
+    NSString * username = @"--";
+    NSString * cookie = @"--";
+/*
     NSString * username = [defaultdata objectForKey:@"username"];
     if (username != nil) {
         username = [defaultdata objectForKey:@"username"];
@@ -32,7 +35,7 @@
     }else{
         cookie = @"--";
     }
-
+*/
     
     NSDictionary * dict = [defaultdata dictionaryRepresentation];
     for (id key in dict) {
@@ -99,7 +102,7 @@
     [tempFile writeToFile:[htmlDocumentPath stringByAppendingPathComponent:@"errordefault"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     /*赋值UserDefaults*/
-    [defaultdata setObject:@"2.2" forKey:@"version"];
+    [defaultdata setObject:@"2.3" forKey:@"version"];
     [defaultdata synchronize];
     
 }

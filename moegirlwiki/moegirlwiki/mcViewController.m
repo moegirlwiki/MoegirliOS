@@ -681,20 +681,22 @@
     }
 }
 
-- (void)ctrlPanelCallShare
+- (void)ctrlPanelCallEditor
 {
     [self resetMenu];
     if (webViewListPosition == 0) {
-        UIImage * shareImage = [self getImageFromView:_mainPageScrollView];
-        NSURL * shareURL = [NSURL URLWithString:@"https://itunes.apple.com/cn/app/meng-niang-bai-ke/id892053828"];
-        NSString * shareText = @"我正在使用萌娘百科iOS客户端浏览万物皆可萌的百科全书——萌娘百科！你也快来试试吧！";
-        [self shareText:shareText andImage:shareImage andUrl:shareURL];
+        UIAlertView * editorConfirm = [[UIAlertView alloc]initWithTitle:@"欢迎编辑萌娘百科！"
+                                                                message:@"请打开你想要更改的页面再点击[编辑]\n目前仅支持[自动确认用户]提交更新"
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"我知道了", nil];
+        [editorConfirm show];
     }else{
-        UIImage * shareImage = [self getImageFromView:[_webViewList objectAtIndex:webViewListPosition - 1]];
-        NSURL * shareURL = [NSURL URLWithString:@"https://itunes.apple.com/cn/app/meng-niang-bai-ke/id892053828"];
-        NSString * keyword = [_webViewTitles objectAtIndex:webViewListPosition -1];
-        NSString * shareText = [NSString stringWithFormat:@"#萌娘百科iOS客户端#【%@】http://zh.moegirl.org/%@ ",keyword,[keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        [self shareText:shareText andImage:shareImage andUrl:shareURL];
+        //NSLog(@"Title：%@",[_webViewTitles objectAtIndex:webViewListPosition -1]);
+        NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+        [defaultdata setObject:[_webViewTitles objectAtIndex:webViewListPosition -1] forKey:@"lastmotification"];
+        [defaultdata synchronize];
+        [self performSegueWithIdentifier:@"GoEditor" sender:nil];
     }
 }
 
@@ -708,74 +710,12 @@
 {
     [self resetMenu];
     UIAlertView * aboutAlertView = [[UIAlertView alloc] initWithTitle:@"萌娘百科iOS客户端"
-                                                              message:@"version 2.2\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
+                                                              message:@"version 2.3\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
                                                              delegate:nil
                                                     cancelButtonTitle:@"确定"
                                                     otherButtonTitles:nil];
-    
     [aboutAlertView show];
 }
-
-- (void)shareText:(NSString *)text andImage:(UIImage *)image andUrl:(NSURL *)url
-{
-    NSMutableArray *sharingItems = [NSMutableArray new];
-    
-    if (text) {
-        [sharingItems addObject:text];
-    }
-    if (image) {
-        [sharingItems addObject:image];
-    }
-    if (url) {
-        [sharingItems addObject:url];
-    }
-    
-    _activityController = [[UIActivityViewController alloc] initWithActivityItems:sharingItems applicationActivities:nil];
-    [self presentViewController:_activityController animated:YES completion:nil];
-}
-
-- (UIImage *)getImageFromView:(UIView *)orgView{
-        CGSize imageSize = [[UIScreen mainScreen] bounds].size;
-        if (NULL != UIGraphicsBeginImageContextWithOptions)
-            UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
-        else
-            UIGraphicsBeginImageContext(imageSize);
-        
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        
-        // Iterate over every window from back to front
-        for (UIWindow *window in [[UIApplication sharedApplication] windows])
-        {
-            if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen])
-            {
-                // -renderInContext: renders in the coordinate space of the layer,
-                // so we must first apply the layer's geometry to the graphics context
-                CGContextSaveGState(context);
-                // Center the context around the window's anchor point
-                CGContextTranslateCTM(context, [window center].x, [window center].y);
-                // Apply the window's transform about the anchor point
-                CGContextConcatCTM(context, [window transform]);
-                // Offset by the portion of the bounds left of and above the anchor point
-                CGContextTranslateCTM(context,
-                                      -[window bounds].size.width * [[window layer] anchorPoint].x,
-                                      -[window bounds].size.height * [[window layer] anchorPoint].y);
-                
-                // Render the layer hierarchy to the current context
-                [[window layer] renderInContext:context];
-                
-                // Restore the context
-                CGContextRestoreGState(context);
-            }
-        }
-        
-        // Retrieve the screenshot image
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-        
-        UIGraphicsEndImageContext();
-        
-        return image;
-}
-
 
 #pragma mark 手机摇一摇
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {

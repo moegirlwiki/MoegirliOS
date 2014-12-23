@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F1EDA371A48800C00A51A06 /* moegirlEditorSubmit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1EDA361A48800C00A51A06 /* moegirlEditorSubmit.m */; };
 		6F4DE28119FF51D900A93DA1 /* moegirlConnectionLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4DE28019FF51D900A93DA1 /* moegirlConnectionLogin.m */; };
 		6F4F06031A0080BB003EC881 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F4F06021A0080BB003EC881 /* Launch Screen.xib */; };
 		6F56FEEB19FFCBAA00BD9713 /* moegirlRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */; };
 		6F58551519FC2B5700F7DA50 /* mcAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F58551419FC2B5700F7DA50 /* mcAnalytics.m */; };
 		6F7FB6B01A281147008DB93B /* moegirlwikiTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6F7FB6AC1A281147008DB93B /* moegirlwikiTests-Info.plist */; };
 		6F7FB6B21A281147008DB93B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F7FB6AE1A281147008DB93B /* InfoPlist.strings */; };
+		6F8DC99B1A473AF000DDE9A3 /* mcEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8DC99A1A473AF000DDE9A3 /* mcEditorController.m */; };
+		6F8DC99E1A47530300DDE9A3 /* moegirlEditorInit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8DC99D1A47530300DDE9A3 /* moegirlEditorInit.m */; };
 		6F996E8219FC3D7F00F9BC3F /* mcUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */; };
+		6F9ADA831A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9ADA821A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m */; };
 		6FFFD4E91A00635100732B77 /* mcImagedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFFD4E81A00635100732B77 /* mcImagedButton.m */; };
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
@@ -51,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F1EDA351A48800C00A51A06 /* moegirlEditorSubmit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlEditorSubmit.h; sourceTree = "<group>"; };
+		6F1EDA361A48800C00A51A06 /* moegirlEditorSubmit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlEditorSubmit.m; sourceTree = "<group>"; };
 		6F4DE27F19FF51D900A93DA1 /* moegirlConnectionLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlConnectionLogin.h; sourceTree = "<group>"; };
 		6F4DE28019FF51D900A93DA1 /* moegirlConnectionLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlConnectionLogin.m; sourceTree = "<group>"; };
 		6F4F06021A0080BB003EC881 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
@@ -63,8 +69,14 @@
 		6F7FB6A81A280FC5008DB93B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6F7FB6AC1A281147008DB93B /* moegirlwikiTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "moegirlwikiTests-Info.plist"; sourceTree = "<group>"; };
 		6F7FB6AF1A281147008DB93B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		6F8DC9991A473AF000DDE9A3 /* mcEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcEditorController.h; sourceTree = "<group>"; };
+		6F8DC99A1A473AF000DDE9A3 /* mcEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcEditorController.m; sourceTree = "<group>"; };
+		6F8DC99C1A47530300DDE9A3 /* moegirlEditorInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlEditorInit.h; sourceTree = "<group>"; };
+		6F8DC99D1A47530300DDE9A3 /* moegirlEditorInit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlEditorInit.m; sourceTree = "<group>"; };
 		6F996E8019FC3D7F00F9BC3F /* mcUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcUpdate.h; sourceTree = "<group>"; };
 		6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcUpdate.m; sourceTree = "<group>"; };
+		6F9ADA811A47BB3400EA75C2 /* moegirlEditorSpecialBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlEditorSpecialBtn.h; sourceTree = "<group>"; };
+		6F9ADA821A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlEditorSpecialBtn.m; sourceTree = "<group>"; };
 		6FFFD4E71A00635100732B77 /* mcImagedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcImagedButton.h; sourceTree = "<group>"; };
 		6FFFD4E81A00635100732B77 /* mcImagedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcImagedButton.m; sourceTree = "<group>"; };
 		AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSearchSuggestionsTableView.h; sourceTree = "<group>"; };
@@ -182,6 +194,12 @@
 				AF4308FA19F9C1BF0099AFC8 /* moegirlSideControlTableView.m */,
 				6F56FEE919FFCBAA00BD9713 /* moegirlRandom.h */,
 				6F56FEEA19FFCBAA00BD9713 /* moegirlRandom.m */,
+				6F8DC99C1A47530300DDE9A3 /* moegirlEditorInit.h */,
+				6F8DC99D1A47530300DDE9A3 /* moegirlEditorInit.m */,
+				6F1EDA351A48800C00A51A06 /* moegirlEditorSubmit.h */,
+				6F1EDA361A48800C00A51A06 /* moegirlEditorSubmit.m */,
+				6F9ADA811A47BB3400EA75C2 /* moegirlEditorSpecialBtn.h */,
+				6F9ADA821A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m */,
 			);
 			name = moegirlSpecify;
 			sourceTree = "<group>";
@@ -227,6 +245,8 @@
 				AFB650C919F6C42400C73E81 /* mcViewController.m */,
 				AF49AFBF19FA189900F21956 /* mcSettingsController.h */,
 				AF49AFC019FA189900F21956 /* mcSettingsController.m */,
+				6F8DC9991A473AF000DDE9A3 /* mcEditorController.h */,
+				6F8DC99A1A473AF000DDE9A3 /* mcEditorController.m */,
 				AFB650CB19F6C42400C73E81 /* Images.xcassets */,
 				6F4DE27E19FF51B200A93DA1 /* UserControl */,
 				AF91053519F892F000EC5DFD /* moegirlSpecify */,
@@ -359,18 +379,22 @@
 				AF91053819F8987F00EC5DFD /* mcLeftDrag.m in Sources */,
 				AF40D72119F855530043F74A /* mcInitial.m in Sources */,
 				AFB650CA19F6C42400C73E81 /* mcViewController.m in Sources */,
+				6F1EDA371A48800C00A51A06 /* moegirlEditorSubmit.m in Sources */,
 				6F4DE28119FF51D900A93DA1 /* moegirlConnectionLogin.m in Sources */,
 				AF49AFC119FA189900F21956 /* mcSettingsController.m in Sources */,
 				AFAAB8F719F831D20077F893 /* moegirlWebView.m in Sources */,
+				6F9ADA831A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m in Sources */,
 				6F58551519FC2B5700F7DA50 /* mcAnalytics.m in Sources */,
 				AF5F5E4019F6F952003EB8C1 /* moegirlMainPageScrollView.m in Sources */,
 				6F996E8219FC3D7F00F9BC3F /* mcUpdate.m in Sources */,
 				AFAAB8FA19F834600077F893 /* mcCachedRequest.m in Sources */,
 				AFB650C419F6C42400C73E81 /* mcAppDelegate.m in Sources */,
+				6F8DC99E1A47530300DDE9A3 /* moegirlEditorInit.m in Sources */,
 				AFB650C019F6C42400C73E81 /* main.m in Sources */,
 				AF4308FB19F9C1BF0099AFC8 /* moegirlSideControlTableView.m in Sources */,
 				AF91053B19F8AC4D00EC5DFD /* mcRightDrag.m in Sources */,
 				AFC2611B19F9A64000F12B37 /* moegirlSaveImageAlertView.m in Sources */,
+				6F8DC99B1A473AF000DDE9A3 /* mcEditorController.m in Sources */,
 				AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

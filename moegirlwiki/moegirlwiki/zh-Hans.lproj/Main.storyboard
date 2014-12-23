@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Mc View Controller-->
@@ -168,11 +168,12 @@
                         <outlet property="StatusBar" destination="9cR-UZ-VwR" id="O8v-hO-UqA"/>
                         <outlet property="StatusLabel" destination="SE5-08-QQt" id="0BX-9E-yel"/>
                         <segue destination="VP3-Ii-xGR" kind="modal" identifier="GoSettings" id="keF-dq-dKy"/>
+                        <segue destination="lsF-Gy-LAU" kind="modal" identifier="GoEditor" id="NlC-q2-Ltf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-233" y="613"/>
+            <point key="canvasLocation" x="-202" y="614"/>
         </scene>
         <!--Mc Settings Controller-->
         <scene sceneID="0fL-0d-c6B">
@@ -281,10 +282,107 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eqx-Rq-4VZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="124" y="613"/>
+            <point key="canvasLocation" x="193" y="613"/>
+        </scene>
+        <!--Mc Editor Controller-->
+        <scene sceneID="LvU-h9-N6a">
+            <objects>
+                <viewController id="lsF-Gy-LAU" customClass="mcEditorController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FBp-YW-cAl"/>
+                        <viewControllerLayoutGuide type="bottom" id="7y3-t9-Sy2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fal-XG-MNY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q44-c7-NIA" userLabel="containerView">
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xF3-a8-yRI" userLabel="MenuButton">
+                                        <rect key="frame" x="139" y="210" width="42" height="41"/>
+                                        <state key="normal" image="loadingImg">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="menuClick:" destination="lsF-Gy-LAU" eventType="touchUpInside" id="5qK-HT-Q6s"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ncc-5J-Evi" userLabel="prepareView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="正在加载中..." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jJ-G0-es9">
+                                        <rect key="frame" x="8" y="18" width="304" height="462"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadingImg" translatesAutoresizingMaskIntoConstraints="NO" id="J1Q-fo-Ee6">
+                                        <rect key="frame" x="251" y="411" width="69" height="69"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="69" id="Yrc-6d-Kz5"/>
+                                            <constraint firstAttribute="width" constant="69" id="s2Z-gN-8tP"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yku-tp-1jd">
+                                        <rect key="frame" x="262" y="26" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="2Gn-e8-arE"/>
+                                            <constraint firstAttribute="height" constant="30" id="3Vm-g3-0je"/>
+                                        </constraints>
+                                        <state key="normal" title="关闭">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelButtonAction:" destination="lsF-Gy-LAU" eventType="touchUpInside" id="IvX-Ft-I3T"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="J1Q-fo-Ee6" secondAttribute="trailing" id="19Z-ll-QUa"/>
+                                    <constraint firstAttribute="trailing" secondItem="5jJ-G0-es9" secondAttribute="trailing" constant="8" id="A1h-iy-8Jn"/>
+                                    <constraint firstAttribute="bottom" secondItem="J1Q-fo-Ee6" secondAttribute="bottom" id="Fv1-re-8ol"/>
+                                    <constraint firstItem="5jJ-G0-es9" firstAttribute="leading" secondItem="ncc-5J-Evi" secondAttribute="leading" constant="8" id="LUb-c1-Zpc"/>
+                                    <constraint firstItem="yku-tp-1jd" firstAttribute="top" secondItem="ncc-5J-Evi" secondAttribute="top" constant="26" id="Vya-5A-nft"/>
+                                    <constraint firstItem="5jJ-G0-es9" firstAttribute="top" secondItem="ncc-5J-Evi" secondAttribute="top" constant="18" id="c2q-o1-FgE"/>
+                                    <constraint firstAttribute="bottom" secondItem="5jJ-G0-es9" secondAttribute="bottom" id="ceQ-cx-3lC"/>
+                                    <constraint firstAttribute="trailing" secondItem="yku-tp-1jd" secondAttribute="trailing" constant="12" id="hVh-P6-rb9"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ncc-5J-Evi" secondAttribute="trailing" id="8Xn-Zm-E94"/>
+                            <constraint firstItem="ncc-5J-Evi" firstAttribute="leading" secondItem="fal-XG-MNY" secondAttribute="leading" id="Chz-Iu-WKa"/>
+                            <constraint firstItem="7y3-t9-Sy2" firstAttribute="top" secondItem="q44-c7-NIA" secondAttribute="bottom" id="Z2G-kv-WKB"/>
+                            <constraint firstItem="q44-c7-NIA" firstAttribute="top" secondItem="FBp-YW-cAl" secondAttribute="bottom" id="dT9-p2-AbB"/>
+                            <constraint firstItem="7y3-t9-Sy2" firstAttribute="top" secondItem="ncc-5J-Evi" secondAttribute="bottom" id="eIQ-5q-hat"/>
+                            <constraint firstItem="ncc-5J-Evi" firstAttribute="top" secondItem="fal-XG-MNY" secondAttribute="top" id="pv3-Sn-jQd"/>
+                            <constraint firstItem="q44-c7-NIA" firstAttribute="leading" secondItem="fal-XG-MNY" secondAttribute="leading" id="pzj-FC-d1s"/>
+                            <constraint firstAttribute="trailing" secondItem="q44-c7-NIA" secondAttribute="trailing" id="tVv-nt-tjz"/>
+                        </constraints>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <connections>
+                        <outlet property="cancelButton" destination="yku-tp-1jd" id="MeX-9a-Tdz"/>
+                        <outlet property="containerView" destination="q44-c7-NIA" id="vbo-6G-N3v"/>
+                        <outlet property="menuButton" destination="xF3-a8-yRI" id="YCy-gu-0aJ"/>
+                        <outlet property="prepareView" destination="ncc-5J-Evi" id="6If-C1-HED"/>
+                        <outlet property="sellMoeIndicator" destination="J1Q-fo-Ee6" id="pLJ-KL-vAw"/>
+                        <outlet property="statusText" destination="5jJ-G0-es9" id="ZWf-xa-8K0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qXK-SX-QA4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="193" y="1240"/>
         </scene>
     </scenes>
     <resources>
+        <image name="loadingImg" width="200" height="201"/>
         <image name="navi_gobackbtn" width="30" height="30"/>
         <image name="navi_menubutton" width="31" height="31"/>
         <image name="navi_searchicon" width="23" height="31"/>

@@ -116,6 +116,7 @@
     _loginButton.layer.masksToBounds = YES;
     [_loginView addSubview:_loginButton];
     [_loginButton addTarget:self action:@selector(loginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -204,8 +205,7 @@
     }else if (section == 1){
         return 1;
     }else if (section == 2){
-        //return 2;
-        return 1;
+        return 2;
     }else{
         return 4;
     }
@@ -273,12 +273,12 @@
             
         }else if (indexPath.row == 1) {
             //登录
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"编辑器参数设置";
+            cell.textLabel.text = @"恢复编辑数据";
+            cell.detailTextLabel.text = @"点击这里将上次编辑的内容复制到剪贴板";
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
         }
     }else {
         if (indexPath.row == 0) {
@@ -344,7 +344,7 @@
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";
     }else if (section == 2){
-        return @"手机端暂时无法提供注册功能，\n编辑器正试验中，将在v3.0版推出。\n\n\n";
+        return @"手机端暂时无法提供注册功能\n编辑器目前仅支持[自动确认用户]\n\n\n";
     }else {
         return @"\n\n\n© 2014 Moegirlsaikou Foundation.\nAll rights reserved.";
     }
@@ -362,6 +362,14 @@
         NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
         [defaultdata setObject:@"--" forKey:@"username"];
         [defaultdata setObject:@"--" forKey:@"cookie"];
+        
+        //清除Cookies
+        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+        for (NSHTTPCookie *cookiee in cookies)
+        {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookiee];
+        }
+        
         [_SettingsTable reloadData];
     }else if ([btnText isEqualToString:@"访问Github页面"]){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/moegirlwiki/MoegirliOS/"]];
@@ -415,8 +423,32 @@
                 }
                 
             }else{
-                //参数设置
-                NSLog(@"参数设置");
+                //恢复内容
+                NSLog(@"恢复内容");
+                
+                NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                NSString * wikitextDocumentPath = [[documentPath stringByAppendingPathComponent:@"data"] stringByAppendingPathComponent:@"editorBackup"];
+                NSFileManager * fileManager = [NSFileManager defaultManager];
+                if ([fileManager fileExistsAtPath:wikitextDocumentPath]) {
+                    NSString *wikitext = [NSString stringWithContentsOfFile:wikitextDocumentPath encoding:NSUTF8StringEncoding error:nil];
+                    //NSLog(@"%@",wikitext);
+                    UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+                    [pasteBoard setString:wikitext];
+                    UIAlertView * successConfirm = [[UIAlertView alloc]initWithTitle:@"恭喜！"
+                                                                           message:@"上次编辑的内容已经恢复到了剪贴板，你可以将其复制到其他应用（例如系统自带的［备忘录］）进行备份或进一步处理。"
+                                                                          delegate:nil
+                                                                 cancelButtonTitle:nil
+                                                                 otherButtonTitles:@"确定", nil];
+                    [successConfirm show];
+                } else {
+                    UIAlertView * errorConfirm = [[UIAlertView alloc]initWithTitle:@"非常抱歉！"
+                                                                           message:@"系统中并没有找到备份文件"
+                                                                          delegate:nil
+                                                                 cancelButtonTitle:nil
+                                                                 otherButtonTitles:@"确定", nil];
+                    [errorConfirm show];
+                }
+                
                 
             }
             
@@ -438,7 +470,7 @@
                 
             }else if (indexPath.row == 1) {
                 //反馈问题建议
-                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.2－%@%@-%dx%d",
+                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.3－%@%@-%dx%d",
                                       [[UIDevice currentDevice] systemVersion],
                                       [[UIDevice currentDevice] model],
                                       (int)self.view.frame.size.height,

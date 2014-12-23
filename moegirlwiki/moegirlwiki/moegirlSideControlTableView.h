@@ -13,7 +13,7 @@
 - (void)cancelKeyboard;
 - (void)ctrlPanelCallMainpage;
 - (void)ctrlPanelCallRefresh;
-- (void)ctrlPanelCallShare;
+- (void)ctrlPanelCallEditor;
 - (void)ctrlPanelCallSettings;
 - (void)ctrlPanelCallAbout;
 
