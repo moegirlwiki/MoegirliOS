@@ -55,7 +55,7 @@
 
 -(void)fetchToken
 {
-    [self.hook addStatus:[NSString stringWithFormat:@"正在连接萌娘百科服务器......\n编辑目标:%@\n",_targetTitle]];
+    [self.hook addStatus:[NSString stringWithFormat:@"正在连接萌娘百科服务器......\n编辑目标:%@\n请等待服务器响应\n",_targetTitle]];
     NSString *RequestURL = @"http://zh.moegirl.org/api.php";
     //POST的内容
     NSString *RequestContent = [NSString stringWithFormat:@"action=query&prop=info|revisions&rvprop=content&intoken=edit&titles=%@&format=json",
