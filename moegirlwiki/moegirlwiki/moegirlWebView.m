@@ -186,6 +186,15 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    
+    [self.hook progressAndStatusMakeStep:3 info:nil];
+    regexstr = @"class=\"mw-body\"";
+    range = [content rangeOfString:regexstr];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@""];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    }
+    
     [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"<div id=\"siteNotice\">[\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?(<div [\\s\\S]*?</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>[\\s\\S]*?)*</div>";
     range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
