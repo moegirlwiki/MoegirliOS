@@ -64,14 +64,13 @@
     [self.hook addStatus:@"正在连接萌娘百科服务器.\n这个过程可能需要数秒时间\n"];
     NSString *RequestURL = @"http://zh.moegirl.org/api.php";
     //POST的内容
-    NSString *RequestContent = [NSString stringWithFormat:@"action=%@&format=%@&title=%@&text=%@&summary=%@&token=%@&basetimestamp=%@",
+    NSString *RequestContent = [NSString stringWithFormat:@"action=%@&format=%@&title=%@&text=%@&summary=%@&token=%@",
                                 @"edit",
                                 @"json",
                                 [self urlEncode:_edit_title],
                                 [self urlEncode:_wikiTextString],
                                 [self urlEncode:@"//来自萌娘百科iOS客户端"],
-                                [self urlEncode:_edit_token],
-                                [self urlEncode:_edit_startTime]
+                                [self urlEncode:_edit_token]
                                 ];
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL]
                                                                    cachePolicy:NSURLRequestReloadIgnoringLocalCacheData

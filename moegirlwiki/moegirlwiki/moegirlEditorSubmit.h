@@ -28,7 +28,6 @@
 @property (strong,nonatomic) NSString * edit_pageid;
 @property (strong,nonatomic) NSString * edit_title;
 @property (strong,nonatomic) NSString * edit_touchedTime;
-@property (strong,nonatomic) NSString * edit_startTime;
 @property (strong,nonatomic) NSString * edit_token;
 
 @property (strong,nonatomic) NSMutableData * recievePool;

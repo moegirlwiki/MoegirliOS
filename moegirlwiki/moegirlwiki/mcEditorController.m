@@ -375,7 +375,6 @@
                              [submitProcess setHook:self];
                              [submitProcess setWikiTextString:_contentEditor.text];
                              [submitProcess setEdit_pageid:initProcess.edit_pageid];
-                             [submitProcess setEdit_startTime:initProcess.edit_startTime];
                              [submitProcess setEdit_title:initProcess.edit_title];
                              [submitProcess setEdit_token:initProcess.edit_token];
                              [submitProcess setEdit_touchedTime:initProcess.edit_touchedTime];

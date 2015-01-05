@@ -58,7 +58,7 @@
     [self.hook addStatus:[NSString stringWithFormat:@"正在连接萌娘百科服务器......\n编辑目标:%@\n请等待服务器响应\n",_targetTitle]];
     NSString *RequestURL = @"http://zh.moegirl.org/api.php";
     //POST的内容
-    NSString *RequestContent = [NSString stringWithFormat:@"action=query&prop=info|revisions&rvprop=content&intoken=edit&titles=%@&format=json",
+    NSString *RequestContent = [NSString stringWithFormat:@"action=query&prop=info|revisions&rvprop=content&meta=tokens&titles=%@&format=json",
                                 [self urlEncode:_targetTitle]
                                 ];
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL]
@@ -101,9 +101,13 @@
         
         _edit_pageid = [theData objectForKey:@"pageid"];
         _edit_title = [theData objectForKey:@"title"];
-        _edit_startTime = [theData objectForKey:@"starttimestamp"];
         _edit_touchedTime = [theData objectForKey:@"touched"];
-        _edit_token = [theData objectForKey:@"edittoken"];
+        _edit_token = [[[[NSJSONSerialization JSONObjectWithData:_recievePool
+                                                         options:NSJSONReadingMutableLeaves
+                                                           error:nil]
+                         objectForKey:@"query"]
+                        objectForKey:@"tokens"]
+                       objectForKey:@"csrftoken"];
         
         if (_edit_token == nil) {
             [self.hook addStatus:@"哎呀呀，出错了！找不到编辑令牌！\n"];
@@ -113,9 +117,7 @@
             
             [self.hook addStatus:[NSString stringWithFormat:@"页面名称：%@（ID:%@）\n",_edit_title,_edit_pageid]];
             [self.hook addStatus:[NSString stringWithFormat:@"页面最后更新时间：%@\n",_edit_touchedTime]];
-            [self.hook addStatus:[NSString stringWithFormat:@"编辑令牌申请时间：%@\n",_edit_startTime]];
             [self.hook addStatus:[NSString stringWithFormat:@"编辑令牌：%@\n",_edit_token]];
-            
             [self.hook addStatus:[NSString stringWithFormat:@"准备完成！！！"]];
             [self.hook initSuccess];
         }
