@@ -376,6 +376,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.hook cancelKeyboard];
+    [super scrollViewDidScroll: scrollView];
 }
 
 
