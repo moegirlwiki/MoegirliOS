@@ -102,7 +102,7 @@
     [tempFile writeToFile:[htmlDocumentPath stringByAppendingPathComponent:@"errordefault"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     /*赋值UserDefaults*/
-    [defaultdata setObject:@"2.3" forKey:@"version"];
+    [defaultdata setObject:@"2.4" forKey:@"version"];
     [defaultdata synchronize];
     
 }

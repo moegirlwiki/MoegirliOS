@@ -470,7 +470,7 @@
                 
             }else if (indexPath.row == 1) {
                 //反馈问题建议
-                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.3－%@%@-%dx%d",
+                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.4－%@%@-%dx%d",
                                       [[UIDevice currentDevice] systemVersion],
                                       [[UIDevice currentDevice] model],
                                       (int)self.view.frame.size.height,

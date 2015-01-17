@@ -14,7 +14,7 @@
 {
     // Override point for customization after application launch.
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-    if (![[defaultdata objectForKey:@"version"] isEqualToString:@"2.3"]) {
+    if (![[defaultdata objectForKey:@"version"] isEqualToString:@"2.4"]) {
     //首次开启程序
         mcInitial * initialProcess = [mcInitial new];
         [initialProcess resetFiles];
