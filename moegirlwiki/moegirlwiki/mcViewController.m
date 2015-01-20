@@ -636,7 +636,11 @@
 }
 
 - (IBAction)TextFieldSearchButton:(id)sender {
-    [self newWebViewRequestFormSuggestions:[[NSString stringWithFormat:@"Special:搜索/%@",_SearchTextField.text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if([_SearchTextField.text hasPrefix:@"Special:搜索/"]) {
+        [self newWebViewRequestFormSuggestions:[_SearchTextField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }else{
+        [self newWebViewRequestFormSuggestions:[[NSString stringWithFormat:@"Special:搜索/%@",_SearchTextField.text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }
 }
 
 

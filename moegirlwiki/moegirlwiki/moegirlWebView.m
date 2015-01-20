@@ -328,6 +328,11 @@
             if ([link hasPrefix:[NSString stringWithFormat:@"%@#",[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){
                 return  YES;// a href # 页面内部转跳
             }
+            //如果是转跳到别的页面并且带有位置表示#的情况
+            NSRange targetRange = [link rangeOfString:@"#"];
+            if (targetRange.location != NSNotFound) {
+                link = [link substringToIndex:targetRange.location];
+            }
             NSLog(@"%@",link);
             if ([link hasPrefix:@"index.php?"]) {
                 //程序无法渲染，是否在其它页面中打开？
