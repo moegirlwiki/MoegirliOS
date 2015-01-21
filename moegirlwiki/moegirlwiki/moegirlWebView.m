@@ -334,6 +334,11 @@
                 link = [link substringToIndex:targetRange.location];
             }
             NSLog(@"%@",link);
+            //编辑页面
+            if ([link hasPrefix:@"index.php?title="]&&[link hasSuffix:@"&action=edit"]){
+                [self.hook ctrlPanelCallEditor];
+                return NO;
+            }
             if ([link hasPrefix:@"index.php?"]) {
                 //程序无法渲染，是否在其它页面中打开？
                 [self cannotOpenLink:@"本程序无法渲染该页面，是否在Safari中打开 ？" link:[[request URL] absoluteString]];

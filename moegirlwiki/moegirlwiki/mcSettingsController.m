@@ -339,7 +339,7 @@
 {
     if (section == 0) {
         NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
-        NSString * info = [NSString stringWithFormat:@"当前版本：%@\n最新版本：%@\n\n\n\n",[defaultdata objectForKey:@"engine"],[defaultdata objectForKey:@"engine_latest"]];
+        NSString * info = [NSString stringWithFormat:@"当前版本：%@\n最新版本：%@\n%@\n\n\n\n",[defaultdata objectForKey:@"engine"],[defaultdata objectForKey:@"engine_latest"],[defaultdata objectForKey:@"engine_instruction"]];
         return info;
     }else if (section == 1){
         return @"使用右侧菜单中的刷新可以查看最新更新\n\n\n";

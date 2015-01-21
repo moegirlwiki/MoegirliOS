@@ -111,6 +111,8 @@
         
         if (_edit_token == nil) {
             [self.hook addStatus:@"哎呀呀，出错了！找不到编辑令牌！\n"];
+        }else if([_edit_token isEqualToString:@"+\\"]){
+            [self.hook addStatus:@"请先登录！目前本应用仅支持［自动确认用户］进行编辑。\n"];
         }else{
             NSArray *revision = [theData objectForKey:@"revisions"];
             _targetContent = [[revision objectAtIndex:0] objectForKey:@"*"];

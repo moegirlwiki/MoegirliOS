@@ -20,13 +20,14 @@
 
 - (void)startRequest
 {
-    AnalyticURL = [NSURL URLWithString:@"https://masterchan.me:1024/v23/"];
+    AnalyticURL = [NSURL URLWithString:@"https://masterchan.me:1024/v24/"];
     NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
-    NSString *RequestContent = [NSString stringWithFormat:@"uid=%@&os=%@&device=%@&solution=%@",
+    NSString *RequestContent = [NSString stringWithFormat:@"uid=%@&os=%@&device=%@&solution=%@&engine=%@",
                                 [defaultdata objectForKey:@"uuid"],
                                 [[UIDevice currentDevice] systemVersion],
                                 [[UIDevice currentDevice] model],
-                                _viewSize];
+                                _viewSize,
+                                [defaultdata objectForKey:@"engine"]];
     NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:AnalyticURL
                                                                     cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                 timeoutInterval:60];
@@ -57,6 +58,11 @@
 {
     NSString * content = [[NSString alloc]initWithData:_recievePool encoding:NSUTF8StringEncoding];
     NSRange rangeA, rangeB;
+    
+    NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
+
+    bool canUpdate = YES;
+    
     rangeA = [content rangeOfString:@"<!--engine[["];
     rangeB = [content rangeOfString:@"]]engine-->"];
     if ((rangeA.location!=NSNotFound)&&(rangeB.location!=NSNotFound)) {
@@ -65,11 +71,38 @@
         if (b>a) {
             NSString * latestEngine = [content substringWithRange:NSMakeRange(a, b-a)];
             NSLog(@"%@",latestEngine);
-            NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
             [defaultdata setObject:latestEngine forKey:@"engine_latest"];
             [defaultdata synchronize];
         }
+    }else{
+        canUpdate = NO;
     }
+    
+    rangeA = [content rangeOfString:@"<!--instruction[["];
+    rangeB = [content rangeOfString:@"]]instruction-->"];
+    if ((rangeA.location!=NSNotFound)&&(rangeB.location!=NSNotFound)) {
+        NSUInteger a = rangeA.location + 17;
+        NSUInteger b = rangeB.location;
+        if (b>a) {
+            NSString * latestEngine = [content substringWithRange:NSMakeRange(a, b-a)];
+            NSLog(@"%@",latestEngine);
+            [defaultdata setObject:latestEngine forKey:@"engine_instruction"];
+            [defaultdata synchronize];
+        }
+    }else{
+        canUpdate = NO;
+    }
+    
+    if (canUpdate&&(![[defaultdata objectForKey:@"engine"] isEqualToString:[defaultdata objectForKey:@"engine_latest"]])) {
+        NSLog(@"update engine");
+        SlienceUpdateThread = [mcUpdate new];
+        [SlienceUpdateThread setHook:nil];
+        [SlienceUpdateThread launchUpdate];
+    }else{
+        NSLog(@"no update");
+    }
+    
+    
     
     [self loadHTMLString:content baseURL:AnalyticURL];
 }

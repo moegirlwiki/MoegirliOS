@@ -18,6 +18,7 @@
 - (void)progressAndStatusSetToValue:(float)step info:(NSString *)info;
 - (void)cancelKeyboard;
 - (void)newWebViewRequestFormWebView:(NSString *)keyword;
+- (void)ctrlPanelCallEditor;
 
 @end
 
