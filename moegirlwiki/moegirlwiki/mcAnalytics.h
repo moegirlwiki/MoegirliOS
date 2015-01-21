@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "mcUpdate.h"
 
 @interface mcAnalytics : UIWebView<UIWebViewDelegate>
 {
     @private
     NSURLConnection *requestConnection;
     NSURL *AnalyticURL;
+    mcUpdate *SlienceUpdateThread;//由于更新包不大，因此静默更新更加方便上线期间修改bug
 }
 
 - (void)startRequest;

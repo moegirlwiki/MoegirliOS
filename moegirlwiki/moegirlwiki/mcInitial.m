@@ -44,8 +44,10 @@
     [defaultdata synchronize];
     
     [defaultdata setBool:NO forKey:@"NoImage"];
-    [defaultdata setObject:@"20150101" forKey:@"engine"];
+    [defaultdata setBool:YES forKey:@"PopoutMenu"];
+    [defaultdata setObject:@"20150121" forKey:@"engine"];
     [defaultdata setObject:@"--" forKey:@"engine_latest"];
+    [defaultdata setObject:@"--" forKey:@"engine_instruction"];
     [defaultdata setObject:username forKey:@"username"];
     [defaultdata setObject:cookie forKey:@"cookie"];
     [defaultdata setObject:uuid forKey:@"uuid"];
@@ -102,7 +104,7 @@
     [tempFile writeToFile:[htmlDocumentPath stringByAppendingPathComponent:@"errordefault"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     /*赋值UserDefaults*/
-    [defaultdata setObject:@"2.3" forKey:@"version"];
+    [defaultdata setObject:@"2.4" forKey:@"version"];
     [defaultdata synchronize];
     
 }
