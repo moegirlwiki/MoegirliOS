@@ -100,7 +100,7 @@
                                       LoadFromCache:YES
                                               error:nil
                                                data:[[NSMutableData alloc] initWithContentsOfFile:documentPath]];
-        }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
+        }@catch (NSException *exception) {NSLog(@"Oh___1");}@finally {}
     }else{
         NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:URL]
                                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
@@ -118,7 +118,7 @@
     _recievePool = [NSMutableData new];
     @try{
     [self.hook mcCachedRequestGotRespond];
-    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
+    }@catch (NSException *exception) {NSLog(@"Oh___2");}@finally {}
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -126,7 +126,7 @@
     [_recievePool appendData:data];
     @try{
     [self.hook mcCachedRequestGotData];
-    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
+    }@catch (NSException *exception) {NSLog(@"Oh___3");}@finally {}
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -136,7 +136,7 @@
                               LoadFromCache:NO
                                       error:error.localizedDescription
                                        data:nil];
-    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
+    }@catch (NSException *exception) {NSLog(@"Oh___4");}@finally {}
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -147,7 +147,7 @@
                                       error:nil
                                        data:_recievePool];
     [_recievePool writeToFile:documentPath atomically:YES];
-    }@catch (NSException *exception) {NSLog(@"Oh___");}@finally {}
+    }@catch (NSException *exception) {NSLog(@"Oh___5");}@finally {}
 }
 
 @end

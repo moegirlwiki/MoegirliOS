@@ -636,7 +636,11 @@
 }
 
 - (IBAction)TextFieldSearchButton:(id)sender {
-    [self newWebViewRequestFormSuggestions:[[NSString stringWithFormat:@"Special:搜索/%@",_SearchTextField.text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if([_SearchTextField.text hasPrefix:@"Special:搜索/"]) {
+        [self newWebViewRequestFormSuggestions:[_SearchTextField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }else{
+        [self newWebViewRequestFormSuggestions:[[NSString stringWithFormat:@"Special:搜索/%@",_SearchTextField.text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }
 }
 
 
@@ -710,7 +714,7 @@
 {
     [self resetMenu];
     UIAlertView * aboutAlertView = [[UIAlertView alloc] initWithTitle:@"萌娘百科iOS客户端"
-                                                              message:@"version 2.3\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
+                                                              message:@"version 2.4\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
                                                              delegate:nil
                                                     cancelButtonTitle:@"确定"
                                                     otherButtonTitles:nil];

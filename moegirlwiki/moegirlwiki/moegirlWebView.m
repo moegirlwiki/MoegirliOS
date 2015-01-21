@@ -105,6 +105,119 @@
                 content = [content stringByReplacingCharactersInRange:range withString:@""];
                 range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
             }
+        }else{
+            //对图片进行处理
+            regexstr = @"<img .*?>";
+            range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+            while (range.location != NSNotFound) {
+                bool setH = YES, setMH = YES, setW = YES, setMW = YES;
+                NSRange rangeW, rangeH, rangeS;
+                NSString *imgStr = [content substringWithRange:range];
+                NSString *widthStr, *heightStr, *styleStr, *newStyleStr = @"";
+                rangeS = [imgStr rangeOfString:@"style=\".*?\"" options:NSRegularExpressionSearch];
+                
+                //NSLog(@"%@",imgStr);
+                //Style
+                if (rangeS.location != NSNotFound) {
+                    styleStr = [imgStr substringWithRange:rangeS];
+                    if ([styleStr rangeOfString:@"width:"].location != NSNotFound) {
+                        setW = NO;
+                        //删除图片固有尺寸
+                        NSRange tempRange = [styleStr rangeOfString:@"width:.*?;"  options:NSRegularExpressionSearch];
+                        if (tempRange.location != NSNotFound) {
+                            styleStr = [styleStr stringByReplacingCharactersInRange:NSMakeRange(tempRange.location,0) withString:@"max-"];
+                            setMW = NO;
+                        }
+                    }
+                    if ([styleStr rangeOfString:@"max-width:"].location != NSNotFound) {
+                        setMW = NO;
+                    }
+                    if ([styleStr rangeOfString:@"height:"].location != NSNotFound) {
+                        setH = NO;
+                    }
+                    if ([styleStr rangeOfString:@"max-height:"].location != NSNotFound) {
+                        setMH = NO;
+                    }
+                }
+                
+                if (setH||setMH) {
+                    //Height
+                    rangeH = [imgStr rangeOfString:@"height=\".*?\"" options:NSRegularExpressionSearch];
+                    if (rangeH.location != NSNotFound) {
+                        heightStr = [imgStr substringWithRange:NSMakeRange(rangeH.location + 8, rangeH.length - 9)];
+                        if ([heightStr hasSuffix:@"%"]) {
+                            //移除不处理
+                            setH = NO;
+                            setMH = NO;
+                        }else{
+                            //加上px将其设置为max-height
+                            if (![heightStr hasSuffix:@"px"]) {
+                                heightStr = [heightStr stringByAppendingString:@"px"];
+                            }
+                            setH = NO;
+                        }
+                        imgStr = [imgStr stringByReplacingCharactersInRange:rangeH withString:@""];
+                    }else{
+                        setH = NO;
+                        setMH = NO;
+                    }
+                }
+                
+                
+                if (setW||setMW) {
+                    //Width
+                    rangeW = [imgStr rangeOfString:@"width=\".*?\"" options:NSRegularExpressionSearch];
+                    if (rangeW.location != NSNotFound) {
+                        widthStr = [imgStr substringWithRange:NSMakeRange(rangeW.location + 7, rangeW.length - 8)];
+                        if ([widthStr hasSuffix:@"%"]) {
+                            //移除不处理
+                            setW = NO;
+                            setMW = NO;
+                        }else{
+                            //加上px将其设置为max-height
+                            if (![widthStr hasSuffix:@"px"]) {
+                                widthStr = [widthStr stringByAppendingString:@"px"];
+                            }
+                        }
+                        imgStr = [imgStr stringByReplacingCharactersInRange:rangeW withString:@""];
+                    }else{
+                        setW = NO;
+                        setMW = NO;
+                    }
+                }
+                
+                
+                if (setMH) {
+                    newStyleStr = [newStyleStr stringByAppendingString:[NSString stringWithFormat:@"max-height:%@;",heightStr]];
+                }
+                
+                //if (setW) {
+                    newStyleStr = [newStyleStr stringByAppendingString:@"width:100%;"];
+                //}
+                if (setMH) {
+                    newStyleStr = [newStyleStr stringByAppendingString:[NSString stringWithFormat:@"max-width:%@;",widthStr]];
+                }
+             
+                if (![newStyleStr isEqualToString:@""]) {
+                    rangeS = [imgStr rangeOfString:@"style=\".*?\"" options:NSRegularExpressionSearch];
+                    if (rangeS.location != NSNotFound) {
+                        styleStr = [styleStr stringByReplacingCharactersInRange:NSMakeRange(styleStr.length - 1, 0) withString:newStyleStr];
+                        imgStr = [imgStr stringByReplacingCharactersInRange:rangeS withString:styleStr];
+                    }else{
+                        if ([imgStr hasSuffix:@"/>"]) {
+                            imgStr = [imgStr stringByReplacingCharactersInRange:NSMakeRange(imgStr.length - 2, 0) withString:[NSString stringWithFormat:@" style=\"%@\"",newStyleStr]];
+                        }else{
+                            imgStr = [imgStr stringByReplacingCharactersInRange:NSMakeRange(imgStr.length - 1, 0) withString:[NSString stringWithFormat:@" style=\"%@\"",newStyleStr]];
+                        }
+                    }
+                }
+                
+                //NSLog(@"%@-%@-%@",imgStr,heightStr,widthStr);
+                //NSLog(@" ");
+                
+                content = [content stringByReplacingCharactersInRange:range withString:imgStr];
+                range = [content rangeOfString:regexstr options:NSRegularExpressionSearch range:NSMakeRange(range.location + imgStr.length, content.length - range.location - imgStr.length)];
+            }
         }
     
     
@@ -114,6 +227,21 @@
     
     NSString * footer = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"pagefooter"] encoding:NSUTF8StringEncoding error:nil];
     footer = [NSString stringWithFormat:@"</div></div></div><div style=\"height:50px;\"></div>%@",footer];
+    
+    if (!([defaultdata boolForKey:@"PopoutMenu"])) {
+        NSRange rangeA, rangeB;
+        
+        rangeA = [footer rangeOfString:@"<!--popoutB-->"];
+        rangeB = [footer rangeOfString:@"<!--popoutE-->"];
+        if ((rangeA.location!=NSNotFound)&&(rangeB.location!=NSNotFound)) {
+            NSUInteger a = rangeA.location;
+            NSUInteger b = rangeB.location;
+            if (b>a) {
+                footer = [footer stringByReplacingCharactersInRange:NSMakeRange(a, b-a) withString:@""];
+            }
+        }
+    }
+    
     content = [NSString stringWithFormat:@"%@%@%@",header,content,footer];
     /*============*/
     
@@ -278,11 +406,11 @@
 -(void)mcCachedRequestFinishLoading:(bool)success LoadFromCache:(bool)cache error:(NSString *)error data:(NSMutableData *)data
 {
     if (cache) {
-        [self.hook progressAndStatusSetToValue:50 info:@"发现缓存，正在处理"];
+        [self.hook progressAndStatusSetToValue:50 info:@"正在处理"];
     }else{
-        [self.hook progressAndStatusSetToValue:50 info:@"接收完成，正在处理"];
+        [self.hook progressAndStatusSetToValue:50 info:@"正在处理"];
     }
-    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.3/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.4/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (success) {
         if ([_keyword hasPrefix:@"Special:"]||[_keyword hasPrefix:@"File:"]) {
             [self loadHTMLString:[self prepareContentOld:data]
@@ -322,13 +450,23 @@
         NSRange rangeA = [link rangeOfString:@"//zh.moegirl.org/"];
         if (rangeA.location != NSNotFound) {
             link = [link substringFromIndex:rangeA.location + 17];
-            if ([link hasPrefix:@"moegirl-app-2.3/"]) {
+            if ([link hasPrefix:@"moegirl-app-2.4/"]) {
                 link = [link substringFromIndex:16];
             }
             if ([link hasPrefix:[NSString stringWithFormat:@"%@#",[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){
                 return  YES;// a href # 页面内部转跳
             }
+            //如果是转跳到别的页面并且带有位置表示#的情况
+            NSRange targetRange = [link rangeOfString:@"#"];
+            if (targetRange.location != NSNotFound) {
+                link = [link substringToIndex:targetRange.location];
+            }
             NSLog(@"%@",link);
+            //编辑页面
+            if ([link hasPrefix:@"index.php?title="]&&[link hasSuffix:@"&action=edit"]){
+                [self.hook ctrlPanelCallEditor];
+                return NO;
+            }
             if ([link hasPrefix:@"index.php?"]) {
                 //程序无法渲染，是否在其它页面中打开？
                 [self cannotOpenLink:@"本程序无法渲染该页面，是否在Safari中打开 ？" link:[[request URL] absoluteString]];
