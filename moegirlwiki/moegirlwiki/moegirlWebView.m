@@ -124,7 +124,7 @@
             NSUInteger a = rangeA.location;
             NSUInteger b = rangeB.location;
             if (b>a) {
-                footer = [content stringByReplacingCharactersInRange:NSMakeRange(a, b-a) withString:@""];
+                footer = [footer stringByReplacingCharactersInRange:NSMakeRange(a, b-a) withString:@""];
             }
         }
     }
