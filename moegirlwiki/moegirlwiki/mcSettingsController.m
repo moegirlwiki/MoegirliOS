@@ -233,7 +233,7 @@
             //弹出菜单
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                           reuseIdentifier:CellIdentifier];
-            cell.textLabel.text = @"弹出菜单";
+            cell.textLabel.text = @"弹出目录";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
             [SwitchItem addTarget:self action:@selector(PopoutMenu_Switch:) forControlEvents:UIControlEventValueChanged];

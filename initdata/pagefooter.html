@@ -29,22 +29,42 @@
   ga('send', 'pageview');
 
 </script>
+<!--词条热度统计-->
+<script>
+    $(document).ready(function(){
+        $.ajax({type:"GET", data:{'p':$("#firstHeading span").html()}, url:'https://masterchan.me:1024/v24/a.php'});
+    });
+</script>
 <!--自定义样式-->
 <style> body{-webkit-text-size-adjust: none;padding:10px !important;overflow-x:hidden !important;} p{clear:both !important;} #mw-content-text{ max-width: 100%; overflow: hidden;} .wikitable, table.navbox{ display:block; overflow-y:scroll;} table.wikitable{clear:both;} .nowraplinks.mw-collapsible{width:300% !important; font-size:10px !important;} .navbox-title span{font-size:10px !important;} .backToTop{display:none !important;} .mw-search-pager-bottom,fieldset.rcoptions{display:none;} .searchresult{font-size: 10px !important;line-height: 13px;width: 100% !important;} form{display:none;} iframe{width:292px !important; height:auto;} #mw-pages .mw-content-ltr td, #mw-subcategories .mw-content-ltr td{float: left;display: block;clear: both;width: 90% !important;} h2{clear:both;} #catlinks.catlinks{margin-bottom:30px;float:left;}#mw-content-text table { white-space: normal !important; } .[id|=ajaxpoll-container]{display: none;}</style>
 <style>
-    .classicalcharacter-banner{
-        background-color: #ffffff !important;
-        margin: 0 0 10px 0 !important;
-        max-width: 100% !important;
-        width: 98%;
-        border-radius: 4px;
-        padding: 0 !important;
-        font-size: 80%;
-    }
+.classicalcharacter-banner{
+    background-color: #ffffff !important;
+    margin: 0 0 10px 0 !important;
+    max-width: 100% !important;
+    width: 98% !important;
+    border-radius: 4px;
+    padding: 0 !important;
+    font-size: 80%;
+}
 
 .classicalcharacter-banner td
 {
     padding: 0 1px!important;
 }
+
+center.kancolle-nav
+{
+    font-size: 70%;
+}
+
+.kancolle-nav td
+{
+    float:left;
+    width: 180px !important;
+    margin-top: 20px;
+    font-size: 90%;
+}
+
 </style>
 </body></html><!--confirmend-->
