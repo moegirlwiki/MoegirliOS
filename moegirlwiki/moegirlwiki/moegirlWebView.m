@@ -114,6 +114,21 @@
     
     NSString * footer = [NSString stringWithContentsOfFile:[htmlDocumentPath stringByAppendingPathComponent:@"pagefooter"] encoding:NSUTF8StringEncoding error:nil];
     footer = [NSString stringWithFormat:@"</div></div></div><div style=\"height:50px;\"></div>%@",footer];
+    
+    if (!([defaultdata boolForKey:@"PopoutMenu"])) {
+        NSRange rangeA, rangeB;
+        
+        rangeA = [footer rangeOfString:@"<!--popoutB-->"];
+        rangeB = [footer rangeOfString:@"<!--popoutE-->"];
+        if ((rangeA.location!=NSNotFound)&&(rangeB.location!=NSNotFound)) {
+            NSUInteger a = rangeA.location;
+            NSUInteger b = rangeB.location;
+            if (b>a) {
+                footer = [content stringByReplacingCharactersInRange:NSMakeRange(a, b-a) withString:@""];
+            }
+        }
+    }
+    
     content = [NSString stringWithFormat:@"%@%@%@",header,content,footer];
     /*============*/
     

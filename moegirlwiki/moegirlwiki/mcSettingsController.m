@@ -201,7 +201,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 2;
+        return 3;
     }else if (section == 1){
         return 1;
     }else if (section == 2){
@@ -230,6 +230,18 @@
             [SwitchItem setOn:[defaultdata boolForKey:@"NoImage"]];
             cell.accessoryView = SwitchItem;
         } else if (indexPath.row == 1) {
+            //弹出菜单
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                          reuseIdentifier:CellIdentifier];
+            cell.textLabel.text = @"弹出菜单";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [SwitchItem addTarget:self action:@selector(PopoutMenu_Switch:) forControlEvents:UIControlEventValueChanged];
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            [SwitchItem setOn:[defaultdata boolForKey:@"PopoutMenu"]];
+            cell.accessoryView = SwitchItem;
+            
+        } else if (indexPath.row == 2) {
             //更新排版数据
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
@@ -387,7 +399,7 @@
     switch (indexPath.section) {
         case 0:
             
-            if (indexPath.row == 1) {
+            if (indexPath.row == 2) {
                 //更新排版数据
                 [self updateStarto];
             }
@@ -523,6 +535,14 @@
     UISwitch *switchView = (UISwitch *)sender;
     NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
     [defaultdata setBool:[switchView isOn] forKey:@"NoImage"];
+    [defaultdata synchronize];
+}
+
+-(void)PopoutMenu_Switch:(id)sender
+{
+    UISwitch *switchView = (UISwitch *)sender;
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    [defaultdata setBool:[switchView isOn] forKey:@"PopoutMenu"];
     [defaultdata synchronize];
 }
 

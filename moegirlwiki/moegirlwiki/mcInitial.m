@@ -44,7 +44,8 @@
     [defaultdata synchronize];
     
     [defaultdata setBool:NO forKey:@"NoImage"];
-    [defaultdata setObject:@"20150101" forKey:@"engine"];
+    [defaultdata setBool:YES forKey:@"PopoutMenu"];
+    [defaultdata setObject:@"20150102" forKey:@"engine"];
     [defaultdata setObject:@"--" forKey:@"engine_latest"];
     [defaultdata setObject:@"--" forKey:@"engine_instruction"];
     [defaultdata setObject:username forKey:@"username"];
