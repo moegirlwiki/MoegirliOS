@@ -141,13 +141,13 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    //@try{
+    @try{
     [self.hook mcCachedRequestFinishLoading:YES
                               LoadFromCache:NO
                                       error:nil
                                        data:_recievePool];
     [_recievePool writeToFile:documentPath atomically:YES];
-    //}@catch (NSException *exception) {NSLog(@"Oh___5");}@finally {}
+    }@catch (NSException *exception) {NSLog(@"Oh___5");}@finally {}
 }
 
 @end

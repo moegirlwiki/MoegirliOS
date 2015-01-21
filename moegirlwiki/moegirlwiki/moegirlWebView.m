@@ -406,9 +406,9 @@
 -(void)mcCachedRequestFinishLoading:(bool)success LoadFromCache:(bool)cache error:(NSString *)error data:(NSMutableData *)data
 {
     if (cache) {
-        [self.hook progressAndStatusSetToValue:50 info:@"发现缓存，正在处理"];
+        [self.hook progressAndStatusSetToValue:50 info:@"正在处理"];
     }else{
-        [self.hook progressAndStatusSetToValue:50 info:@"接收完成，正在处理"];
+        [self.hook progressAndStatusSetToValue:50 info:@"正在处理"];
     }
     NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.4/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (success) {
