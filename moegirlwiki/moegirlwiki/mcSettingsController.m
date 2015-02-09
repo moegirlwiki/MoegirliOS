@@ -235,6 +235,7 @@
                                           reuseIdentifier:CellIdentifier];
             cell.textLabel.text = @"低亮度模式";
             cell.detailTextLabel.text = @"夜间模式将于3.0版正式推出";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
             [SwitchItem addTarget:self action:@selector(NightMode_Switch:) forControlEvents:UIControlEventValueChanged];
             NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
@@ -410,7 +411,7 @@
     switch (indexPath.section) {
         case 0:
             
-            if (indexPath.row == 2) {
+            if (indexPath.row == 3) {
                 //更新排版数据
                 [self updateStarto];
             }
