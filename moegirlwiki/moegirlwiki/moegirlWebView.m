@@ -410,7 +410,7 @@
     }else{
         [self.hook progressAndStatusSetToValue:50 info:@"正在处理"];
     }
-    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.4/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.5/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (success) {
         if ([_keyword hasPrefix:@"Special:"]||[_keyword hasPrefix:@"File:"]) {
             [self loadHTMLString:[self prepareContentOld:data]
@@ -450,7 +450,7 @@
         NSRange rangeA = [link rangeOfString:@"//zh.moegirl.org/"];
         if (rangeA.location != NSNotFound) {
             link = [link substringFromIndex:rangeA.location + 17];
-            if ([link hasPrefix:@"moegirl-app-2.4/"]) {
+            if ([link hasPrefix:@"moegirl-app-2.5/"]) {
                 link = [link substringFromIndex:16];
             }
             if ([link hasPrefix:[NSString stringWithFormat:@"%@#",[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){
@@ -465,6 +465,12 @@
             //编辑页面
             if ([link hasPrefix:@"index.php?title="]&&[link hasSuffix:@"&action=edit"]){
                 [self.hook ctrlPanelCallEditor];
+                return NO;
+            }
+            //RedLink
+            if ([link hasPrefix:@"index.php?title="]&&[link hasSuffix:@"&action=edit&redlink=1"]){
+                [self cannotOpenLink:@"应用内部暂不支持创建条目，\n是否在Safari中打开？" link:[[request URL] absoluteString]];
+                //[self.hook ctrlPanelCallEditor];
                 return NO;
             }
             if ([link hasPrefix:@"index.php?"]) {

@@ -201,7 +201,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 3;
+        return 4;
     }else if (section == 1){
         return 1;
     }else if (section == 2){
@@ -230,6 +230,17 @@
             [SwitchItem setOn:[defaultdata boolForKey:@"NoImage"]];
             cell.accessoryView = SwitchItem;
         } else if (indexPath.row == 1) {
+            //更新排版数据
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                          reuseIdentifier:CellIdentifier];
+            cell.textLabel.text = @"低亮度模式";
+            cell.detailTextLabel.text = @"夜间模式将于3.0版正式推出";
+            UISwitch *SwitchItem = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [SwitchItem addTarget:self action:@selector(NightMode_Switch:) forControlEvents:UIControlEventValueChanged];
+            NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+            [SwitchItem setOn:[defaultdata boolForKey:@"NightMode"]];
+            cell.accessoryView = SwitchItem;
+        } else if (indexPath.row == 2) {
             //弹出菜单
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                           reuseIdentifier:CellIdentifier];
@@ -241,7 +252,7 @@
             [SwitchItem setOn:[defaultdata boolForKey:@"PopoutMenu"]];
             cell.accessoryView = SwitchItem;
             
-        } else if (indexPath.row == 2) {
+        } else if (indexPath.row == 3) {
             //更新排版数据
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:CellIdentifier];
@@ -482,7 +493,7 @@
                 
             }else if (indexPath.row == 1) {
                 //反馈问题建议
-                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.4－%@%@-%dx%d",
+                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.5－%@%@-%dx%d",
                                       [[UIDevice currentDevice] systemVersion],
                                       [[UIDevice currentDevice] model],
                                       (int)self.view.frame.size.height,
@@ -546,6 +557,13 @@
     [defaultdata synchronize];
 }
 
+-(void)NightMode_Switch:(id)sender
+{
+    UISwitch *switchView = (UISwitch *)sender;
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+    [defaultdata setBool:[switchView isOn] forKey:@"NightMode"];
+    [defaultdata synchronize];
+}
 
 #pragma mark Update
 -(void)updateStarto
