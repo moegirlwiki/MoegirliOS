@@ -520,7 +520,9 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.hook cancelKeyboard];
-    [super scrollViewDidScroll: scrollView];
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
+        [super scrollViewDidScroll: scrollView];
+    }
 }
 
 
