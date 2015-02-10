@@ -517,14 +517,10 @@
     
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.hook cancelKeyboard];
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
-        [super scrollViewDidScroll: scrollView];
-    }
 }
-
 
 -(void)mcCachedRequestGotRespond
 {
