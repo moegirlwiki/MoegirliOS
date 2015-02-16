@@ -55,20 +55,24 @@
 
 -(void)fetchToken
 {
-    [self.hook addStatus:[NSString stringWithFormat:@"正在连接萌娘百科服务器......\n编辑目标:%@\n请等待服务器响应\n",_targetTitle]];
-    NSString *RequestURL = @"http://zh.moegirl.org/api.php";
-    //POST的内容
-    NSString *RequestContent = [NSString stringWithFormat:@"action=query&prop=info|revisions&rvprop=content&meta=tokens&titles=%@&format=json",
-                                [self urlEncode:_targetTitle]
-                                ];
-    NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL]
-                                                                   cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                               timeoutInterval:60];
-    [TheRequest setHTTPMethod:@"POST"];
-    [TheRequest setHTTPShouldHandleCookies:YES];
-    [TheRequest setHTTPBody:[RequestContent dataUsingEncoding:NSUTF8StringEncoding]];
-    requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
-                                                       delegate:self];
+    if ([_targetTitle hasPrefix:@"Special:"]) {
+        [self.hook addStatus:@"特殊页面暂不提供修改。\n非常抱歉！"];
+    }else{
+        [self.hook addStatus:[NSString stringWithFormat:@"正在连接萌娘百科服务器......\n编辑目标:%@\n请等待服务器响应\n",_targetTitle]];
+        NSString *RequestURL = @"http://zh.moegirl.org/api.php";
+        //POST的内容
+        NSString *RequestContent = [NSString stringWithFormat:@"action=query&prop=info|revisions&rvprop=content&meta=tokens&titles=%@&format=json",
+                                    [self urlEncode:_targetTitle]
+                                    ];
+        NSMutableURLRequest * TheRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:RequestURL]
+                                                                       cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                                   timeoutInterval:60];
+        [TheRequest setHTTPMethod:@"POST"];
+        [TheRequest setHTTPShouldHandleCookies:YES];
+        [TheRequest setHTTPBody:[RequestContent dataUsingEncoding:NSUTF8StringEncoding]];
+        requestConnection = [[NSURLConnection alloc]initWithRequest:TheRequest
+                                                           delegate:self];
+    }
 }
 
 -(void)prepareContent

@@ -45,6 +45,7 @@
     
     [defaultdata setBool:NO forKey:@"NoImage"];
     [defaultdata setBool:YES forKey:@"PopoutMenu"];
+    [defaultdata setBool:NO forKey:@"NightMode"];
     [defaultdata setObject:@"20150121" forKey:@"engine"];
     [defaultdata setObject:@"--" forKey:@"engine_latest"];
     [defaultdata setObject:@"--" forKey:@"engine_instruction"];
@@ -104,7 +105,7 @@
     [tempFile writeToFile:[htmlDocumentPath stringByAppendingPathComponent:@"errordefault"] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     /*赋值UserDefaults*/
-    [defaultdata setObject:@"2.4" forKey:@"version"];
+    [defaultdata setObject:@"2.5" forKey:@"version"];
     [defaultdata synchronize];
     
 }

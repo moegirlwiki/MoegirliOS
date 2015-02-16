@@ -134,6 +134,17 @@
     [_rightPanel setHook:self];
     [_rightPanel setBackgroundColor:[UIColor clearColor]];
     [_MainView addSubview:_rightPanel];
+    
+    //夜间模式
+    _nightView = [UIView new];
+    [_nightView setFrame:CGRectMake(0,
+                                    0,
+                                    (self.view.frame.size.width > self.view.frame.size.height ? self.view.frame.size.width : self.view.frame.size.height),
+                                    (self.view.frame.size.width > self.view.frame.size.height ? self.view.frame.size.width : self.view.frame.size.height))];
+    [_nightView setBackgroundColor:[UIColor blackColor]];
+    [_nightView setAlpha:0.85f];
+    [_nightView setUserInteractionEnabled:NO];
+    [self.view addSubview:_nightView];
 }
 
 - (void)resetSizes
@@ -161,6 +172,9 @@
     for (int i = 0 ; i < _webViewList.count; i++) {
         [[_webViewList objectAtIndex:i] setFrame:_MasterInitial.frame];
     }
+    NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
+//    [SwitchItem setOn:[defaultdata boolForKey:@"NightMode"]];
+    [_nightView setHidden:![defaultdata boolForKey:@"NightMode"]];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -714,7 +728,7 @@
 {
     [self resetMenu];
     UIAlertView * aboutAlertView = [[UIAlertView alloc] initWithTitle:@"萌娘百科iOS客户端"
-                                                              message:@"version 2.4\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
+                                                              message:@"version 2.5\n\n萌娘百科全部内容禁止商业使用。\n请遵守CC BY-NC-SA协议。\n"
                                                              delegate:nil
                                                     cancelButtonTitle:@"确定"
                                                     otherButtonTitles:nil];
