@@ -67,7 +67,7 @@
                                       reuseIdentifier:CellIdentifier];
         cell.textLabel.text = @"萌娘百科iOS客户端";
         cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-        cell.detailTextLabel.text = @"v2.5";
+        cell.detailTextLabel.text = @"v2.6";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.98 blue:0.851 alpha:1];
     } else if (indexPath.row == 2) {
