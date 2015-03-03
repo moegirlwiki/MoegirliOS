@@ -151,7 +151,11 @@
     if (indexPath.row != 0) {
         requestString = [_suggestions objectAtIndex:indexPath.row - 1];
     }else{
-        requestString = [NSString stringWithFormat:@"Special:搜索/%@",lastKeyword];
+        if (_suggestions.count > 0&&[lastKeyword isEqualToString:[_suggestions objectAtIndex:0]]) {
+            requestString = lastKeyword;
+        }else{
+            requestString = [NSString stringWithFormat:@"Special:搜索/%@",lastKeyword];
+        }
     }
     [self.hook newWebViewRequestFormSuggestions:[requestString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }

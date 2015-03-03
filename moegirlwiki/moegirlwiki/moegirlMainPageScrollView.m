@@ -40,7 +40,7 @@
     [itemView setFrame:CGRectMake(0, YPoint,initWidth, 600)];
     
     UILabel *itemTitle = [_scrollItemsTitle objectAtIndex:0];
-    [itemTitle setFrame:CGRectMake(20, 0, initWidth - 40, 30)];
+    [itemTitle setFrame:CGRectMake(10, 0, initWidth - 40, 30)];
     
     [_scrollImageView setFrame:CGRectMake(5, 30, initWidth - 10, 120)];
     
@@ -58,7 +58,7 @@
         [itemView setFrame:CGRectMake(0, YPoint,initWidth, 600)];
         
         UILabel *itemTitle = [_scrollItemsTitle objectAtIndex:i];
-        [itemTitle setFrame:CGRectMake(20, 0, initWidth - 40, 30)];
+        [itemTitle setFrame:CGRectMake(10, 0, initWidth - 40, 30)];
         
         UITextView *itemContent = [_scrollItemsContent objectAtIndex:i];
         CGSize size = [itemContent sizeThatFits:CGSizeMake(initWidth - 10, FLT_MAX)];
@@ -99,12 +99,12 @@
     [itemView setBackgroundColor:[UIColor clearColor]];
     [self addSubview:itemView];
     
-    UILabel *itemTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, initWidth - 40, 30)];
+    UILabel *itemTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, initWidth - 40, 30)];
     [itemTitle setText:[_mainPageTitle objectAtIndex:0]];
     [itemTitle setNumberOfLines:0];
     [itemTitle setBackgroundColor:[UIColor clearColor]];
     [itemTitle setTextColor:[UIColor colorWithRed:0.133 green:0.545 blue:0.133 alpha:1]];
-    [itemTitle setFont:[UIFont boldSystemFontOfSize:16]];
+    [itemTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [itemView addSubview:itemTitle];
     
     /*添加图像按钮*/
@@ -164,12 +164,12 @@
         [itemView setBackgroundColor:[UIColor clearColor]];
         [self addSubview:itemView];
         
-        UILabel *itemTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, initWidth - 40, 30)];
+        UILabel *itemTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, initWidth - 40, 30)];
         [itemTitle setText:[_mainPageTitle objectAtIndex:i]];
         [itemTitle setNumberOfLines:0];
         [itemTitle setBackgroundColor:[UIColor clearColor]];
         [itemTitle setTextColor:[UIColor colorWithRed:0.133 green:0.545 blue:0.133 alpha:1]];
-        [itemTitle setFont:[UIFont boldSystemFontOfSize:16]];
+        [itemTitle setFont:[UIFont boldSystemFontOfSize:17]];
         [itemView addSubview:itemTitle];
         
         UITextView *itemContent = [[UITextView alloc] init];
@@ -275,14 +275,14 @@
     
     //确定默认样式
     NSDictionary * initFontAttr = @{
-                                    NSFontAttributeName : [UIFont systemFontOfSize:12],
+                                    NSFontAttributeName : [UIFont systemFontOfSize:13],
                                     NSForegroundColorAttributeName : [UIColor darkGrayColor]
                                     };
     NSMutableAttributedString * attrString = [[NSMutableAttributedString alloc] initWithString:initString attributes:initFontAttr];
     
     //对<b></b>标签进行处理
     NSDictionary * boldFontAttr = @{
-                                    NSFontAttributeName : [UIFont boldSystemFontOfSize:12.5],
+                                    NSFontAttributeName : [UIFont boldSystemFontOfSize:13.5],
                                     NSForegroundColorAttributeName : [UIColor blackColor]
                                     };
     int i = 0;
