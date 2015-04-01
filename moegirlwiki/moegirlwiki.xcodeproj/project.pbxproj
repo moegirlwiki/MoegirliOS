@@ -18,6 +18,14 @@
 		6F8DC99E1A47530300DDE9A3 /* moegirlEditorInit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8DC99D1A47530300DDE9A3 /* moegirlEditorInit.m */; };
 		6F996E8219FC3D7F00F9BC3F /* mcUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */; };
 		6F9ADA831A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9ADA821A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m */; };
+		6FC2CB661ACCB82E0088FA6B /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC2CB651ACCB82E0088FA6B /* InterfaceController.m */; };
+		6FC2CB691ACCB82E0088FA6B /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC2CB681ACCB82E0088FA6B /* NotificationController.m */; };
+		6FC2CB6C1ACCB82E0088FA6B /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC2CB6B1ACCB82E0088FA6B /* GlanceController.m */; };
+		6FC2CB6E1ACCB82E0088FA6B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FC2CB6D1ACCB82E0088FA6B /* Images.xcassets */; };
+		6FC2CB721ACCB82E0088FA6B /* moegirlwiki WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = 6FC2CB711ACCB82E0088FA6B /* moegirlwiki WatchKit App.app */; };
+		6FC2CB7A1ACCB82E0088FA6B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FC2CB781ACCB82E0088FA6B /* Interface.storyboard */; };
+		6FC2CB7C1ACCB82E0088FA6B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FC2CB7B1ACCB82E0088FA6B /* Images.xcassets */; };
+		6FC2CB7F1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6FC2CB5F1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6FFFD4E91A00635100732B77 /* mcImagedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFFD4E81A00635100732B77 /* mcImagedButton.m */; };
 		AF14199619F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF14199519F7ECE60058B775 /* moegirlSearchSuggestionsTableView.m */; };
 		AF40D72119F855530043F74A /* mcInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = AF40D72019F855530043F74A /* mcInitial.m */; };
@@ -45,6 +53,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6FC2CB731ACCB82E0088FA6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AFB650A819F6C42400C73E81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6FC2CB701ACCB82E0088FA6B;
+			remoteInfo = "moegirlwiki WatchKit App";
+		};
+		6FC2CB7D1ACCB82E0088FA6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AFB650A819F6C42400C73E81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6FC2CB5E1ACCB82E0088FA6B;
+			remoteInfo = "moegirlwiki WatchKit Extension";
+		};
 		AFB650D619F6C42400C73E81 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AFB650A819F6C42400C73E81 /* Project object */;
@@ -53,6 +75,20 @@
 			remoteInfo = moegirlwiki;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FC2CB861ACCB82E0088FA6B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6FC2CB7F1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6F1EDA351A48800C00A51A06 /* moegirlEditorSubmit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlEditorSubmit.h; sourceTree = "<group>"; };
@@ -77,6 +113,20 @@
 		6F996E8119FC3D7F00F9BC3F /* mcUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcUpdate.m; sourceTree = "<group>"; };
 		6F9ADA811A47BB3400EA75C2 /* moegirlEditorSpecialBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlEditorSpecialBtn.h; sourceTree = "<group>"; };
 		6F9ADA821A47BB3400EA75C2 /* moegirlEditorSpecialBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = moegirlEditorSpecialBtn.m; sourceTree = "<group>"; };
+		6FC2CB5F1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "moegirlwiki WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FC2CB621ACCB82E0088FA6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6FC2CB631ACCB82E0088FA6B /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		6FC2CB641ACCB82E0088FA6B /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		6FC2CB651ACCB82E0088FA6B /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		6FC2CB671ACCB82E0088FA6B /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		6FC2CB681ACCB82E0088FA6B /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
+		6FC2CB6A1ACCB82E0088FA6B /* GlanceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlanceController.h; sourceTree = "<group>"; };
+		6FC2CB6B1ACCB82E0088FA6B /* GlanceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GlanceController.m; sourceTree = "<group>"; };
+		6FC2CB6D1ACCB82E0088FA6B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		6FC2CB711ACCB82E0088FA6B /* moegirlwiki WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "moegirlwiki WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FC2CB771ACCB82E0088FA6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6FC2CB791ACCB82E0088FA6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		6FC2CB7B1ACCB82E0088FA6B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6FFFD4E71A00635100732B77 /* mcImagedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mcImagedButton.h; sourceTree = "<group>"; };
 		6FFFD4E81A00635100732B77 /* mcImagedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mcImagedButton.m; sourceTree = "<group>"; };
 		AF14199419F7ECE60058B775 /* moegirlSearchSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moegirlSearchSuggestionsTableView.h; sourceTree = "<group>"; };
@@ -118,6 +168,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6FC2CB5C1ACCB82E0088FA6B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AFB650AD19F6C42400C73E81 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -157,6 +214,48 @@
 			);
 			path = moegirlwikiTests;
 			sourceTree = SOURCE_ROOT;
+		};
+		6FC2CB601ACCB82E0088FA6B /* moegirlwiki WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6FC2CB641ACCB82E0088FA6B /* InterfaceController.h */,
+				6FC2CB651ACCB82E0088FA6B /* InterfaceController.m */,
+				6FC2CB671ACCB82E0088FA6B /* NotificationController.h */,
+				6FC2CB681ACCB82E0088FA6B /* NotificationController.m */,
+				6FC2CB6A1ACCB82E0088FA6B /* GlanceController.h */,
+				6FC2CB6B1ACCB82E0088FA6B /* GlanceController.m */,
+				6FC2CB6D1ACCB82E0088FA6B /* Images.xcassets */,
+				6FC2CB611ACCB82E0088FA6B /* Supporting Files */,
+			);
+			path = "moegirlwiki WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		6FC2CB611ACCB82E0088FA6B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6FC2CB621ACCB82E0088FA6B /* Info.plist */,
+				6FC2CB631ACCB82E0088FA6B /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6FC2CB751ACCB82E0088FA6B /* moegirlwiki WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				6FC2CB781ACCB82E0088FA6B /* Interface.storyboard */,
+				6FC2CB7B1ACCB82E0088FA6B /* Images.xcassets */,
+				6FC2CB761ACCB82E0088FA6B /* Supporting Files */,
+			);
+			path = "moegirlwiki WatchKit App";
+			sourceTree = "<group>";
+		};
+		6FC2CB761ACCB82E0088FA6B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6FC2CB771ACCB82E0088FA6B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
 		};
 		AF91053419F892C300EC5DFD /* Functions */ = {
 			isa = PBXGroup;
@@ -210,6 +309,8 @@
 				AF8CE77019FA0EB200FFF359 /* initdata */,
 				AFB650B919F6C42400C73E81 /* moegirlwiki */,
 				6F7FB6AB1A281147008DB93B /* moegirlwikiTests */,
+				6FC2CB601ACCB82E0088FA6B /* moegirlwiki WatchKit Extension */,
+				6FC2CB751ACCB82E0088FA6B /* moegirlwiki WatchKit App */,
 				AFB650B219F6C42400C73E81 /* Frameworks */,
 				AFB650B119F6C42400C73E81 /* Products */,
 			);
@@ -220,6 +321,8 @@
 			children = (
 				AFB650B019F6C42400C73E81 /* moegirlwiki.app */,
 				AFB650D119F6C42400C73E81 /* moegirlwikiTests.xctest */,
+				6FC2CB5F1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension.appex */,
+				6FC2CB711ACCB82E0088FA6B /* moegirlwiki WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -272,6 +375,39 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6FC2CB5E1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FC2CB851ACCB82E0088FA6B /* Build configuration list for PBXNativeTarget "moegirlwiki WatchKit Extension" */;
+			buildPhases = (
+				6FC2CB5B1ACCB82E0088FA6B /* Sources */,
+				6FC2CB5C1ACCB82E0088FA6B /* Frameworks */,
+				6FC2CB5D1ACCB82E0088FA6B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6FC2CB741ACCB82E0088FA6B /* PBXTargetDependency */,
+			);
+			name = "moegirlwiki WatchKit Extension";
+			productName = "moegirlwiki WatchKit Extension";
+			productReference = 6FC2CB5F1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		6FC2CB701ACCB82E0088FA6B /* moegirlwiki WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FC2CB841ACCB82E0088FA6B /* Build configuration list for PBXNativeTarget "moegirlwiki WatchKit App" */;
+			buildPhases = (
+				6FC2CB6F1ACCB82E0088FA6B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "moegirlwiki WatchKit App";
+			productName = "moegirlwiki WatchKit App";
+			productReference = 6FC2CB711ACCB82E0088FA6B /* moegirlwiki WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 		AFB650AF19F6C42400C73E81 /* moegirlwiki */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AFB650E219F6C42400C73E81 /* Build configuration list for PBXNativeTarget "moegirlwiki" */;
@@ -279,10 +415,12 @@
 				AFB650AC19F6C42400C73E81 /* Sources */,
 				AFB650AD19F6C42400C73E81 /* Frameworks */,
 				AFB650AE19F6C42400C73E81 /* Resources */,
+				6FC2CB861ACCB82E0088FA6B /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6FC2CB7E1ACCB82E0088FA6B /* PBXTargetDependency */,
 			);
 			name = moegirlwiki;
 			productName = moegirlwiki;
@@ -317,6 +455,13 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = masterchan.me;
 				TargetAttributes = {
+					6FC2CB5E1ACCB82E0088FA6B = {
+						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = AM4V7T2443;
+					};
+					6FC2CB701ACCB82E0088FA6B = {
+						CreatedOnToolsVersion = 6.3;
+					};
 					AFB650AF19F6C42400C73E81 = {
 						DevelopmentTeam = AM4V7T2443;
 					};
@@ -340,11 +485,31 @@
 			targets = (
 				AFB650AF19F6C42400C73E81 /* moegirlwiki */,
 				AFB650D019F6C42400C73E81 /* moegirlwikiTests */,
+				6FC2CB5E1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension */,
+				6FC2CB701ACCB82E0088FA6B /* moegirlwiki WatchKit App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6FC2CB5D1ACCB82E0088FA6B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FC2CB721ACCB82E0088FA6B /* moegirlwiki WatchKit App.app in Resources */,
+				6FC2CB6E1ACCB82E0088FA6B /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FC2CB6F1ACCB82E0088FA6B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FC2CB7A1ACCB82E0088FA6B /* Interface.storyboard in Resources */,
+				6FC2CB7C1ACCB82E0088FA6B /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AFB650AE19F6C42400C73E81 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -369,6 +534,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6FC2CB5B1ACCB82E0088FA6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FC2CB691ACCB82E0088FA6B /* NotificationController.m in Sources */,
+				6FC2CB661ACCB82E0088FA6B /* InterfaceController.m in Sources */,
+				6FC2CB6C1ACCB82E0088FA6B /* GlanceController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AFB650AC19F6C42400C73E81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -409,6 +584,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6FC2CB741ACCB82E0088FA6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6FC2CB701ACCB82E0088FA6B /* moegirlwiki WatchKit App */;
+			targetProxy = 6FC2CB731ACCB82E0088FA6B /* PBXContainerItemProxy */;
+		};
+		6FC2CB7E1ACCB82E0088FA6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6FC2CB5E1ACCB82E0088FA6B /* moegirlwiki WatchKit Extension */;
+			targetProxy = 6FC2CB7D1ACCB82E0088FA6B /* PBXContainerItemProxy */;
+		};
 		AFB650D719F6C42400C73E81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AFB650AF19F6C42400C73E81 /* moegirlwiki */;
@@ -423,6 +608,14 @@
 				6F7FB6AF1A281147008DB93B /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6FC2CB781ACCB82E0088FA6B /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FC2CB791ACCB82E0088FA6B /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 		AFB650BC19F6C42400C73E81 /* InfoPlist.strings */ = {
@@ -445,6 +638,88 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6FC2CB801ACCB82E0088FA6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "moegirlwiki WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6FC2CB811ACCB82E0088FA6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "moegirlwiki WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		6FC2CB821ACCB82E0088FA6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IBSC_MODULE = moegirlwiki_WatchKit_Extension;
+				INFOPLIST_FILE = "moegirlwiki WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		6FC2CB831ACCB82E0088FA6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IBSC_MODULE = moegirlwiki_WatchKit_Extension;
+				INFOPLIST_FILE = "moegirlwiki WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 		AFB650E019F6C42400C73E81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -590,6 +865,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6FC2CB841ACCB82E0088FA6B /* Build configuration list for PBXNativeTarget "moegirlwiki WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FC2CB821ACCB82E0088FA6B /* Debug */,
+				6FC2CB831ACCB82E0088FA6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		6FC2CB851ACCB82E0088FA6B /* Build configuration list for PBXNativeTarget "moegirlwiki WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FC2CB801ACCB82E0088FA6B /* Debug */,
+				6FC2CB811ACCB82E0088FA6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		AFB650AB19F6C42400C73E81 /* Build configuration list for PBXProject "moegirlwiki" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
