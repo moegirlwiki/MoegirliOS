@@ -20,7 +20,7 @@
 
 - (void)startRequest
 {
-    AnalyticURL = [NSURL URLWithString:@"https://masterchan.me:1024/v26/"];
+    AnalyticURL = [NSURL URLWithString:@"https://masterchan.me:1024/v27/"];
     NSUserDefaults * defaultdata = [NSUserDefaults standardUserDefaults];
     NSString *RequestContent = [NSString stringWithFormat:@"uid=%@&os=%@&device=%@&solution=%@&engine=%@",
                                 [defaultdata objectForKey:@"uuid"],

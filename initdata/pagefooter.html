@@ -8,7 +8,7 @@
     </script>
 <!--popoutE-->
 <!--黑幕修正-->
-<script>$(document).ready(function(){$(".heimu").click(function(){$(this).css("background","#ffffff")});});</script>
+<script>$(document).ready(function(){$(".heimu").click(function(){$(this).css("background","#ffffff");$(this).children("a").css("background","#ffffff");});});</script>
 <!--条目连接-->
 <script>$(function(){function t(t){var e=$(t).attr("style");if(e){var l=[];return e=e.split(";"),$.each(e,function(){this.length&&i.test(this)&&l.push(this)}),l.join(";")}}function e(l){l=$(l);var n={collapsible:!1,open:!0};if(l.is("table")){n.collapsible=l.is(".mw-collapsible"),n.open=l.is(".autocollapse")||l.is(".mw-uncollapsed");var o=l.find(">tbody>tr>.navbox-title");if(o.length){var a=o.find(">span:not(.mw-collapsible-toggle)"),i=a.children();if(i.find("small").length){var s=i.html().split("<br>");n.title=s[0],n.nav=$(s[1]).find("small").html()}else n.title=i.is("div")&&"text-align:center; line-height:10pt"==i.attr("style")?i.html():a.html()}var r=[];l.find(">tbody>tr").filter(function(){return!$(this).find(">.navbox-title").length&&"2px"!=$(this).css("height")}).each(function(){r.push(e(this))}),n.subgroup=r}else if(l.is("tr")){var o=l.find(">.navbox-group");if(o.length){var p=t(o);p&&(n.titleStyle=p);var c=o.children();n.title=c.is("div")&&"padding:0em 0.75em;"==c.attr("style")?c.html():o.html()}var o=l.find(">.navbox-list");if(o.length)if(o.find(">.navbox-subgroup").length){var d=e(o.find(">.navbox-subgroup"));n.subgroup=d.title?[d]:d.subgroup}else{var p=t(o);p&&(n.contentStyle=p),n.content=o.html()}var o=l.find(">.navbox-abovebelow");o.length&&(n.title=o.html())}return n}function l(t){t=$(t);var l={subgroup:e(t.find(">tbody>tr>td>.mw-collapsible"))};return l}function n(t,e){if(e.collapsible&&(t.addClass(s+"collapsible"),e.open&&t.addClass(s+"open")),e.title){var l=$('<div class="'+s+'title" />');if(l.html(e.title),t.append(l),e.titleStyle&&l.attr("style",e.titleStyle),e.collapsible&&l.append('<div class="'+s+'toggle"><span class="'+s+'status-close">[展开]</span><span class="'+s+'status-open">[折叠]</span></div>'),e.nav){var o=$('<div class="'+s+'nav" />');l.append(o),l.addClass(s+"has-nav"),o.html(e.nav)}}if(e.content||e.subgroup){var a=$('<div class="'+s+'content" />');if(t.append(a),e.content)e.contentStyle&&a.attr("style",e.contentStyle),a.html(e.content);else{var i=$('<div class="'+s+'subgroup" />').appendTo(a);$.each(e.subgroup,function(){n(i,this)})}}}function o(t){var e=$('<div class="'+s+'wrapper" />'),l=$('<div class="'+s+'subgroup" />');return e.append(l),n(l,t.subgroup),e}function a(t){var t=t||".navbox";$(t).each(function(){var t=$(this);if(!t.parents(".navbox").length){var e=l(t),n=o(e);n.bind("click",function(t){var e=$(t.target);e.parent().hasClass(s+"toggle")&&(e.closest("."+s+"collapsible").toggleClass(s+"open"),t.stopPropagation())}),t.after(n).hide()}})}var i=/^\s*(background|color|font)/i,s="moegirl-flatten-navbox-";a();var r=$("."+s+"wrapper .navbox");r.length&&a(r),$("body").append("<style>._wrapper{position:relative;margin-top:10px;line-height:1.7;border:1px solid #aaa;padding:3px;clear:both;-webkit-tap-highlight-color:rgba(0,0,0,0)}._subgroup{border:0 solid #e6e6ff;border-left-width:3px}._title{font-weight:700;background:#e6e6ff;margin-bottom:2px;padding-left:1em}._nav{font-size:80%;word-spacing:.8em;border-top:1px solid #aaa}._content{padding-left:1em;margin-bottom:2px}._content:last-child{margin-bottom:0}._wrapper>._subgroup{border-color:#ccf;border-width:0 3px 3px}._wrapper>._subgroup>._title{background:#ccf}._wrapper>._subgroup>._content>._subgroup{border-color:#ddf}._wrapper>._subgroup>._content>._subgroup>._title{background:#ddf}._collapsible>._title{position:relative}._collapsible>._content{display:none}._open>._content{display:block}._collapsible>._title{padding-left:3em;margin-bottom:0;min-height:20px}._open>._title{margin-bottom:2px}._toggle{position:absolute;left:0;top:0;bottom:0;font-family:monospace;color:#079b2b;font-size:110%;width:3.5em}._toggle>span{position:absolute;left:0;right:0;top:50%;text-align:center;transform:translateY(-50%);-webkit-transform:translateY(-50%)}._collapsible>._title>._toggle>._status-open{display:none}._collapsible>._title>._toggle>._status-close,._open>._title>._toggle>._status-open{display:inline}._open>._title>._toggle>._status-close{display:none}</style>".replace(/_/g,s))});</script>
 <!--Google统计-->
@@ -28,7 +28,7 @@
     $(document).ready(function(){
                       $.ajax({type:"POST", data:{
                              'p':$("#firstHeading span").html(),
-                             'd':new Date().getTime()}, url:'https://masterchan.me:1024/v26/a.php'});
+                             'd':new Date().getTime()}, url:'https://masterchan.me:1024/v27/a.php'});
                       });
     </script>
 <!--自定义样式-->
@@ -68,6 +68,23 @@ center.kancolle-nav
 
 [id^="ajaxpoll-container-"]{
     display: none;
+}
+
+div.infoBox{
+	width: auto !important;
+}
+
+.infoBoxContent{
+border:solid #afafaf;
+background-color: white;
+padding: 5px;
+border-width: .5px .5px .5px 0;
+font-size: xx-small;
+}
+
+.infoBox{
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 </style>
 </body></html><!--confirmend-->

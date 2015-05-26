@@ -121,10 +121,14 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSLog(@"Loaded");
     @try {
         NSString * preProcessStr = [[NSString alloc] initWithData:_recievePool encoding:NSUTF8StringEncoding];
+        //NSLog(@"%@",preProcessStr);
         NSRange rangeA = [preProcessStr rangeOfString:@"\",["];
-        preProcessStr = [preProcessStr substringWithRange:NSMakeRange(rangeA.location + 2, preProcessStr.length - rangeA.location - 3)];
+        NSRange rangeB = [preProcessStr rangeOfString:@"]"];
+        preProcessStr = [preProcessStr substringWithRange:NSMakeRange(rangeA.location + 2, rangeB.location - rangeA.location - 1)];
+        //NSLog(@"%@",preProcessStr);
         NSData * preparedData = [preProcessStr dataUsingEncoding:NSUTF8StringEncoding];
         _suggestions = [NSJSONSerialization JSONObjectWithData:preparedData
                                                        options:NSJSONReadingMutableLeaves

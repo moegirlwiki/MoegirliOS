@@ -95,6 +95,16 @@
             range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
         }
     
+        //thumb 尺寸大小
+        [self.hook progressAndStatusMakeStep:3 info:nil];
+        regexstr = @"<div class=\"thumbinner\" [\\s\\S]*?>";
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        while (range.location != NSNotFound) {
+            content = [content stringByReplacingCharactersInRange:range withString:@"<div class=\"thumbinner\">"];
+            range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+            NSLog(@"thumb");
+        }
+    
         //无图模式
         [self.hook progressAndStatusMakeStep:3 info:nil];
         NSUserDefaults *defaultdata = [NSUserDefaults standardUserDefaults];
@@ -361,6 +371,16 @@
         range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
     }
     
+    //thumb 尺寸大小
+    [self.hook progressAndStatusMakeStep:3 info:nil];
+    regexstr = @"<div class=\"thumbinner\" [\\s\\S]*?>";
+    range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+    while (range.location != NSNotFound) {
+        content = [content stringByReplacingCharactersInRange:range withString:@"<div class=\"thumbinner\">"];
+        range = [content rangeOfString:regexstr options:NSRegularExpressionSearch];
+        NSLog(@"thumb");
+    }
+    
     //添加定制样式
     [self.hook progressAndStatusMakeStep:3 info:nil];
     regexstr = @"</body>";
@@ -410,7 +430,7 @@
     }else{
         [self.hook progressAndStatusSetToValue:50 info:@"正在处理"];
     }
-    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.6/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSString * baseURL = [NSString stringWithFormat:@"%@/moegirl-app-2.7/%@",_targetURL,[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (success) {
         if ([_keyword hasPrefix:@"Special:"]||[_keyword hasPrefix:@"File:"]) {
             [self loadHTMLString:[self prepareContentOld:data]
@@ -450,7 +470,7 @@
         NSRange rangeA = [link rangeOfString:@"//zh.moegirl.org/"];
         if (rangeA.location != NSNotFound) {
             link = [link substringFromIndex:rangeA.location + 17];
-            if ([link hasPrefix:@"moegirl-app-2.6/"]) {
+            if ([link hasPrefix:@"moegirl-app-2.7/"]) {
                 link = [link substringFromIndex:16];
             }
             if ([link hasPrefix:[NSString stringWithFormat:@"%@#",[_keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]){
