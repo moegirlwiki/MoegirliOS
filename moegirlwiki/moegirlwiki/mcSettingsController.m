@@ -486,7 +486,7 @@
                 [self.view bringSubviewToFront:_HelpWebView];
                 [self.view bringSubviewToFront:_HelpIndicator];
                 
-                NSMutableURLRequest * helpRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://masterchan.me:1024/v26/help.php"]
+                NSMutableURLRequest * helpRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://masterchan.me:1024/v27/help.php"]
                                                                                 cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                             timeoutInterval:60];
                 [_HelpWebView loadRequest:helpRequest];
@@ -494,7 +494,7 @@
                 
             }else if (indexPath.row == 1) {
                 //反馈问题建议
-                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.6－%@%@-%dx%d",
+                NSString * subject = [NSString stringWithFormat:@"萌娘百科反馈v2.7－%@%@-%dx%d",
                                       [[UIDevice currentDevice] systemVersion],
                                       [[UIDevice currentDevice] model],
                                       (int)self.view.frame.size.height,
@@ -514,7 +514,7 @@
             }else{
                 
                 UIAlertView * aboutConfirm = [[UIAlertView alloc]initWithTitle:@"技术支持"
-                                                                       message:@"本应用由Michairm和Illvili提供"
+                                                                       message:@"本应用由Maverick和Illvili提供"
                                                                       delegate:self
                                                              cancelButtonTitle:@"关闭"
                                                              otherButtonTitles:@"访问Github页面", nil];
